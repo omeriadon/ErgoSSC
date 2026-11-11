@@ -86,8 +86,10 @@ private struct LibraryFinderField: View {
 
 	var body: some View {
 		VStack(alignment: .trailing, spacing: 10) {
-			TextField("Describe a fallacy, a bias, an idea…", text: $description, axis: .vertical)
-				.lineLimit(3 ... 8)
+			// No upper line limit: a field that scrolls inside itself cuts its text off at the padding, so it grows and
+			// the page scrolls instead. `descriptionLimit` is what stops it.
+			TextField("Describe a fallacy, a bias, or a concept...", text: $description, axis: .vertical)
+				.lineLimit(3...)
 				.focused(isWriting)
 				.accessibilityIdentifier("library.finder.field")
 				.onChange(of: description) { _, newValue in
@@ -97,12 +99,13 @@ private struct LibraryFinderField: View {
 				}
 
 			Button("Find", systemImage: "sparkle.magnifyingglass", action: find)
-				.buttonStyle(.glassProminent)
+				.buttonStyle(.glass(.clear.tint(canFind ? .accent : .clear).interactive()))
+				.buttonBorderShape(.roundedRectangle(radius: 14))
 				.disabled(!canFind)
 				.accessibilityIdentifier("library.finder.find")
 		}
 		.padding(14)
-		.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 18))
+		.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 28))
 	}
 }
 
@@ -115,7 +118,7 @@ private struct LibraryFinderResults: View {
 		switch state {
 			case .idle:
 				VStack(alignment: .leading, spacing: 10) {
-					Text("Try one")
+					Text("Or try one of these:")
 						.font(.footnote)
 						.foregroundStyle(.secondary)
 

@@ -59,7 +59,7 @@ struct LogicTabView: View {
 				}
 			}
 		}
-		.toolbarTitleVire("Logic", "function")
+		.toolbarTitleVire("Scratchpads", "function")
 		.renameAlert("Rename Scratchpad", renaming: $renaming) { id, name in
 			scratchpadStore.rename(id, to: name)
 		}
