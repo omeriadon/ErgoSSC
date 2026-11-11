@@ -13,7 +13,7 @@ import SwiftUI
 final class NavigationManager {
 	// MARK: - selectedTab
 
-	var selectedTab: AppTab = .board {
+	var selectedTab: AppTab = .library {
 		didSet {
 			Defaults[.selectedTab] = selectedTab
 		}
@@ -49,12 +49,6 @@ final class NavigationManager {
 	// Each tab keeps its own, and it only shows while that tab does. Leaving a tab takes its sheet away, and coming back
 	// brings it back.
 
-	var boardSheet: BoardSheet? {
-		didSet {
-			Defaults[.boardSheet] = boardSheet
-		}
-	}
-
 	var logicSheet: LogicSheet? {
 		didSet {
 			Defaults[.logicSheet] = logicSheet
@@ -71,7 +65,6 @@ final class NavigationManager {
 				return .app(presentedSheet)
 			}
 			return switch selectedTab {
-				case .board: boardSheet.map(VisibleSheet.board)
 				case .logic: logicSheet.map(VisibleSheet.logic)
 				case .library: nil
 			}
@@ -120,11 +113,6 @@ final class NavigationManager {
 		presentedSheet = sheet
 	}
 
-	func presentSheet(_ sheet: BoardSheet) {
-		selectedTab = .board
-		boardSheet = sheet
-	}
-
 	func presentSheet(_ sheet: LogicSheet) {
 		selectedTab = .logic
 		logicSheet = sheet
@@ -139,7 +127,6 @@ final class NavigationManager {
 			return
 		}
 		switch selectedTab {
-			case .board: boardSheet = nil
 			case .logic: logicSheet = nil
 			case .library: break
 		}
@@ -152,7 +139,6 @@ final class NavigationManager {
 		selectedTab = tab
 		presentedSheet = nil
 		switch tab {
-			case .board: boardSheet = nil
 			case .logic: logicSheet = nil
 			case .library: break
 		}
@@ -174,8 +160,6 @@ final class NavigationManager {
 
 	func reset(_ tab: AppTab) {
 		switch tab {
-			case .board:
-				break
 			case .logic:
 				logicPath.removeAll()
 			case .library:
@@ -187,7 +171,6 @@ final class NavigationManager {
 
 	func startup() {
 		presentedSheet = Defaults[.presentedSheet]
-		boardSheet = Defaults[.boardSheet]
 		logicSheet = Defaults[.logicSheet]
 		selectedTab = Defaults[.selectedTab]
 		libraryPath = Defaults[.libraryPath]

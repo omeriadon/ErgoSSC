@@ -11,7 +11,6 @@ import SwiftUI
 struct ErgoApp: App {
 	@State private var navigation = NavigationManager()
 	@State private var catalog = CatalogStore()
-	@State private var boardStore: BoardStore
 	@State private var scratchpadStore: ScratchpadStore
 
 	@Environment(\.scenePhase)
@@ -20,12 +19,10 @@ struct ErgoApp: App {
 	init() {
 		let navigation = NavigationManager()
 		let catalog = CatalogStore()
-		let boardStore = BoardStore()
 		let scratchpadStore = ScratchpadStore()
 
 		_navigation = State(initialValue: navigation)
 		_catalog = State(initialValue: catalog)
-		_boardStore = State(initialValue: boardStore)
 		_scratchpadStore = State(initialValue: scratchpadStore)
 	}
 
@@ -34,7 +31,6 @@ struct ErgoApp: App {
 			AppScene()
 				.environment(catalog)
 				.environment(navigation)
-				.environment(boardStore)
 				.environment(scratchpadStore)
 				.onOpenURL { url in
 					if let entry = ItemOfTheDayItem.entry(from: url) {
@@ -55,7 +51,6 @@ struct ErgoApp: App {
 		.onChange(of: scenePhase) { _, phase in
 			// Saves usually wait for a pause in typing, don't lose that pause to the app closing
 			if phase != .active {
-				boardStore.save()
 				scratchpadStore.save()
 			}
 		}

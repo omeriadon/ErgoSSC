@@ -8,9 +8,8 @@
 import Defaults
 import SwiftUI
 
-/// Your three root tabs
+/// The root tabs
 enum AppTab: String, Hashable, Codable, Defaults.Serializable {
-	case board
 	case logic
 	case library
 }
@@ -22,7 +21,7 @@ nonisolated enum LogicRoute: Hashable, Codable, Defaults.Serializable {
 	case lesson(String)
 }
 
-/// The sheets that don't belong to one tab. A tab's own are in `BoardSheet` and `LogicSheet`.
+/// The sheets that don't belong to one tab. A tab's own are in `LogicSheet`.
 nonisolated enum AppSheet: Hashable, Identifiable, Codable, Defaults.Serializable {
 	case scanner
 	case paste
@@ -38,7 +37,6 @@ nonisolated enum AppSheet: Hashable, Identifiable, Codable, Defaults.Serializabl
 /// The one sheet on screen, whichever of the app's or a tab's it is
 nonisolated enum VisibleSheet: Hashable, Identifiable {
 	case app(AppSheet)
-	case board(BoardSheet)
 	case logic(LogicSheet)
 
 	var id: Self {

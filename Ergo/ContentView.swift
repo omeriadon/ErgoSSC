@@ -21,9 +21,6 @@ struct ContentView: View {
 					case let .app(sheet):
 						AppSheetContent(sheet: sheet)
 
-					case let .board(sheet):
-						BoardSheetContent(sheet: sheet)
-
 					case let .logic(sheet):
 						LogicSheetContent(sheet: sheet)
 				}
@@ -96,15 +93,6 @@ private struct AppTabs: View {
 
 	var body: some View {
 		TabView(selection: tabSelection) {
-			Tab(value: .board) {
-				NavigationStack {
-					BoardTabView()
-				}
-			} label: {
-				Label("Board", systemImage: "flowchart")
-					.labelStyle(.iconOnly)
-			}
-
 			Tab(value: .logic) {
 				NavigationStack(path: logicPath) {
 					LogicTabView()
@@ -175,28 +163,22 @@ private struct AppTabs: View {
 		.tabViewStyle(.tabBarOnly)
 		.tabBarMinimizeBehavior(.onScrollDown)
 		.tabBarHaptics()
-		.tabTransition {
-			if navigation.selectedTab == .board {
-				navigation.presentSheet(.boards)
-			}
-		}
+		.tabTransition {}
 	}
 }
 
 #Preview {
 	@Previewable @State var thing = NavigationManager()
 	@Previewable @State var catalog = CatalogStore()
-	@Previewable @State var boardStore = BoardStore()
 	@Previewable @State var scratchpadStore = ScratchpadStore()
 
 	ContentView()
 		.environment(thing)
 		.environment(catalog)
-		.environment(boardStore)
 		.environment(scratchpadStore)
 		.onAppear {
 			thing.startup()
-			thing.selectedTab = .board
+			thing.selectedTab = .library
 			thing.libraryPath = [.bookmarks, .category(.philosophers), .detail(category: .philosophers, id: "david-hume")]
 			Task {
 				try? await catalog.load()

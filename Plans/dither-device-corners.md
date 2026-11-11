@@ -6,7 +6,7 @@
 Adon asked for the dither grid to know the device's screen corner radius and not draw squares that would be cut off by the rounded corners. Squares should follow the curve with as little padding as possible.
 
 ## Context found
-- The grid is the Metal dither renderer in `Ergo/Views/Other Views/Dither/` (`DitherView.swift`, `OptimizedDither.metal`). It is used by the library detail views, `CanvasBackdrop` and `AboutView`.
+- The grid is the Metal dither renderer in `Ergo/Views/Other Views/Dither/` (`DitherView.swift`, `OptimizedDither.metal`). It is used by the library detail views and `AboutView`.
 - Cell size is `pixelSize * (drawable px / points)`. `columns = width / cell` and `rows = height / cell` use integer division, and the grid is centred in the drawable (`padding = (viewport - grid) / 2`). So the only squares being clipped were the ones at the screen's rounded corners.
 - Every render path (fused compute, separate cell pass, upscale, atlas, cell blur) gets its per-cell colour from `quantizedCellColor` in the shader. Alpha 0 means the cell is "off" (the background colour, or transparent).
 - `LibraryGridView` (the category cards) is unrelated.

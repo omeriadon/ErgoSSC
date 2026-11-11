@@ -19,9 +19,6 @@ extension Defaults.Keys {
 
 	static let logicLetters = Key<[String]>("logicLetters", default: LogicLetters.defaults)
 
-	/// Saved through `BoardStore`. Drafts aren't in here.
-	static let boards = Key<[Board]>("boards", default: [])
-
 	/// Saved through `ScratchpadStore`. Drafts aren't in here.
 	static let scratchpads = Key<[LogicScratchpad]>("scratchpads", default: [])
 
@@ -36,13 +33,11 @@ extension Defaults.Keys {
 // MARK: - Where the app was left
 
 extension Defaults.Keys {
-	static let selectedTab = Key<AppTab>("selectedTab", default: .board)
+	static let selectedTab = Key<AppTab>("selectedTab", default: .library)
 
 	static let libraryPath = Key<[LibraryRoute]>("libraryPath", default: [])
 
 	static let presentedSheet = Key<AppSheet?>("presentedSheet", default: nil)
-
-	static let boardSheet = Key<BoardSheet?>("boardSheet", default: nil)
 
 	static let logicSheet = Key<LogicSheet?>("logicSheet", default: nil)
 
