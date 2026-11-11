@@ -95,9 +95,6 @@ struct LibraryTabView: View {
 				prompt: "Search anything"
 			)
 			.searchPresentationToolbarBehavior(.avoidHidingContent)
-			.onSubmit(of: .search) {
-				IntentDonations.search(searchTerm)
-			}
 			.onChange(of: searchTerm, initial: true) { _, newValue in
 				if !newValue.isEmpty {
 					searchPresented = true

@@ -14,8 +14,6 @@ extension Fallacy: LibraryListItem {
 	nonisolated static let countLabel = "fallacies"
 	nonisolated static let availableFilters = FallacyTag.libraryFilters
 
-	typealias Entity = FallacyEntity
-
 	nonisolated var filters: Set<LibraryFilter> {
 		Set(tags.map(\.libraryFilter))
 	}

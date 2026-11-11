@@ -14,8 +14,6 @@ extension Paradox: LibraryListItem {
 	nonisolated static let countLabel = "paradoxes"
 	nonisolated static let availableFilters = ParadoxTag.libraryFilters
 
-	typealias Entity = ParadoxEntity
-
 	nonisolated var filters: Set<LibraryFilter> {
 		Set(tags.map(\.libraryFilter))
 	}

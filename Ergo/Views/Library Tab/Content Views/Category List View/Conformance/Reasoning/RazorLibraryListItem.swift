@@ -14,8 +14,6 @@ extension Razor: LibraryListItem {
 	nonisolated static let countLabel = "razors"
 	nonisolated static let availableFilters = RazorTag.libraryFilters
 
-	typealias Entity = RazorEntity
-
 	nonisolated var filters: Set<LibraryFilter> {
 		Set(tags.map(\.libraryFilter))
 	}

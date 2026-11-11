@@ -96,9 +96,6 @@ struct LibraryListView<Item: LibraryListItem>: View {
 			Text(filter.title)
 		}
 		.searchPresentationToolbarBehavior(.avoidHidingContent)
-		.onSubmit(of: .search) {
-			IntentDonations.search(state.searchText)
-		}
 		.navigationTitle(Item.listTitle)
 		.toolbar {
 			ToolbarItem(placement: .title) {
@@ -107,7 +104,7 @@ struct LibraryListView<Item: LibraryListItem>: View {
 
 			if !Item.availableFilters.isEmpty {
 				ToolbarItem(placement: .topBarTrailing) {
-					LibraryFilterMenu<Item>(state: state, donate: donateFilters)
+					LibraryFilterMenu<Item>(state: state)
 						.background(state.filters.isEmpty ? .clear : .accent, in: Circle())
 				}
 			}
@@ -124,7 +121,7 @@ struct LibraryListView<Item: LibraryListItem>: View {
 	@ViewBuilder
 	private var suggestionsSection: some View {
 		if searchPresented, !suggestions.isEmpty {
-			LibraryFilterSuggestions<Item>(suggestions: suggestions, state: state, donate: donateFilters)
+			LibraryFilterSuggestions<Item>(suggestions: suggestions, state: state)
 		}
 	}
 
@@ -169,11 +166,6 @@ struct LibraryListView<Item: LibraryListItem>: View {
 				.foregroundStyle(.secondary)
 				.listRowBackground(Color.clear)
 		}
-	}
-
-	/// Donates the list as it looks after the user changed its filters.
-	private func donateFilters() {
-		IntentDonations.libraryList(Item.category, filters: state.filters)
 	}
 
 	private func applyInitialFilter() {

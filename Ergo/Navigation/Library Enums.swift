@@ -5,14 +5,13 @@
 //  Created by Adon Omeri on 2/11/2026.
 //
 
-import AppIntents
 import Defaults
 import ErgoCatalog
 import Foundation
 import SwiftUI
 
 /// all the content middle views library can go to
-nonisolated enum LibraryContent: String, Hashable, CaseIterable, Codable, Sendable, Defaults.Serializable, AppEnum, LosslessStringConvertible {
+nonisolated enum LibraryContent: String, Hashable, CaseIterable, Codable, Sendable, Defaults.Serializable, LosslessStringConvertible {
 	var description: String {
 		rawValue.capitalized
 	}
@@ -58,21 +57,6 @@ nonisolated enum LibraryContent: String, Hashable, CaseIterable, Codable, Sendab
 	var themeColor: Color {
 		CategoryTheme.color(for: self)
 	}
-
-	static var typeDisplayRepresentation: TypeDisplayRepresentation {
-		TypeDisplayRepresentation(name: "Library Category")
-	}
-
-	static let caseDisplayRepresentations: [Self: DisplayRepresentation] = [
-		.biases: DisplayRepresentation(title: "Biases", image: .init(systemName: "distribute.vertical.center")),
-		.razors: DisplayRepresentation(title: "Razors", image: .init(systemName: "scissors")),
-		.symbols: DisplayRepresentation(title: "Symbols", image: .init(systemName: "f.cursive")),
-		.concepts: DisplayRepresentation(title: "Concepts", image: .init(systemName: "book.closed")),
-		.paradoxes: DisplayRepresentation(title: "Paradoxes", image: .init(systemName: "infinity")),
-		.philosophers: DisplayRepresentation(title: "Philosophers", image: .init(systemName: "brain.head.profile")),
-		.fallacies: DisplayRepresentation(title: "Fallacies", image: .init(systemName: "repeat.badge.xmark")),
-		.arguments: DisplayRepresentation(title: "Arguments", image: .init(systemName: "text.bubble")),
-	]
 }
 
 /// the actual library route, middle plus detail

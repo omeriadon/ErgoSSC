@@ -5,7 +5,6 @@
 //  Created by Adon Omeri on 4/11/2026.
 //
 
-import AppIntents
 import SwiftUI
 
 nonisolated struct LibrarySectionKey: Hashable, Comparable, Sendable {
@@ -23,7 +22,6 @@ nonisolated struct LibrarySectionKey: Hashable, Comparable, Sendable {
 
 nonisolated protocol LibraryListItem: Identifiable, Sendable where ID == String {
 	associatedtype Row: View
-	associatedtype Entity: AppEntity where Entity.ID == String
 
 	static var category: LibraryContent { get }
 	static var listTitle: String { get }

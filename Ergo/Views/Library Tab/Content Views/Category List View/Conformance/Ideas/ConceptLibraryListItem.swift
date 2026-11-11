@@ -14,8 +14,6 @@ extension Concept: LibraryListItem {
 	nonisolated static let countLabel = "concepts"
 	nonisolated static let availableFilters = ConceptTag.libraryFilters
 
-	typealias Entity = ConceptEntity
-
 	nonisolated var filters: Set<LibraryFilter> {
 		Set(tags.map(\.libraryFilter))
 	}

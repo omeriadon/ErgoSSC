@@ -5,11 +5,10 @@
 //  Created by Adon Omeri on 3/11/2026.
 //
 
-import AppIntents
 import Defaults
 import Foundation
 
-nonisolated enum SymbolGroup: String, Codable, CaseIterable, Identifiable, Sendable, AppEnum {
+nonisolated enum SymbolGroup: String, Codable, CaseIterable, Identifiable, Sendable {
 	case connective
 	case quantifier
 	case modal
@@ -20,19 +19,6 @@ nonisolated enum SymbolGroup: String, Codable, CaseIterable, Identifiable, Senda
 	var id: Self {
 		self
 	}
-
-	static var typeDisplayRepresentation: TypeDisplayRepresentation {
-		TypeDisplayRepresentation(name: "Symbol Group")
-	}
-
-	static let caseDisplayRepresentations: [Self: DisplayRepresentation] = [
-		.connective: DisplayRepresentation(title: "Connective"),
-		.quantifier: DisplayRepresentation(title: "Quantifier"),
-		.modal: DisplayRepresentation(title: "Modal"),
-		.constant: DisplayRepresentation(title: "Constant"),
-		.relation: DisplayRepresentation(title: "Relation"),
-		.set: DisplayRepresentation(title: "Set"),
-	]
 }
 
 nonisolated struct LogicSymbolCatalog: Codable, Sendable {
@@ -81,7 +67,7 @@ nonisolated struct LogicSymbol: Codable, Identifiable, Sendable {
 	}
 }
 
-enum SymbolTag: String, Codable, Hashable, Identifiable, CaseIterable, Sendable, AppEnum {
+nonisolated enum SymbolTag: String, Codable, Hashable, Identifiable, CaseIterable, Sendable {
 	case modalLogic = "modal-logic"
 	case predicateLogic = "predicate-logic"
 	case proofNotation = "proof-notation"
@@ -110,18 +96,6 @@ enum SymbolTag: String, Codable, Hashable, Identifiable, CaseIterable, Sendable,
 	var id: Self {
 		self
 	}
-
-	static var typeDisplayRepresentation: TypeDisplayRepresentation {
-		TypeDisplayRepresentation(name: "Symbol Tag")
-	}
-
-	static let caseDisplayRepresentations: [Self: DisplayRepresentation] = [
-		.modalLogic: DisplayRepresentation(title: "Modal logic"),
-		.predicateLogic: DisplayRepresentation(title: "Predicate logic"),
-		.proofNotation: DisplayRepresentation(title: "Proof notation"),
-		.propositionalLogic: DisplayRepresentation(title: "Propositional logic"),
-		.setNotation: DisplayRepresentation(title: "Set notation"),
-	]
 }
 
 nonisolated enum SymbolSearchToken: Hashable, Identifiable, Codable, Defaults.Serializable {

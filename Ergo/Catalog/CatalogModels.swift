@@ -11,14 +11,6 @@ nonisolated struct Example: Codable, Sendable {
 		case text
 		case note
 	}
-
-	nonisolated var entityText: String {
-		guard let note, !note.isEmpty else {
-			return text
-		}
-
-		return "\(text) (\(note))"
-	}
 }
 
 nonisolated struct CatalogLink: Codable, Sendable {
@@ -41,10 +33,6 @@ nonisolated struct CatalogLink: Codable, Sendable {
 		var container = encoder.container(keyedBy: CodingKeys.self)
 		try container.encode(target.id, forKey: .targetID)
 		try container.encode(note, forKey: .note)
-	}
-
-	nonisolated var entityText: String {
-		"\(target.name): \(note)"
 	}
 }
 

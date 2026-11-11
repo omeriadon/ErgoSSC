@@ -14,8 +14,6 @@ extension Philosopher: LibraryListItem {
 	nonisolated static let countLabel = "philosophers"
 	nonisolated static let availableFilters: [LibraryFilter] = []
 
-	typealias Entity = PhilosopherEntity
-
 	nonisolated var filters: Set<LibraryFilter> {
 		[]
 	}

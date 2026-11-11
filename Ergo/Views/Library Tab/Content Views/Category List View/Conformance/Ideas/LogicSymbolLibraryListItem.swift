@@ -16,8 +16,6 @@ extension LogicSymbol: LibraryListItem {
 	nonisolated static let sortsByName = false
 	nonisolated static let availableFilters = SymbolGroup.libraryFilters + SymbolTag.libraryFilters
 
-	typealias Entity = SymbolEntity
-
 	nonisolated var filters: Set<LibraryFilter> {
 		Set([group.libraryFilter] + tags.map(\.libraryFilter))
 	}

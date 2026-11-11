@@ -78,15 +78,12 @@ struct LibraryListRow<Item: LibraryListItem>: View, Equatable {
 			.buttonStyle(.automatic)
 			.tint(.accent)
 		}
-		.listedEntity(Item.Entity.self, id: item.id)
 	}
 
 	private func toggleBookmark(
 		_ target: CatalogReference,
 		isBookmarked: Bool
 	) {
-		IntentDonations.bookmark(target, added: !isBookmarked, catalog: catalog)
-
 		withAnimation(.easeInOut) {
 			if isBookmarked {
 				Defaults[.bookmarks].remove(target)

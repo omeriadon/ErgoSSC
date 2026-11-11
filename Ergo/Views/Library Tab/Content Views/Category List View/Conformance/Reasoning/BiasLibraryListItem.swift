@@ -14,8 +14,6 @@ extension Bias: LibraryListItem {
 	nonisolated static let countLabel = "biases"
 	nonisolated static let availableFilters = BiasTag.libraryFilters
 
-	typealias Entity = BiasEntity
-
 	nonisolated var filters: Set<LibraryFilter> {
 		Set(tags.map(\.libraryFilter))
 	}

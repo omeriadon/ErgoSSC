@@ -5,8 +5,6 @@
 //  Created by Adon Omeri on 1/11/2026.
 //
 
-import AppIntents
-import CoreSpotlight
 import SwiftUI
 
 @main
@@ -29,14 +27,6 @@ struct ErgoApp: App {
 		_catalog = State(initialValue: catalog)
 		_boardStore = State(initialValue: boardStore)
 		_scratchpadStore = State(initialValue: scratchpadStore)
-
-		unsafe AppDependencyManager.shared.add(
-			dependency: navigation
-		)
-
-		unsafe AppDependencyManager.shared.add(
-			dependency: catalog
-		)
 	}
 
 	var body: some Scene {
@@ -57,9 +47,8 @@ struct ErgoApp: App {
 
 					do {
 						try await catalog.load()
-						try await LibraryIndexer.indexIfNeeded(from: catalog)
 					} catch {
-						print("Library indexing failed: \(error)")
+						print("Library loading failed: \(error)")
 					}
 				}
 		}

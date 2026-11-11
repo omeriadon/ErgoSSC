@@ -11,7 +11,6 @@ import SwiftUI
 struct LibraryFilterSuggestions<Item: LibraryListItem>: View {
 	let suggestions: [LibraryFilter]
 	let state: LibraryListState
-	let donate: () -> Void
 
 	var body: some View {
 		Section("Filters") {
@@ -19,7 +18,6 @@ struct LibraryFilterSuggestions<Item: LibraryListItem>: View {
 				Button {
 					state.toggle(filter)
 					state.searchText = ""
-					donate()
 				} label: {
 					Label(filter.title, systemImage: filter.kind.tokenImage)
 				}

@@ -14,8 +14,6 @@ extension Argument: LibraryListItem {
 	nonisolated static let countLabel = "arguments"
 	nonisolated static let availableFilters = ArgumentTag.libraryFilters
 
-	typealias Entity = ArgumentEntity
-
 	nonisolated var filters: Set<LibraryFilter> {
 		Set(tags.map(\.libraryFilter))
 	}

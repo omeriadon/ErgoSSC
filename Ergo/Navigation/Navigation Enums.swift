@@ -5,25 +5,14 @@
 //  Created by Adon Omeri on 1/11/2026.
 //
 
-import AppIntents
 import Defaults
 import SwiftUI
 
 /// Your three root tabs
-enum AppTab: String, Hashable, Codable, Defaults.Serializable, AppEnum {
+enum AppTab: String, Hashable, Codable, Defaults.Serializable {
 	case board
 	case logic
 	case library
-
-	static var typeDisplayRepresentation: TypeDisplayRepresentation {
-		TypeDisplayRepresentation(name: "Ergo Tab")
-	}
-
-	static let caseDisplayRepresentations: [Self: DisplayRepresentation] = [
-		.board: DisplayRepresentation(title: "Board", image: .init(systemName: "flowchart")),
-		.logic: DisplayRepresentation(title: "Logic", image: .init(systemName: "function")),
-		.library: DisplayRepresentation(title: "Library", image: .init(systemName: "books.vertical")),
-	]
 }
 
 /// Pushed on the Logic tab's list. The editor shows `ScratchpadStore.current`, so the route needs no id.

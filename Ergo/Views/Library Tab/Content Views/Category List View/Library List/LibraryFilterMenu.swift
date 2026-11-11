@@ -10,7 +10,6 @@ import SwiftUI
 /// The toolbar's filter menu: toggles for each kind of filter, and a way to clear them
 struct LibraryFilterMenu<Item: LibraryListItem>: View {
 	let state: LibraryListState
-	let donate: () -> Void
 
 	var body: some View {
 		let kinds = Set(Item.availableFilters.map(\.kind)).sorted()
@@ -33,7 +32,6 @@ struct LibraryFilterMenu<Item: LibraryListItem>: View {
 				withAnimation(.easeInOut(duration: 0.2)) {
 					state.clearFilters()
 				}
-				IntentDonations.clearFilters()
 			}
 			.disabled(state.filters.isEmpty)
 			.accessibilityIdentifier("library.\(Item.category.rawValue).clearFilters")
@@ -57,7 +55,6 @@ struct LibraryFilterMenu<Item: LibraryListItem>: View {
 						withAnimation(.easeInOut(duration: 0.2)) {
 							state.toggle(filter)
 						}
-						donate()
 					}
 				)
 			)

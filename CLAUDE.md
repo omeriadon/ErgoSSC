@@ -56,7 +56,6 @@ xcodebuild -project Ergo.xcodeproj -scheme Ergo -configuration Debug -destinatio
 - Persisted settings use sindresorhus/Defaults: keys in `Ergo/Other/Defaults.swift`, read with `@Default(.key)` in views.
 - Migrations don't matter: `Statement`, `Link`, `Board`, `LogicScratchpad` and `LogicKeyboardEntry` can change freely, even though they're saved in Defaults.
 - User-facing errors are worded like Swift compiler diagnostics. Anything worth interrupting for goes to `StatusBadgeManager.shared` (`addBadge`, or `present(error:title:)`), which draws over sheets.
-- Never call an App Intent's `perform()` from app code: `@Dependency` only resolves inside the system's own intent flow, and crashes outside it. Call the `NavigationManager` method the intent calls.
 - `Ergo/Special/PrivacyInfo.xcprivacy` needs a new entry when the app calls another required-reason API. The app collects nothing.
 
 ## Navigation

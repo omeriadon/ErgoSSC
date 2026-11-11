@@ -57,11 +57,6 @@ extension Defaults.Keys {
 
 	static let logicPath = Key<[LogicRoute]>("logicPath", default: [])
 
-	static let lastIndexedVersion = Key<String>(
-		"lastIndexedVersion",
-		default: ""
-	)
-
 	/// The course lessons finished
 	static let logicCourseFinished = Key<Set<String>>("logicCourseFinished", default: [])
 }

@@ -5,7 +5,6 @@
 //  Created by Adon Omeri on 3/11/2026.
 //
 
-import AppIntents
 import Defaults
 import Foundation
 
@@ -49,7 +48,7 @@ nonisolated struct FallacyCatalog: Codable, Sendable {
 	}
 }
 
-nonisolated enum FallacyTag: String, Codable, Defaults.Serializable, CaseIterable, Identifiable, Hashable, Sendable, AppEnum {
+nonisolated enum FallacyTag: String, Codable, Defaults.Serializable, CaseIterable, Identifiable, Hashable, Sendable {
 	case causalReasoning = "causal-reasoning"
 	case ethicsHistoryAndEconomics = "ethics-history-and-economics"
 	case formalLogic = "formal-logic"
@@ -76,22 +75,6 @@ nonisolated enum FallacyTag: String, Codable, Defaults.Serializable, CaseIterabl
 	var id: Self {
 		self
 	}
-
-	static var typeDisplayRepresentation: TypeDisplayRepresentation {
-		TypeDisplayRepresentation(name: "Fallacy Tag")
-	}
-
-	static let caseDisplayRepresentations: [Self: DisplayRepresentation] = [
-		.causalReasoning: DisplayRepresentation(title: "Causal Reasoning"),
-		.ethicsHistoryAndEconomics: DisplayRepresentation(title: "Ethics, History & Economics"),
-		.formalLogic: DisplayRepresentation(title: "Formal Logic"),
-		.generalizationAndSampling: DisplayRepresentation(title: "Generalization & Sampling"),
-		.languageAndAmbiguity: DisplayRepresentation(title: "Language & Ambiguity"),
-		.premisesAndEvidence: DisplayRepresentation(title: "Premises & Evidence"),
-		.probabilityAndStatistics: DisplayRepresentation(title: "Probability & Statistics"),
-		.relevanceAndDebate: DisplayRepresentation(title: "Relevance & Debate"),
-		.relevanceAndAppeals: DisplayRepresentation(title: "Relevance & Appeals"),
-	]
 }
 
 nonisolated enum CheckMode: String, Codable, Sendable {

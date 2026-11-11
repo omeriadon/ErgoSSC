@@ -94,8 +94,6 @@ struct BookmarksView: View {
 							let isBookmarked = bookmarks.contains(bookmark)
 
 							Button {
-								IntentDonations.bookmark(bookmark, added: !isBookmarked, catalog: catalog)
-
 								withAnimation(.easeInOut) {
 									if isBookmarked {
 										bookmarks.remove(bookmark)
@@ -119,8 +117,6 @@ struct BookmarksView: View {
 					.buttonStyle(.plain)
 					.swipeActions(edge: .trailing) {
 						Button {
-							IntentDonations.bookmark(bookmark, added: false, catalog: catalog)
-
 							bookmarks.remove(bookmark)
 						} label: {
 							Label("Remove Bookmark", systemImage: "bookmark.fill")
