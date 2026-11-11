@@ -2,6 +2,8 @@
 
 This is Ergo cut down to enter the Swift Student Challenge: boards, logic and the library, all on the device. The full app, with its server, is the separate Ergo repo. Nothing from it comes back here.
 
+Being succinct matters far more than having lots of features.
+
 ## Ground rules
 - Never commit, stage, or otherwise touch git state. Adon manages git.
 - Never boot a simulator or run the app/UI tests; it cripples the machine.
