@@ -170,6 +170,9 @@ private struct AppTabs: View {
 
 								case .bookmarks:
 									BookmarksView()
+
+								case .finder:
+									LibraryFinderView()
 							}
 						}
 						.toolbarTitleItem()

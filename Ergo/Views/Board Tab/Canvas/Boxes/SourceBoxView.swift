@@ -122,11 +122,7 @@ struct SourceBoxView: View, Equatable {
 		.frame(width: CanvasLayout.boxSize.width, height: CanvasLayout.boxSize.height, alignment: .topLeading)
 		// The box is a fixed size on the canvas, and zooming is how it gets bigger, so type doesn't grow with Dynamic Type
 		.dynamicTypeSize(...DynamicTypeSize.large)
-		.background {
-			BackdropBlur(radius: 4)
-				.overlay(Color.accent.opacity(0.1))
-				.clipShape(Self.shape)
-		}
+		.glassEffect(.clear.tint(Color.accent.opacity(0.1)), in: Self.shape)
 		.overlay { outline }
 		.overlay(alignment: .topTrailing) {
 			FoldFlap(fold: Self.shape.fold)

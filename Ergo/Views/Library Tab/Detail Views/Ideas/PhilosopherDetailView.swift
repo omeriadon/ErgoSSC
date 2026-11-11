@@ -36,37 +36,11 @@ struct PhilosopherDetailView: View {
 				ScrollView {
 					LazyVStack(alignment: .leading) {
 						GeometryReader { geo in
-							ZStack {
-								Image(philosopher.id)
-									.resizable()
-									.aspectRatio(contentMode: .fill)
-									.clipShape(Circle())
-
-								LiquidLens(
-									isLifted: true,
-									animated: false,
-									configuration: .init(
-										style: 0,
-										warpsContentBelow: true,
-										restingBackgroundColor: .white.withAlphaComponent(0),
-										liftedDisplacement: 100,
-										innerShadowOpacity: 0
-									),
-									configure: { handle in
-										guard let flex = handle.value(for: .flexInteraction) as? NSObject else {
-											return
-										}
-
-										handle.setValue(
-											0,
-											forKeyPath: "preferredFlexSources",
-											on: flex
-										)
-									}
-								)
+							Image(philosopher.id)
+								.resizable()
+								.aspectRatio(contentMode: .fill)
+								.clipShape(Circle())
 								.frame(width: geo.size.width, height: geo.size.width)
-							}
-							.frame(width: geo.size.width, height: geo.size.width)
 						}
 						.aspectRatio(1, contentMode: .fit)
 						.padding()

@@ -27,13 +27,7 @@ struct CanvasBottomStack: View {
 		}
 		.padding(.horizontal, 16)
 		.padding(.bottom, 8)
-		// The stack is only as wide as what's in it, and the blur goes all the way across
 		.frame(maxWidth: .infinity)
-		.background(alignment: .bottom) {
-			BackdropBlur(radius: 1, fade: .top)
-				.ignoresSafeArea(edges: [.horizontal, .bottom])
-				.allowsHitTesting(false)
-		}
 		.opacity(isCovered ? 0 : 1)
 		.allowsHitTesting(!isCovered)
 		.animation(motion, value: notice)

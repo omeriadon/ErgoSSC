@@ -14,6 +14,7 @@ This is Ergo cut down to enter the Swift Student Challenge: boards, logic and th
 - It has to be experienced within three minutes.
 - It's submitted as a ZIP of at most 500 MB.
 - It's Adon's own work. Open source code is allowed when it's credited.
+- No private API anywhere.
 
 ## Layout
 - `Ergo/` is the iOS app. `Ergo.xcodeproj` links `ErgoKit` as a local package. `Ergo/Boards/` is the board model and `BoardStore`. `Ergo/Scratchpads/` is `LogicScratchpad` and `ScratchpadStore`.
@@ -30,6 +31,7 @@ This file is only what every agent needs. How one area works, and what must not 
 |---|---|
 | `Notes/Logic.md` | The logic keyboard and editor, the parser and its limits, `LogicChecker`, `LogicEnglish`, scratchpads, the course |
 | `Notes/Boards.md` | `Board`, `BoardStore`, sources and regions, the UIKit canvas and its hosted SwiftUI boxes, the statement editor |
+| `Notes/Library.md` | The library's entries, `LibraryCatalog`, Describe It and the on-device model |
 
 ## Building and testing
 Xcode is a beta at a non-default path. Prefix every `xcodebuild` and `swift` command with its `DEVELOPER_DIR`.

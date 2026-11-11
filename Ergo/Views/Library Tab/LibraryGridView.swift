@@ -11,6 +11,13 @@ struct LibraryGridView: View {
 	var body: some View {
 		Grid(horizontalSpacing: 12, verticalSpacing: 12) {
 			GridRow {
+				NavigationLink(value: LibraryRoute.finder) {
+					CardView(title: "Describe It", color: .accent)
+				}
+				.gridCellColumns(2)
+			}
+
+			GridRow {
 				NavigationLink(value: LibraryRoute.category(.biases)) {
 					CardView(title: "Biases", color: LibraryContent.biases.themeColor)
 				}

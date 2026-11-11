@@ -101,12 +101,11 @@ private final nonisolated class TabTransitionDelegate: NSObject, UITabBarControl
 	}
 }
 
-/// Blurs with the same private filter as `BackdropBlur`, on the tabs' own layers. The tab bar isn't in the transition's container, so it stays sharp.
+/// Blurs, fades and shrinks the old tab away over the new one. The tab bar isn't in the transition's container, so it stays sharp.
 private final class TabBlurAnimator: NSObject, UIViewControllerAnimatedTransitioning {
 	private static let duration: TimeInterval = 0.2
 	private static let radius: CGFloat = 16
 	private static let scale: CGFloat = 0.95
-	private static let filterName = "tabTransitionBlur"
 
 	func transitionDuration(using _: any UIViewControllerContextTransitioning?) -> TimeInterval {
 		Self.duration
@@ -124,59 +123,66 @@ private final class TabBlurAnimator: NSObject, UIViewControllerAnimatedTransitio
 
 		// UIKit won't take another tab tap until this transition completes, so it completes now. The old tab lives on as a snapshot that fades out over the new one, so the animation still plays while taps go through.
 		let outgoing = from.snapshotView(afterScreenUpdates: false)
-		outgoing?.frame = from.frame
 
 		context.containerView.addSubview(to)
 		to.alpha = 0
 
+		// The blur is SwiftUI's, so the snapshot goes in a hosting view that only lasts as long as the transition
+		var leaving: UIHostingController<LeavingTab>?
 		if let outgoing {
-			context.containerView.addSubview(outgoing)
-		}
-
-		let blurs = unsafe !UIAccessibility.isReduceMotionEnabled
-		if blurs {
-			Self.blur(to, from: Self.radius, to: 0)
-			if let outgoing {
-				Self.blur(outgoing, from: 0, to: Self.radius)
-			}
+			let hosted = UIHostingController(rootView: LeavingTab(
+				snapshot: outgoing,
+				duration: Self.duration,
+				radius: unsafe UIAccessibility.isReduceMotionEnabled ? 0 : Self.radius,
+				scale: Self.scale
+			))
+			hosted.view.frame = from.frame
+			hosted.view.backgroundColor = .clear
+			hosted.view.isUserInteractionEnabled = false
+			hosted.safeAreaRegions = []
+			context.containerView.addSubview(hosted.view)
+			leaving = hosted
 		}
 
 		context.completeTransition(true)
 
 		UIView.animate(withDuration: Self.duration, delay: 0, options: .curveEaseInOut) {
-			outgoing?.alpha = 0
-			outgoing?.transform = CGAffineTransform(scaleX: Self.scale, y: Self.scale)
 			to.alpha = 1
 		} completion: { _ in
-			outgoing?.removeFromSuperview()
-			if blurs {
-				Self.unblur(to)
+			leaving?.view.removeFromSuperview()
+		}
+	}
+}
+
+/// The old tab's snapshot, blurring and fading away as soon as it's shown
+private struct LeavingTab: View {
+	let snapshot: UIView
+	let duration: TimeInterval
+	let radius: CGFloat
+	let scale: CGFloat
+
+	@State private var isLeaving = false
+
+	var body: some View {
+		Snapshot(view: snapshot)
+			.blur(radius: isLeaving ? radius : 0)
+			.scaleEffect(isLeaving ? scale : 1)
+			.opacity(isLeaving ? 0 : 1)
+			.onAppear {
+				withAnimation(.easeInOut(duration: duration)) {
+					isLeaving = true
+				}
 			}
-		}
 	}
 
-	/// A layer doesn't reliably see changes to a filter it already has, so the radius is animated by key path instead, through the filter's name. If the filter can't be made, the tab just fades.
-	private static func blur(_ view: UIView, from: CGFloat, to: CGFloat) {
-		guard let filter = BackdropBlurFilter.make(radius: from, fade: nil) else {
-			return
+	private struct Snapshot: UIViewRepresentable {
+		let view: UIView
+
+		func makeUIView(context _: Context) -> UIView {
+			view
 		}
 
-		filter.setValue(filterName, forKey: "name")
-		view.layer.filters = [filter]
-
-		let animation = CABasicAnimation(keyPath: "filters.\(filterName).inputRadius")
-		animation.fromValue = from
-		animation.toValue = to
-		animation.duration = duration
-		animation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-		animation.fillMode = .forwards
-		animation.isRemovedOnCompletion = false
-		view.layer.add(animation, forKey: filterName)
-	}
-
-	private static func unblur(_ view: UIView) {
-		view.layer.removeAnimation(forKey: filterName)
-		view.layer.filters = nil
+		func updateUIView(_: UIView, context _: Context) {}
 	}
 }
 

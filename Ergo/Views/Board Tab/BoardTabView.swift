@@ -15,22 +15,38 @@ struct BoardTabView: View {
 	/// Undo steps belong to the board they were made on, so they live here and are dropped when the board changes
 	@State private var history = CanvasHistory()
 
-	@State private var topInset: CGFloat = 70
+	/// How tall the status bar is. The toolbar below it has glass of its own, so only this much of the canvas is dimmed.
+	@State private var statusBarHeight: CGFloat = 0
+
+	/// How much of the canvas still shows at the very top of the screen
+	private static let dimmest = 0.15
+
+	/// Dimmest at the top of the screen and solid by the bottom of the status bar, along a curve and not a straight line
+	private static let topFade = Gradient(stops: (0 ... 12).map { step in
+		let place = Double(step) / 12
+		return Gradient.Stop(color: .black.opacity(dimmest + (1 - dimmest) * pow(place, 3)), location: place)
+	})
 
 	var body: some View {
 		ZStack {
 			// A different board starts with its own pan, zoom and selection
 			CanvasView(history: history)
-				.overlay(alignment: .top) {
-					BackdropBlur(radius: 3, fade: .bottom)
-						.frame(height: topInset)
-						.ignoresSafeArea()
+				.mask {
+					VStack(spacing: 0) {
+						LinearGradient(gradient: Self.topFade, startPoint: .top, endPoint: .bottom)
+							.frame(height: statusBarHeight)
+						Color.black
+					}
+					.ignoresSafeArea()
 				}
 				.background(
 					GeometryReader { geometry in
 						Color.clear
-							.onChange(of: geometry.safeAreaInsets.top, initial: true) { _, newValue in
-								topInset = newValue
+							// The view's own inset has the toolbar in it, and the window's is only the status bar
+							.onChange(of: geometry.safeAreaInsets.top, initial: true) {
+								statusBarHeight = UIApplication.shared.connectedScenes
+									.compactMap { ($0 as? UIWindowScene)?.keyWindow }
+									.first?.safeAreaInsets.top ?? 0
 							}
 					}
 				)

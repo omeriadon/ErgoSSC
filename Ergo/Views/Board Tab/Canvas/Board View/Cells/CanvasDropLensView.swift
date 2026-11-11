@@ -10,9 +10,9 @@ import SwiftUI
 import UIKit
 
 /// Holds `CanvasDropLens`'s SwiftUI, and grows it in and shrinks it away. Following the finger is only `center`, so
-/// SwiftUI only hears about it coming and going.
+/// SwiftUI never hears about it.
 final class CanvasDropLensView: UIView {
-	private let hosted = canvasHost(CanvasDropLens(isLifted: false))
+	private let hosted = canvasHost(CanvasDropLens())
 	private var isShown = false
 
 	/// Fading is all that's left under Reduce Motion
@@ -38,7 +38,6 @@ final class CanvasDropLensView: UIView {
 	func setShown(_ shown: Bool) {
 		guard shown != isShown else { return }
 		isShown = shown
-		hosted.rootView = CanvasDropLens(isLifted: shown)
 		UIView.animate(springDuration: 0.35, bounce: shown ? 0.3 : 0) {
 			alpha = shown ? 1 : 0
 			transform = shown ? .identity : hiddenTransform

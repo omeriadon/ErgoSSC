@@ -58,10 +58,7 @@ struct StatementBoxView: View, Equatable {
 		.frame(width: CanvasLayout.boxSize.width, height: CanvasLayout.boxSize.height, alignment: .topLeading)
 		// The box is a fixed size on the canvas, and zooming is how it gets bigger, so type doesn't grow with Dynamic Type
 		.dynamicTypeSize(...DynamicTypeSize.large)
-		.background {
-			BackdropBlur(radius: 4)
-				.clipShape(RoundedRectangle(cornerRadius: Self.corner))
-		}
+		.glassEffect(.clear, in: RoundedRectangle(cornerRadius: Self.corner))
 		.overlay { outline }
 		.opacity(appearance == .unavailable ? 0.4 : 1)
 		.contentShape(RoundedRectangle(cornerRadius: Self.corner))
