@@ -6,7 +6,6 @@
 //
 
 import Defaults
-import ErgoShare
 import SwiftUI
 
 @MainActor
@@ -25,12 +24,6 @@ final class NavigationManager {
 	var libraryPath: [LibraryRoute] = [] {
 		didSet {
 			Defaults[.libraryPath] = libraryPath
-		}
-	}
-
-	var askThreadSelected: String? {
-		didSet {
-			Defaults[.askThreadSelected] = askThreadSelected
 		}
 	}
 
@@ -68,12 +61,6 @@ final class NavigationManager {
 		}
 	}
 
-	var librarySheet: LibrarySheet? {
-		didSet {
-			Defaults[.librarySheet] = librarySheet
-		}
-	}
-
 	// MARK: - visibleSheet
 
 	/// One presenter shows all of them, so going from one to another is SwiftUI swapping a sheet, which it does reliably.
@@ -86,8 +73,7 @@ final class NavigationManager {
 			return switch selectedTab {
 				case .board: boardSheet.map(VisibleSheet.board)
 				case .logic: logicSheet.map(VisibleSheet.logic)
-				case .library: librarySheet.map(VisibleSheet.library)
-				case .ask: nil
+				case .library: nil
 			}
 		}
 		set {
@@ -144,27 +130,6 @@ final class NavigationManager {
 		logicSheet = sheet
 	}
 
-	func presentSheet(_ sheet: LibrarySheet) {
-		selectedTab = .library
-		librarySheet = sheet
-	}
-
-	// MARK: - resumeBreakDown
-
-	/// Opens the breakdown that was running when the app was closed. A restored sheet that is breaking down something
-	/// picks it up itself, so it's left alone.
-	func resumeBreakDown() {
-		guard Defaults[.pendingBreakDown] != nil else { return }
-		if case let .shared(item)? = presentedSheet, item.action == .breakDown {
-			return
-		}
-		if case .breakDownSource? = boardSheet {
-			selectedTab = .board
-			return
-		}
-		presentSheet(.resumeBreakDown)
-	}
-
 	// MARK: - dismissSheet
 
 	/// Closes the sheet on screen
@@ -176,8 +141,7 @@ final class NavigationManager {
 		switch selectedTab {
 			case .board: boardSheet = nil
 			case .logic: logicSheet = nil
-			case .library: librarySheet = nil
-			case .ask: break
+			case .library: break
 		}
 	}
 
@@ -190,20 +154,8 @@ final class NavigationManager {
 		switch tab {
 			case .board: boardSheet = nil
 			case .logic: logicSheet = nil
-			case .library: librarySheet = nil
-			case .ask: break
+			case .library: break
 		}
-	}
-
-	// MARK: - openAnalysis
-
-	/// Opens a board's analysis from anywhere, with that board behind it. A board that's gone just opens the tab.
-	func openAnalysis(of board: Board.ID, in store: BoardStore) {
-		reveal(.board)
-
-		guard store.boards.contains(where: { $0.id == board }) else { return }
-		store.open(board)
-		presentSheet(.boardAnalysis(board, focus: nil))
 	}
 
 	// MARK: - openLibraryEntry
@@ -222,7 +174,7 @@ final class NavigationManager {
 
 	func reset(_ tab: AppTab) {
 		switch tab {
-			case .board, .ask:
+			case .board:
 				break
 			case .logic:
 				logicPath.removeAll()
@@ -237,7 +189,6 @@ final class NavigationManager {
 		presentedSheet = Defaults[.presentedSheet]
 		boardSheet = Defaults[.boardSheet]
 		logicSheet = Defaults[.logicSheet]
-		librarySheet = Defaults[.librarySheet]
 		selectedTab = Defaults[.selectedTab]
 		libraryPath = Defaults[.libraryPath]
 		logicPath = Defaults[.logicPath]

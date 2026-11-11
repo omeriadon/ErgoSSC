@@ -26,9 +26,6 @@ struct ContentView: View {
 
 					case let .logic(sheet):
 						LogicSheetContent(sheet: sheet)
-
-					case let .library(sheet):
-						LibrarySheetContent(sheet: sheet)
 				}
 			}
 			.fontDesign(.rounded)
@@ -51,18 +48,6 @@ private struct AppSheetContent: View {
 
 			case .settings:
 				SettingsView()
-
-			case let .shared(item):
-				SharedItemSheet(item: item)
-
-			case let .joinBoard(token):
-				JoinBoardSheet(token: token)
-
-			case let .addToChat(content):
-				AddToChatSheet(content: content)
-
-			case .plus:
-				PlusSheet()
 		}
 	}
 }
@@ -151,15 +136,6 @@ private struct AppTabs: View {
 					.labelStyle(.iconOnly)
 			}
 
-			Tab(value: .ask) {
-				NavigationStack {
-					AskTabView()
-				}
-			} label: {
-				Label("Ask", systemImage: "bubble.left.and.text.bubble.right")
-					.labelStyle(.iconOnly)
-			}
-
 			Tab(value: .library, role: .prominent) {
 				NavigationStack(path: libraryPath) {
 					LibraryTabView()
@@ -205,7 +181,6 @@ private struct AppTabs: View {
 		}
 		.tabViewStyle(.tabBarOnly)
 		.tabBarMinimizeBehavior(.onScrollDown)
-		.modifier(DeepResearchAccessory())
 		.tabBarHaptics()
 		.tabTransition {
 			if navigation.selectedTab == .board {
@@ -220,18 +195,12 @@ private struct AppTabs: View {
 	@Previewable @State var catalog = CatalogStore()
 	@Previewable @State var boardStore = BoardStore()
 	@Previewable @State var scratchpadStore = ScratchpadStore()
-	@Previewable @State var askStore = AskStore()
-	@Previewable @State var analysisStore = BoardAnalysisStore()
-	@Previewable @State var account = TranslationAccount()
 
 	ContentView()
 		.environment(thing)
 		.environment(catalog)
 		.environment(boardStore)
 		.environment(scratchpadStore)
-		.environment(askStore)
-		.environment(analysisStore)
-		.environment(account)
 		.onAppear {
 			thing.startup()
 			thing.selectedTab = .board

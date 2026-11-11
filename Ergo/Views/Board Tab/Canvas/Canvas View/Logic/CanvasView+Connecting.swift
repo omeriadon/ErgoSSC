@@ -6,9 +6,6 @@
 //
 
 import ErgoLogic
-import ErgoProtocol
-import ErgoShare
-import ErgoSync
 import SwiftUI
 
 extension CanvasView {

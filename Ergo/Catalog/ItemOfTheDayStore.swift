@@ -9,7 +9,7 @@ import Defaults
 import ErgoCatalog
 import Foundation
 
-/// Today's item of the day, for the app and its widgets. The order comes from `ItemOfTheDay` and the library bundled
+/// Today's item of the day. The order comes from `ItemOfTheDay` and the library bundled
 /// in the app, so there is nothing to download or keep: all this adds is the person's filter.
 enum ItemOfTheDayStore {
 	/// The filter as a set. Empty means every category.
@@ -17,7 +17,7 @@ enum ItemOfTheDayStore {
 		Set(Defaults[.itemOfTheDayCategories])
 	}
 
-	/// Always sorted, and only categories the item of the day has, so a choice syncs as one value
+	/// Always sorted, and only categories the item of the day has
 	static func setCategories(_ categories: Set<String>) {
 		let valid = categories.intersection(ItemOfTheDay.categories)
 		Defaults[.itemOfTheDayCategories] = valid.count == ItemOfTheDay.categories.count ? [] : valid.sorted()

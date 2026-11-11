@@ -12,7 +12,6 @@ struct CanvasBottomStack: View {
 	let notice: String?
 	let mode: CanvasBarMode
 	let actions: CanvasBarActions
-	let hasAnnotations: Bool
 	let isCovered: Bool
 	let motion: Animation?
 	let clearNotice: () -> Void
@@ -24,7 +23,7 @@ struct CanvasBottomStack: View {
 					.transition(.move(edge: .bottom).combined(with: .opacity))
 			}
 
-			CanvasBar(mode: mode, actions: actions, hasAnnotations: hasAnnotations)
+			CanvasBar(mode: mode, actions: actions)
 		}
 		.padding(.horizontal, 16)
 		.padding(.bottom, 8)

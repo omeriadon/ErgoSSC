@@ -7,8 +7,7 @@
 
 import SwiftUI
 
-/// The English of one statement of the current board, in a plain editor. It reads and writes through `BoardStore`,
-/// so it follows what other devices change.
+/// The English of one statement of the current board, in a plain editor. It reads and writes through `BoardStore`.
 struct StatementEditorView: View {
 	@Environment(BoardStore.self)
 	private var boardStore
@@ -20,7 +19,7 @@ struct StatementEditorView: View {
 	@State private var englishSelection: TextSelection?
 	@FocusState private var englishFocused: Bool
 
-	/// Empty once the statement is gone (deleted on another device), until the editor closes
+	/// Empty once the statement is gone, until the editor closes
 	private var statement: Statement {
 		boardStore.statement(statementID) ?? Statement(id: statementID)
 	}
@@ -30,30 +29,13 @@ struct StatementEditorView: View {
 		boardStore.binding(for: statementID) ?? .constant(statement)
 	}
 
-	/// Comes from the store, so a role changing while this is open applies straight away
-	private var canEdit: Bool {
-		boardStore.canEdit(boardStore.current.id)
-	}
-
-	@ViewBuilder
 	private var content: some View {
-		if canEdit {
-			TextEditor(text: statementBinding.english, selection: $englishSelection)
-				.textEditorStyle(.plain)
-				.focused($englishFocused)
-				.padding(.horizontal, 15)
-				.accessibilityLabel("English editor")
-				.accessibilityIdentifier("board.englishEditor")
-		} else {
-			ScrollView {
-				Text(statement.english.isEmpty ? "Empty statement" : statement.english)
-					.foregroundStyle(statement.english.isEmpty ? .secondary : .primary)
-					.textSelection(.enabled)
-					.frame(maxWidth: .infinity, alignment: .leading)
-					.padding(.horizontal, 20)
-					.accessibilityIdentifier("board.englishReader")
-			}
-		}
+		TextEditor(text: statementBinding.english, selection: $englishSelection)
+			.textEditorStyle(.plain)
+			.focused($englishFocused)
+			.padding(.horizontal, 15)
+			.accessibilityLabel("English editor")
+			.accessibilityIdentifier("board.englishEditor")
 	}
 
 	var body: some View {
@@ -67,10 +49,6 @@ struct StatementEditorView: View {
 				}
 			}
 			.onChange(of: statementID) {
-				englishSelection = nil
-			}
-			.onChange(of: boardStore.remoteEdits) {
-				// Another device changed this board, and the selection was into the old English
 				englishSelection = nil
 			}
 			.toolbar {

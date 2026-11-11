@@ -5,7 +5,6 @@
 //  Created by Adon Omeri on 7/11/2026.
 //
 
-import ErgoShare
 import SwiftUI
 
 /// Writing a block of text or a web link, new or already on the board. What happens with it is the canvas's business.

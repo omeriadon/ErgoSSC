@@ -60,8 +60,7 @@ final class CanvasHistory {
 	}
 
 	private func restore(_ snapshot: Snapshot, name: String) {
-		// Steps from before someone's role changed to View only, and shake to undo can still reach them
-		guard let store, store.canEdit(snapshot.boardID), store.current.id == snapshot.boardID, let now = self.snapshot() else { return }
+		guard let store, store.current.id == snapshot.boardID, let now = self.snapshot() else { return }
 
 		var board = store.current
 		board.statements = snapshot.statements.map { old in

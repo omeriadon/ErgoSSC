@@ -37,14 +37,8 @@ public struct LogicLesson: Identifiable, Hashable, Sendable {
 	public let exercises: [LogicExercise]
 }
 
-/// A short course in the logic the Logic tab checks. The first lessons are free.
+/// A short course in the logic the Logic tab checks
 public enum LogicCourse {
-	public static let freeLessons = 2
-
-	public static func isFree(_ lesson: LogicLesson) -> Bool {
-		lessons.prefix(freeLessons).contains(lesson)
-	}
-
 	public static func lesson(_ id: String) -> LogicLesson? {
 		lessons.first { $0.id == id }
 	}

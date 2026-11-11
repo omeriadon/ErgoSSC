@@ -6,7 +6,6 @@
 //
 
 import Defaults
-import ErgoProtocol
 import Foundation
 import Observation
 import SwiftUI
@@ -147,11 +146,10 @@ final class StatusBadgeManager {
 		removeBadge(id: mainBadge.id)
 	}
 
-	/// A failure worth interrupting for. A `ServiceError`'s message is already worded to show as is.
+	/// A failure worth interrupting for
 	func present(error: any Error, title: String) {
 		guard !(error is CancellationError) else { return }
-		let detail = (error as? ServiceError)?.message ?? error.localizedDescription
-		addBadge(id: UUID(), title: title, secondaryText: detail, priority: 4, view: .error, width: .flexible)
+		addBadge(id: UUID(), title: title, secondaryText: error.localizedDescription, priority: 4, view: .error, width: .flexible)
 	}
 
 	private func playHaptic(for view: StatusBadgeView) {

@@ -14,7 +14,7 @@ extension CanvasBoardView {
 
 	/// A box has its own menu, so this only answers on the background, near an arrow
 	func contextMenuInteraction(_: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-		guard !isReadOnly, hitTest(location, with: nil) === self, let id = LinkHitTest.link(
+		guard hitTest(location, with: nil) === self, let id = LinkHitTest.link(
 			near: canvasTransform.canvas(location),
 			tolerance: 24 / canvasTransform.scale,
 			in: links,

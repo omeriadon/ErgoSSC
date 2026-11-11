@@ -115,7 +115,7 @@ final class StatementEditorPresenterController: UIViewController, UIViewControll
 		StatementEditorAnimator(box: shownBox, isOpening: false)
 	}
 
-	/// Looked up each way, since the box can be gone by the time the editor closes (deleted on another device)
+	/// Looked up each way, since the box can be gone by the time the editor closes
 	private var shownBox: UIView? {
 		shown.flatMap { canvasBoard?.box($0.id) }
 	}

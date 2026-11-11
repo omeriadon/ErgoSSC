@@ -6,9 +6,6 @@
 //
 
 import ErgoLogic
-import ErgoProtocol
-import ErgoShare
-import ErgoSync
 import SwiftUI
 
 extension CanvasView {
@@ -68,41 +65,25 @@ extension CanvasView {
 
 	/// A new source where the person is looking
 	func addSource(_ content: BoardSource.Content) {
-		var added: BoardSource.ID?
 		history.perform("Add Source") {
 			withAnimation(motion) {
 				let id = boardStore.addSource(content, at: freeSpot(near: viewCentre))
 				selection = .source(id)
-				added = id
 			}
 		}
 		if keepsFitting, !canvasBoard.hasBeenMoved {
 			fit(animated: true)
 		}
 		keepsFitting = false
-		if let added {
-			findTitle(of: added)
-		}
-	}
-
-	/// A link typed in has no title, and the card says more with the page's. It's fine if the page won't load.
-	func findTitle(of id: BoardSource.ID) {
-		guard case let .link(url, nil)? = board.source(id)?.content else { return }
-		Task {
-			guard let title = try? await PageReader.read(url).title else { return }
-			boardStore.updateSource(id, content: .link(url, title: title))
-		}
 	}
 
 	func sourceSheet(for sheet: SourceSheet) -> CanvasSourceSheet {
 		CanvasSourceSheet(
 			sheet: sheet,
 			source: sheet.sourceID.flatMap { board.source($0) },
-			isReadOnly: isReadOnly,
 			add: addSource,
 			update: { id, content in
 				boardStore.updateSource(id, content: content)
-				findTitle(of: id)
 			}
 		)
 	}

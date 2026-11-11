@@ -6,9 +6,6 @@
 //
 
 import ErgoLogic
-import ErgoProtocol
-import ErgoShare
-import ErgoSync
 import SwiftUI
 
 /// The current board as an argument map: boxes you can drag, arrows between them, and a bar for what you can do
@@ -22,12 +19,6 @@ struct CanvasView: View {
 
 	@Environment(NavigationManager.self)
 	var navigation
-
-	@Environment(BoardAnalysisStore.self)
-	var analysis
-
-	@Environment(SyncController.self)
-	var sync
 
 	@Environment(\.accessibilityReduceMotion)
 	var reduceMotion
@@ -81,11 +72,6 @@ struct CanvasView: View {
 		boardStore.current
 	}
 
-	/// Read every time, so a role changed by the owner applies straight away
-	var isReadOnly: Bool {
-		!boardStore.canEdit(board.id)
-	}
-
 	/// Animations are skipped entirely under Reduce Motion
 	var motion: Animation? {
 		reduceMotion ? nil : .smooth
@@ -132,7 +118,6 @@ struct CanvasView: View {
 			notice: notice,
 			mode: barMode,
 			actions: barActions,
-			hasAnnotations: selectionHasAnnotations,
 			isCovered: isCovered,
 			motion: motion,
 			clearNotice: { notice = nil }
@@ -142,18 +127,11 @@ struct CanvasView: View {
 	private var toolbar: some ToolbarContent {
 		CanvasToolbar(
 			board: board,
-			isReadOnly: isReadOnly,
-			isAnalysing: isAnalysing,
-			hasAnalysis: hasAnalysis,
 			canUndo: canUndo,
 			canRedo: canRedo,
 			fit: { fit(animated: true) },
 			showBoards: { navigation.presentSheet(.boards) },
 			search: startFind,
-			quickAI: { navigation.presentSheet(.quickAI(board.id)) },
-			showAnalysis: { navigation.presentSheet(.boardAnalysis(board.id, focus: nil)) },
-			deepResearch: deepResearch,
-			sendToChat: { navigation.presentSheet(.addToChat(.text(board.chatText))) },
 			undo: { undoManager?.undo() },
 			redo: { undoManager?.redo() },
 			arrange: arrange,
@@ -166,20 +144,11 @@ struct CanvasView: View {
 	var canvas: some View {
 		let relations = boxRelations
 		let connectable = connectableStatements
-		let isReadOnly = isReadOnly
-		let shown = shownAnalysis
-		let counts = shown.counts
-		let supports = shown.supports
-		let comments = shown.comments
 		let boxes = board.statements.map { statement in
 			CanvasBoxModel(
 				statement: statement,
 				relations: relations[statement.id] ?? BoxRelations(),
 				appearance: appearance(of: statement.id, connectable: connectable),
-				isReadOnly: isReadOnly,
-				annotationCount: counts[statement.id] ?? 0,
-				support: supports[statement.id],
-				comment: comments[statement.id],
 				findHighlight: find?.query
 			)
 		}
@@ -187,16 +156,13 @@ struct CanvasView: View {
 		return CanvasBoard(
 			boxes: boxes,
 			links: board.links,
-			strengths: shown.strengths,
-			notedLinks: Set(board.links.map(\.id).filter { comments[$0] != nil }),
-			sources: sources(counts: counts, comments: comments),
+			sources: sources,
 			regions: regions,
 			// While picking, a box is tapped rather than dragged from, so its handles stay away
 			selectedStatement: activePick == nil ? selectedStatement : nil,
 			selectedLink: selectedLink,
 			selectedSource: selectedSource,
 			controller: canvasBoard,
-			isReadOnly: isReadOnly,
 			actions: actions(for:),
 			sourceActions: sourceActions(for:),
 			dragStarted: dragStarted,
@@ -207,22 +173,20 @@ struct CanvasView: View {
 			connectEnded: connectEnded,
 			deleteLink: deleteLink,
 			sourceDragStarted: sourceDragStarted,
-			sourceMoved: sourceMoved,
-			showAnalysis: showAnalysis(of:)
+			sourceMoved: sourceMoved
 		)
 		.ignoresSafeArea()
 	}
 
 	/// Dimmed while drawing an arrow, since one can't end on a source
-	func sources(counts: [UUID: Int], comments: [UUID: BoardAnalysisComment]) -> [CanvasSourceModel] {
-		let isReadOnly = isReadOnly
-		return board.sources.map { source in
+	var sources: [CanvasSourceModel] {
+		board.sources.map { source in
 			let appearance: BoxAppearance = if linkSource != nil {
 				.unavailable
 			} else {
 				activeSelection == .source(source.id) ? .selected : .normal
 			}
-			return CanvasSourceModel(source: source, appearance: appearance, isReadOnly: isReadOnly, annotationCount: counts[source.id] ?? 0, comment: comments[source.id], findHighlight: find?.query)
+			return CanvasSourceModel(source: source, appearance: appearance, findHighlight: find?.query)
 		}
 	}
 

@@ -6,9 +6,6 @@
 //
 
 import ErgoLogic
-import ErgoProtocol
-import ErgoShare
-import ErgoSync
 import SwiftUI
 
 extension CanvasView {
@@ -59,13 +56,12 @@ extension CanvasView {
 		connecting ?? activePick?.source
 	}
 
-	/// A pick whose box is gone (deleted here, or on another device) is no pick
+	/// A pick whose box is gone is no pick
 	var activePick: BoxPick? {
-		guard !isReadOnly else { return nil }
-		return pick.flatMap { board.statement($0.source) == nil ? nil : $0 }
+		pick.flatMap { board.statement($0.source) == nil ? nil : $0 }
 	}
 
-	/// A selection that's gone (deleted here, or on another device) is no selection
+	/// A selection that's gone is no selection
 	var activeSelection: CanvasSelection? {
 		switch selection {
 			case let .statement(id)?:
@@ -89,7 +85,6 @@ extension CanvasView {
 			delete: { delete(id) },
 			connect: { pickToConnect(id, asConclusion: $0) },
 			removeLink: { pickToUnlink(id) },
-			showAnalysis: { showAnalysis(of: .statement(id)) },
 			nudge: { nudge(id, columns: $0, rows: $1) }
 		)
 	}
@@ -100,9 +95,7 @@ extension CanvasView {
 			select: { selectSource(id) },
 			open: { open(id) },
 			edit: { sourceSheet = .edit(id) },
-			breakDown: { navigation.presentSheet(.breakDownSource(id)) },
 			delete: { deleteSource(id) },
-			showAnalysis: { showAnalysis(of: .source(id)) },
 			nudge: { nudgeSource(id, columns: $0, rows: $1) }
 		)
 	}

@@ -5,7 +5,6 @@
 //  Created by Adon Omeri on 6/11/2026.
 //
 
-import ErgoSync
 import UIKit
 
 /// One arrow: the line, and a wide soft stroke under it for when it's selected
@@ -50,21 +49,11 @@ final class CanvasArrow {
 		}
 	}
 
-	/// `strength` is what the analysis made of the arrow: conclusive and strong are solid, conclusive thicker, weak is
-	/// dashed and none is dotted, each in `strengthColor`. Nil, with no analysis, is as it always was.
-	func style(isSelected: Bool, accent: UIColor, plain: UIColor, strength: BoardArrowStrength? = nil, strengthColor: UIColor? = nil) {
+	func style(isSelected: Bool, accent: UIColor, plain: UIColor) {
 		CATransaction.begin()
 		CATransaction.setDisableActions(true)
-		line.strokeColor = (isSelected ? accent : strengthColor ?? plain).cgColor
-		line.lineWidth = (isSelected ? 3.5 : 2.5) + (strength == .conclusive ? 1.5 : 0)
-		switch strength {
-			case .weak?:
-				line.lineDashPattern = [9, 6]
-			case BoardArrowStrength.none?:
-				line.lineDashPattern = [0.1, 7]
-			default:
-				line.lineDashPattern = nil
-		}
+		line.strokeColor = (isSelected ? accent : plain).cgColor
+		line.lineWidth = isSelected ? 3.5 : 2.5
 		glow.strokeColor = accent.withAlphaComponent(0.28).cgColor
 		glow.isHidden = !isSelected
 		CATransaction.commit()

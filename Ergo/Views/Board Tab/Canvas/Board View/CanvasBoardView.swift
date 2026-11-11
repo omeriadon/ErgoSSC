@@ -7,7 +7,6 @@
 
 import Defaults
 import ErgoLogic
-import ErgoSync
 import SwiftUI
 import UIKit
 
@@ -29,9 +28,6 @@ enum ConnectionDrop {
 /// `content` is a zero-sized view that carries the pan and zoom as its transform. Boxes sit in it at their canvas
 /// positions, so moving the whole canvas is one transform however many boxes there are.
 final class CanvasBoardView: UIView, UIGestureRecognizerDelegate, UIContextMenuInteractionDelegate {
-	/// For a board this person can only view: panning and zooming stay, and dragging, connecting and the arrow menu go
-	var isReadOnly = false
-
 	var dragStarted: (Statement.ID) -> Void = { _ in }
 	var moved: (Statement.ID, CanvasPoint) -> Void = { _, _ in }
 	var tapBackground: (CanvasPoint) -> Void = { _ in }
@@ -42,7 +38,6 @@ final class CanvasBoardView: UIView, UIGestureRecognizerDelegate, UIContextMenuI
 	var deleteLink: (Link.ID) -> Void = { _ in }
 	var sourceDragStarted: (BoardSource.ID) -> Void = { _ in }
 	var sourceMoved: (BoardSource.ID, CanvasPoint) -> Void = { _, _ in }
-	var showAnalysis: (BoardAnalysisTarget) -> Void = { _ in }
 
 	var boxContent: (CanvasBoxModel, _ isNew: Bool) -> AnyView = { _, _ in AnyView(EmptyView()) }
 	var sourceContent: (CanvasSourceModel, _ isNew: Bool) -> AnyView = { _, _ in AnyView(EmptyView()) }
@@ -58,15 +53,6 @@ final class CanvasBoardView: UIView, UIGestureRecognizerDelegate, UIContextMenuI
 	var cells: [Statement.ID: CanvasBoxCell] = [:]
 	var arrows: [Link.ID: CanvasArrow] = [:]
 	var links: [Link] = []
-
-	/// What the analysis made of each arrow, for how its line is drawn
-	var strengths: [Link.ID: BoardArrowStrength] = [:]
-
-	/// The arrows the analysis wrote something about, beyond how strong they are
-	var notedLinks: Set<Link.ID> = []
-
-	/// The labels on arrows with something to say
-	var arrowNotes: [Link.ID: CanvasArrowNote] = [:]
 	var sourceCells: [BoardSource.ID: CanvasSourceCell] = [:]
 	var regions: [CanvasRegionModel] = []
 	/// The boxes and sources the outlines and arrows were last drawn for, so an update that changes neither can skip redrawing them
@@ -198,8 +184,6 @@ final class CanvasBoardView: UIView, UIGestureRecognizerDelegate, UIContextMenuI
 	func update(
 		boxes: [CanvasBoxModel],
 		links: [Link],
-		strengths: [Link.ID: BoardArrowStrength],
-		notedLinks: Set<Link.ID>,
 		sources: [CanvasSourceModel],
 		regions: [CanvasRegionModel],
 		selectedStatement: Statement.ID?,
@@ -248,11 +232,9 @@ final class CanvasBoardView: UIView, UIGestureRecognizerDelegate, UIContextMenuI
 		// Outlines and arrows only depend on where things are and how they connect, so they're redrawn when one of those changes.
 		// Dragging redraws its own region as it moves, and the model follows when it lets go.
 		let layoutChanged = boxes != laidOutBoxes || sources != laidOutSources
-			|| links != self.links || strengths != self.strengths || notedLinks != self.notedLinks || regions != self.regions
+			|| links != self.links || regions != self.regions
 			|| selectedStatement != self.selectedStatement || selectedLink != self.selectedLink
 		self.links = links
-		self.strengths = strengths
-		self.notedLinks = notedLinks
 		self.regions = regions
 		self.selectedStatement = selectedStatement
 		self.selectedLink = selectedLink

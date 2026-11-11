@@ -139,10 +139,6 @@ extension CanvasBoardView {
 	/// Panning and tapping the canvas only count on its background. `hitTest` sends a touch here when it's on nothing,
 	/// or when it stops a glide, in which case a drag that follows pans the canvas even over a box.
 	func gestureRecognizer(_ recognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-		// A box that can't be picked up shouldn't get in the way of panning
-		if recognizer === panRecognizer, isReadOnly {
-			return true
-		}
 		if recognizer === panRecognizer || recognizer === tapRecognizer {
 			return touch.view === self
 		}
@@ -157,7 +153,7 @@ extension CanvasBoardView {
 		if recognizer === panRecognizer || recognizer === pinchRecognizer || recognizer === tapRecognizer {
 			return draggedBox == nil && draggedSource == nil && connection == nil
 		}
-		return !isReadOnly && !isCanvasMoving
+		return !isCanvasMoving
 	}
 
 	func gestureRecognizer(_ recognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith other: UIGestureRecognizer) -> Bool {

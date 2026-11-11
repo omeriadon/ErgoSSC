@@ -6,9 +6,6 @@
 //
 
 import ErgoLogic
-import ErgoProtocol
-import ErgoShare
-import ErgoSync
 import SwiftUI
 
 /// What is selected: a box, a source or an arrow, only one at a time

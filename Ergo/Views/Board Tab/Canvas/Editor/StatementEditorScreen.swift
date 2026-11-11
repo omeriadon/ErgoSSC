@@ -21,7 +21,7 @@ struct StatementEditorScreen: View {
 	/// The pinch keeps reporting after it has gone far enough, and backing out once is all it means
 	@State private var hasPinchedOut = false
 
-	/// False once the statement is gone (deleted on another device), and there's nothing left to edit
+	/// False once the statement is gone, and there's nothing left to edit
 	private var exists: Bool {
 		boardStore.statement(statementID) != nil
 	}

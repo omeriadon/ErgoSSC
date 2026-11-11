@@ -6,21 +6,10 @@
 //
 
 import ErgoLogic
-import ErgoProtocol
-import ErgoShare
-import ErgoSync
 import SwiftUI
 
 extension CanvasView {
 	var barMode: CanvasBarMode {
-		if isReadOnly {
-			return switch activeSelection {
-				case .statement: .viewOnly(.statement)
-				case let .source(id): .viewOnly(.source(isLink: board.source(id)?.link != nil))
-				case .link: .viewOnly(.link)
-				case nil: .viewOnly(.nothing)
-			}
-		}
 		if let activePick {
 			return .picking(prompt(for: activePick))
 		}
@@ -47,11 +36,6 @@ extension CanvasView {
 					open(id)
 				}
 			},
-			breakDown: {
-				if case let .source(id)? = activeSelection {
-					navigation.presentSheet(.breakDownSource(id))
-				}
-			},
 			delete: {
 				switch activeSelection {
 					case let .statement(id)?: delete(id)
@@ -60,54 +44,7 @@ extension CanvasView {
 					case nil: break
 				}
 			},
-			cancelPick: { pick = nil },
-			showAnnotations: {
-				if let target = selectionTarget {
-					showAnalysis(of: target)
-				}
-			}
+			cancelPick: { pick = nil }
 		)
-	}
-
-	// MARK: - Analysis
-
-	/// What's still true of the board now, worked out each time
-	var shownAnalysis: BoardAnalysisShown {
-		analysis.shown(on: board)
-	}
-
-	func showAnalysis(of target: BoardAnalysisTarget) {
-		navigation.presentSheet(.boardAnalysis(board.id, focus: target))
-	}
-
-	var selectionTarget: BoardAnalysisTarget? {
-		switch activeSelection {
-			case let .statement(id)?: .statement(id)
-			case let .link(id)?: .link(id)
-			case let .source(id)?: .source(id)
-			case nil: nil
-		}
-	}
-
-	var selectionHasAnnotations: Bool {
-		guard let target = selectionTarget else { return false }
-		return shownAnalysis.current.contains { $0.target == target }
-	}
-
-	var isAnalysing: Bool {
-		analysis.isRunning(board.id)
-	}
-
-	/// Whether there's a run to follow or results to open. A board nobody has researched has no button for it.
-	var hasAnalysis: Bool {
-		isAnalysing || analysis.statuses[board.id] != nil || analysis.written[board.id] != nil
-	}
-
-	/// Starts a run in the background and opens the sheet that follows it
-	func deepResearch() {
-		if !isAnalysing, sync.isSignedIn {
-			analysis.start(board: board)
-		}
-		navigation.presentSheet(.boardAnalysis(board.id, focus: nil))
 	}
 }

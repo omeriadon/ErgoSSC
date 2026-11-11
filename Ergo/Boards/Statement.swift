@@ -8,8 +8,7 @@
 import ErgoLogic
 import Foundation
 
-// `Statement`, `Link` and everything inside them are saved in users' Defaults as synthesized Codable,
-// and `Statement` is also what sync records are made from. Nothing has reached v1, so they may change until then.
+// `Statement`, `Link` and everything inside them are saved in users' Defaults as synthesized Codable.
 
 /// One claim on the canvas: its English, and where the box sits.
 nonisolated struct Statement: Codable, Hashable, Identifiable, Sendable, ArgumentNode {
@@ -20,7 +19,7 @@ nonisolated struct Statement: Codable, Hashable, Identifiable, Sendable, Argumen
 
 	var english: String
 
-	/// The source this card was broken down from, which puts it in that source's region
+	/// The source whose region this card sits in
 	var source: BoardSource.ID?
 
 	init(

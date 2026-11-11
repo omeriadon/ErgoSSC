@@ -6,7 +6,6 @@
 //
 
 import ErgoLogic
-import ErgoProtocol
 import SwiftUI
 
 /// What a box can do, handed in by the canvas so the box doesn't know about the board or selection
@@ -20,9 +19,6 @@ struct BoxActions {
 
 	/// The next box tapped loses its arrow to or from this one
 	var removeLink: () -> Void
-
-	/// What the analysis found on this box
-	var showAnalysis: () -> Void
 
 	/// Whole grid steps, right and down are positive
 	var nudge: (_ columns: Int, _ rows: Int) -> Void
@@ -47,14 +43,9 @@ struct CanvasBox: View {
 
 	var body: some View {
 		box
-			.modifier(BoxActionsModifier(actions: actions, isReadOnly: model.isReadOnly))
+			.modifier(BoxActionsModifier(actions: actions))
 			.modifier(BoxSpeech(text: spokenText, summary: spokenSummary, appearance: appearance, id: statement.id))
-			.modifier(BoxMovesModifier(nudge: actions.nudge, isReadOnly: model.isReadOnly))
-			.accessibilityActions {
-				if model.annotationCount > 0 {
-					Button("Show Analysis", action: actions.showAnalysis)
-				}
-			}
+			.modifier(BoxMovesModifier(nudge: actions.nudge))
 	}
 
 	private var box: some View {
@@ -62,9 +53,6 @@ struct CanvasBox: View {
 			statement: statement,
 			relations: relations,
 			appearance: appearance,
-			annotationCount: model.annotationCount,
-			support: model.support,
-			comment: model.comment,
 			findHighlight: model.findHighlight
 		)
 		.equatable()
@@ -75,20 +63,13 @@ struct CanvasBox: View {
 
 	@ViewBuilder
 	private var menu: some View {
-		if model.annotationCount > 0 {
-			Button("Show Analysis", systemImage: "text.magnifyingglass", action: actions.showAnalysis)
+		Button("Edit", systemImage: "square.and.pencil", action: actions.edit)
+		Button("Make Premise of…", systemImage: "arrow.down") { actions.connect(false) }
+		Button("Make Conclusion of…", systemImage: "arrow.up") { actions.connect(true) }
+		if !relations.premises.isEmpty || !relations.conclusions.isEmpty {
+			Button("Remove Link…", systemImage: "link", action: actions.removeLink)
 		}
-		if model.isReadOnly {
-			Button("Open", systemImage: "doc.text", action: actions.edit)
-		} else {
-			Button("Edit", systemImage: "square.and.pencil", action: actions.edit)
-			Button("Make Premise of…", systemImage: "arrow.down") { actions.connect(false) }
-			Button("Make Conclusion of…", systemImage: "arrow.up") { actions.connect(true) }
-			if !relations.premises.isEmpty || !relations.conclusions.isEmpty {
-				Button("Remove Link…", systemImage: "link", action: actions.removeLink)
-			}
-			Button("Delete", systemImage: "trash", role: .destructive, action: actions.delete)
-		}
+		Button("Delete", systemImage: "trash", role: .destructive, action: actions.delete)
 	}
 
 	// MARK: - Reading aloud
@@ -108,15 +89,6 @@ struct CanvasBox: View {
 		}
 		if parts.isEmpty {
 			parts.append("Not connected")
-		}
-		if let support = model.support {
-			parts.append(support.label)
-		}
-		if let comment = model.comment {
-			parts.append("\(comment.title): \(comment.text)")
-		}
-		if model.annotationCount > 0 {
-			parts.append(model.annotationCount == 1 ? "1 annotation" : "\(model.annotationCount) annotations")
 		}
 		if appearance == .connectSource {
 			parts.append("Connecting from this statement")
@@ -177,39 +149,27 @@ private struct BoxSpeech: ViewModifier {
 /// What VoiceOver can do to a box in place of the gestures it can't make
 private struct BoxActionsModifier: ViewModifier {
 	let actions: BoxActions
-	let isReadOnly: Bool
 
 	func body(content: Content) -> some View {
-		if isReadOnly {
-			content
-				.accessibilityAction(.default, actions.select)
-				.accessibilityAction(named: Text("Open"), actions.edit)
-		} else {
-			content
-				.accessibilityAction(.default, actions.select)
-				.accessibilityAction(named: Text("Edit"), actions.edit)
-				.accessibilityAction(named: Text("Make premise of…")) { actions.connect(false) }
-				.accessibilityAction(named: Text("Make conclusion of…")) { actions.connect(true) }
-				.accessibilityAction(named: Text("Remove link…"), actions.removeLink)
-				.accessibilityAction(named: Text("Delete"), actions.delete)
-		}
+		content
+			.accessibilityAction(.default, actions.select)
+			.accessibilityAction(named: Text("Edit"), actions.edit)
+			.accessibilityAction(named: Text("Make premise of…")) { actions.connect(false) }
+			.accessibilityAction(named: Text("Make conclusion of…")) { actions.connect(true) }
+			.accessibilityAction(named: Text("Remove link…"), actions.removeLink)
+			.accessibilityAction(named: Text("Delete"), actions.delete)
 	}
 }
 
 /// Moving a box a grid step at a time, for people who can't drag
 struct BoxMovesModifier: ViewModifier {
 	let nudge: (_ columns: Int, _ rows: Int) -> Void
-	let isReadOnly: Bool
 
 	func body(content: Content) -> some View {
-		if isReadOnly {
-			content
-		} else {
-			content
-				.accessibilityAction(named: Text("Move up")) { nudge(0, -1) }
-				.accessibilityAction(named: Text("Move down")) { nudge(0, 1) }
-				.accessibilityAction(named: Text("Move left")) { nudge(-1, 0) }
-				.accessibilityAction(named: Text("Move right")) { nudge(1, 0) }
-		}
+		content
+			.accessibilityAction(named: Text("Move up")) { nudge(0, -1) }
+			.accessibilityAction(named: Text("Move down")) { nudge(0, 1) }
+			.accessibilityAction(named: Text("Move left")) { nudge(-1, 0) }
+			.accessibilityAction(named: Text("Move right")) { nudge(1, 0) }
 	}
 }

@@ -51,7 +51,7 @@ nonisolated extension String {
 		range(of: query, options: FindState.options) != nil
 	}
 
-	fileprivate func findRanges(of query: String) -> [Range<Index>] {
+	private func findRanges(of query: String) -> [Range<Index>] {
 		var ranges: [Range<Index>] = []
 		var rest = startIndex ..< endIndex
 		while let match = range(of: query, options: FindState.options, range: rest) {
@@ -77,19 +77,6 @@ extension AttributedString {
 		var highlighted = self
 		for range in ranges {
 			highlighted[range].backgroundColor = .orange
-		}
-		return highlighted
-	}
-}
-
-extension NSAttributedString {
-	/// With every appearance of what's being looked for in orange
-	func findHighlighted(_ query: String?) -> NSAttributedString {
-		guard let query, !query.isEmpty else { return self }
-
-		let highlighted = NSMutableAttributedString(attributedString: self)
-		for range in string.findRanges(of: query) {
-			highlighted.addAttribute(.roundedBackground, value: UIColor.systemOrange, range: NSRange(range, in: string))
 		}
 		return highlighted
 	}

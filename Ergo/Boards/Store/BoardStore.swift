@@ -7,15 +7,13 @@
 
 import Defaults
 import ErgoLogic
-import ErgoProtocol
-import ErgoTranslation
 import SwiftUI
 
 /// Every board, and which one the Board tab is showing. Shared so the boards list
 /// and the editor edit the same board.
 ///
 /// Statements, links and sources are edited on the current board through the methods under "statements", "links" and "sources". Each
-/// one bumps `modified` and goes through `current`, so it's saved after a pause and reported to sync with the board.
+/// one bumps `modified` and goes through `current`, so it's saved after a pause.
 @MainActor
 @Observable
 final class BoardStore {
@@ -38,7 +36,6 @@ final class BoardStore {
 		sortedBoards.filter { archivedIDs.contains($0.id) }
 	}
 
-	/// Kept apart from the board, since other people on a shared one have their own
 	var pinnedIDs: Set<Board.ID> {
 		didSet {
 			Defaults[.pinnedBoards] = pinnedIDs
@@ -67,29 +64,21 @@ final class BoardStore {
 			boards.first { $0.id == currentID } ?? draft
 		}
 		set {
-			// Every edit comes through here, so this is the one place a viewer is stopped
-			guard canEdit(newValue.id) else { return }
-
 			var board = newValue
 			board.modified = .now
 
 			if let index = boards.firstIndex(where: { $0.id == board.id }) {
 				boards[index] = board
-				changedIDs.insert(board.id)
 			} else if board.isEmpty {
 				draft = board
 			} else {
 				boards.append(board)
-				changedIDs.insert(board.id)
 				currentID = board.id
 			}
 
 			scheduleSave()
 		}
 	}
-
-	/// Goes up when another device changes the open board, so the editor can drop a selection that no longer fits
-	var remoteEdits = 0
 
 	@ObservationIgnored
 	var saveTask: Task<Void, Never>?
@@ -99,17 +88,6 @@ final class BoardStore {
 		currentID = Defaults[.currentBoardID]
 		pinnedIDs = Defaults[.pinnedBoards]
 		archivedIDs = Defaults[.archivedBoards]
-	}
-
-	// MARK: - sharing
-
-	/// Who's on each shared board, read from the replica's `share` records by `SyncController` on launch and after every
-	/// sync. Not on `Board`, so it can't go stale.
-	var shares: [Board.ID: BoardShare] = [:]
-
-	/// True for a board that isn't shared, or one this person's role can edit
-	func canEdit(_ id: Board.ID) -> Bool {
-		shares[id]?.role.canEdit ?? true
 	}
 
 	// MARK: - newBoard
@@ -132,7 +110,6 @@ final class BoardStore {
 
 	func delete(_ ids: Set<Board.ID>) {
 		boards.removeAll { ids.contains($0.id) }
-		deletedIDs.formUnion(ids)
 		pinnedIDs.subtract(ids)
 		archivedIDs.subtract(ids)
 		if let currentID, ids.contains(currentID) {
@@ -151,7 +128,7 @@ final class BoardStore {
 		}
 	}
 
-	/// Never a tombstone, which on a shared board would be leaving it. Archiving the open board starts a new one, as deleting it does.
+	/// Archiving the open board starts a new one, as deleting it does.
 	func setArchived(_ isArchived: Bool, _ id: Board.ID) {
 		guard isArchived else {
 			archivedIDs.remove(id)
@@ -168,25 +145,13 @@ final class BoardStore {
 
 	/// An empty name goes back to titling the board from what's written on it
 	func rename(_ id: Board.ID, to name: String) {
-		guard canEdit(id), let index = boards.firstIndex(where: { $0.id == id }) else { return }
+		guard let index = boards.firstIndex(where: { $0.id == id }) else { return }
 		boards[index].name = name.trimmingCharacters(in: .whitespacesAndNewlines)
 		boards[index].modified = .now
-		changedIDs.insert(id)
 		scheduleSave()
 	}
 
 	// MARK: - save
-
-	/// What changed since the last save, for sync
-	@ObservationIgnored
-	var changedIDs: Set<Board.ID> = []
-
-	@ObservationIgnored
-	var deletedIDs: Set<Board.ID> = []
-
-	/// Hears every save with the boards that changed and the ones deleted. Remote changes aren't passed back.
-	@ObservationIgnored
-	var didSave: ((_ changed: [Board], _ deleted: Set<Board.ID>) -> Void)?
 
 	/// Typing changes the board on every keystroke, so writes wait for a pause
 	func scheduleSave() {
@@ -201,63 +166,11 @@ final class BoardStore {
 	func save() {
 		saveTask?.cancel()
 		Defaults[.boards] = boards
-
-		let changed = boards.filter { changedIDs.contains($0.id) }
-		let deleted = deletedIDs
-		changedIDs = []
-		deletedIDs = []
-		if !changed.isEmpty || !deleted.isEmpty {
-			didSave?(changed, deleted)
-		}
 	}
 
 	func discardCurrentIfEmpty() {
-		// A shared board's tombstone would be a leave, or a delete for everyone
-		guard let currentID, current.isEmpty, shares[currentID] == nil else { return }
+		guard let currentID, current.isEmpty else { return }
 		boards.removeAll { $0.id == currentID }
-		deletedIDs.insert(currentID)
-		save()
-	}
-
-	// MARK: - sync
-
-	/// Writes what other devices changed. Keeps their `modified`, and doesn't report it back as a local change.
-	func applyRemote(_ remote: [Board], deleted: Set<Board.ID>) {
-		guard !remote.isEmpty || !deleted.isEmpty else { return }
-
-		for board in remote {
-			if let index = boards.firstIndex(where: { $0.id == board.id }) {
-				// Only the stamps moving isn't an edit
-				var old = boards[index]
-				old.modified = board.modified
-				if old != board, board.id == currentID {
-					remoteEdits += 1
-				}
-				boards[index] = board
-			} else {
-				boards.append(board)
-			}
-		}
-		boards.removeAll { deleted.contains($0.id) }
-		pinnedIDs.subtract(deleted)
-		archivedIDs.subtract(deleted)
-
-		// Deleted on another device, so it goes the same way as deleting it here
-		if let currentID, deleted.contains(currentID) {
-			draft = Board()
-			self.currentID = nil
-		}
-
-		Defaults[.boards] = boards
-	}
-
-	/// A statement holding what lost a simultaneous edit on another device, on the board it was edited on.
-	/// It syncs like any new statement, and isn't held to the statement limit, since nothing may be lost.
-	func insertStatementCopy(_ statement: Statement, into boardID: Board.ID) {
-		guard canEdit(boardID), let index = boards.firstIndex(where: { $0.id == boardID }) else { return }
-		boards[index].statements.append(statement)
-		boards[index].modified = .now
-		changedIDs.insert(boardID)
 		save()
 	}
 }

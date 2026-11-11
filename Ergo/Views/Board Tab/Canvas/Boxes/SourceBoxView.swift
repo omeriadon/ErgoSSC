@@ -6,7 +6,6 @@
 //
 
 import ErgoLogic
-import ErgoProtocol
 import SwiftUI
 
 /// What a source can do, handed in by the canvas
@@ -16,11 +15,7 @@ struct SourceActions {
 	/// Opens a link in the browser, or the editor for text
 	var open: () -> Void
 	var edit: () -> Void
-	var breakDown: () -> Void
 	var delete: () -> Void
-
-	/// What the analysis found on this source
-	var showAnalysis: () -> Void
 
 	/// Whole grid steps, right and down are positive
 	var nudge: (_ columns: Int, _ rows: Int) -> Void
@@ -37,39 +32,26 @@ struct CanvasSourceBox: View {
 	}
 
 	var body: some View {
-		SourceBoxView(source: source, appearance: model.appearance, annotationCount: model.annotationCount, comment: model.comment, findHighlight: model.findHighlight)
+		SourceBoxView(source: source, appearance: model.appearance, findHighlight: model.findHighlight)
 			.equatable()
 			.onTapGesture(perform: actions.select)
 			.simultaneousGesture(TapGesture(count: 2).onEnded(actions.open))
 			.contextMenu { menu }
-			.modifier(SourceSpeech(source: source, isSelected: model.appearance == .selected, annotationCount: model.annotationCount))
-			.modifier(SourceAccessibilityActions(isLink: source.link != nil, isReadOnly: model.isReadOnly, actions: actions))
-			.modifier(BoxMovesModifier(nudge: actions.nudge, isReadOnly: model.isReadOnly))
-			.accessibilityActions {
-				if model.annotationCount > 0 {
-					Button("Show Analysis", action: actions.showAnalysis)
-				}
-			}
+			.modifier(SourceSpeech(source: source, isSelected: model.appearance == .selected))
+			.modifier(SourceAccessibilityActions(isLink: source.link != nil, actions: actions))
+			.modifier(BoxMovesModifier(nudge: actions.nudge))
 	}
 
 	@ViewBuilder
 	private var menu: some View {
-		if model.annotationCount > 0 {
-			Button("Show Analysis", systemImage: "text.magnifyingglass", action: actions.showAnalysis)
-		}
 		if let link = source.link {
 			Button("Open in Browser", systemImage: "safari", action: actions.open)
 			Button("Copy Link", systemImage: "link") {
 				UIPasteboard.general.url = link
 			}
 		}
-		if !model.isReadOnly {
-			Button("Edit", systemImage: "square.and.pencil", action: actions.edit)
-			Button("Break Down", systemImage: "arrow.triangle.branch", action: actions.breakDown)
-			Button("Delete", systemImage: "trash", role: .destructive, action: actions.delete)
-		} else if source.link == nil {
-			Button("Open", systemImage: "doc.text", action: actions.open)
-		}
+		Button("Edit", systemImage: "square.and.pencil", action: actions.edit)
+		Button("Delete", systemImage: "trash", role: .destructive, action: actions.delete)
 	}
 }
 
@@ -78,12 +60,9 @@ struct CanvasSourceBox: View {
 private struct SourceSpeech: ViewModifier {
 	let source: BoardSource
 	let isSelected: Bool
-	let annotationCount: Int
 
 	private var value: String {
-		let kind = source.link == nil ? "Text" : "Web link"
-		guard annotationCount > 0 else { return kind }
-		return "\(kind). \(annotationCount == 1 ? "1 annotation" : "\(annotationCount) annotations")"
+		source.link == nil ? "Text" : "Web link"
 	}
 
 	func body(content: Content) -> some View {
@@ -99,21 +78,13 @@ private struct SourceSpeech: ViewModifier {
 
 private struct SourceAccessibilityActions: ViewModifier {
 	let isLink: Bool
-	let isReadOnly: Bool
 	let actions: SourceActions
 
 	func body(content: Content) -> some View {
-		if isReadOnly {
-			content
-				.accessibilityAction(.default, actions.select)
-				.accessibilityAction(named: Text(isLink ? "Open in Browser" : "Open"), actions.open)
-		} else {
-			content
-				.accessibilityAction(.default, actions.select)
-				.accessibilityAction(named: Text(isLink ? "Open in Browser" : "Edit"), actions.open)
-				.accessibilityAction(named: Text("Break Down"), actions.breakDown)
-				.accessibilityAction(named: Text("Delete"), actions.delete)
-		}
+		content
+			.accessibilityAction(.default, actions.select)
+			.accessibilityAction(named: Text(isLink ? "Open in Browser" : "Edit"), actions.open)
+			.accessibilityAction(named: Text("Delete"), actions.delete)
 	}
 }
 
@@ -124,8 +95,6 @@ struct SourceBoxView: View, Equatable {
 
 	let source: BoardSource
 	let appearance: BoxAppearance
-	var annotationCount = 0
-	var comment: BoardAnalysisComment?
 	var findHighlight: String?
 
 	var body: some View {
@@ -159,16 +128,11 @@ struct SourceBoxView: View, Equatable {
 				.clipShape(Self.shape)
 		}
 		.overlay { outline }
-		.overlay(alignment: .bottomTrailing) {
-			AnnotationBadge(count: annotationCount)
-				.padding(8)
-		}
 		.overlay(alignment: .topTrailing) {
 			FoldFlap(fold: Self.shape.fold)
 				.fill(Color.accent.opacity(0.35))
 				.frame(width: Self.shape.fold, height: Self.shape.fold)
 		}
-		.overlay(alignment: .topLeading) { CanvasCommentOverlay(comment: comment) }
 		.opacity(appearance == .unavailable ? 0.4 : 1)
 		.contentShape(Self.shape)
 		.contentShape(.contextMenuPreview, Self.shape)

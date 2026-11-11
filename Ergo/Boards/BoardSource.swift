@@ -6,14 +6,12 @@
 //
 
 import ErgoLogic
-import ErgoShare
 import Foundation
 
-/// Material on a board that isn't a claim: a block of text or a web link. It can't take arrows. Cards broken down from it
-/// point back at it (`Statement.source`), and together they're a region on the canvas (`CanvasRegion`).
+/// Material on a board that isn't a claim: a block of text or a web link. It can't take arrows. Cards placed in its
+/// region point back at it (`Statement.source`), and together they're a region on the canvas (`CanvasRegion`).
 ///
-/// Saved in users' Defaults as synthesized Codable. Nothing has reached v1, so it may change until then. A new kind of
-/// content is a case here and in `SourceRecord.Content`.
+/// Saved in users' Defaults as synthesized Codable.
 nonisolated struct BoardSource: Codable, Hashable, Identifiable, Sendable {
 	enum Content: Codable, Hashable, Sendable {
 		case text(String)
@@ -40,6 +38,13 @@ nonisolated struct BoardSource: Codable, Hashable, Identifiable, Sendable {
 	}
 }
 
+nonisolated extension URL {
+	var isWebLink: Bool {
+		guard let scheme = scheme?.lowercased(), let host, !host.isEmpty else { return false }
+		return scheme == "https" || scheme == "http"
+	}
+}
+
 nonisolated extension BoardSource.Content {
 	/// The link's title or where it goes, or the text's first line
 	var title: String {
@@ -48,24 +53,6 @@ nonisolated extension BoardSource.Content {
 				title ?? url.host() ?? url.absoluteString
 			case let .text(text):
 				text.split(whereSeparator: \.isNewline).first.map(String.init) ?? "Empty text"
-		}
-	}
-
-	init(_ shared: SharedItem.Content) {
-		switch shared {
-			case let .text(text):
-				self = .text(text)
-			case let .link(url, title):
-				self = .link(url, title: title)
-		}
-	}
-
-	var shared: SharedItem.Content {
-		switch self {
-			case let .text(text):
-				.text(text)
-			case let .link(url, title):
-				.link(url, title: title)
 		}
 	}
 }

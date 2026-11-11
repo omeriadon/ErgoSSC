@@ -40,23 +40,14 @@ struct LogicCourseView: View {
 	@Environment(NavigationManager.self)
 	private var navigation
 
-	@Environment(TranslationAccount.self)
-	private var account
-
 	@Default(.logicCourseFinished) private var finished
 
 	var body: some View {
 		List(LogicCourse.lessons) { lesson in
-			let isOpen = LogicCourse.isFree(lesson) || account.hasPlusFeatures
-
 			Button {
-				if isOpen {
-					navigation.logicPath.append(.lesson(lesson.id))
-				} else {
-					navigation.presentSheet(.plus)
-				}
+				navigation.logicPath.append(.lesson(lesson.id))
 			} label: {
-				LogicLessonRow(lesson: lesson, isFinished: finished.contains(lesson.id), isOpen: isOpen)
+				LogicLessonRow(lesson: lesson, isFinished: finished.contains(lesson.id))
 			}
 			.buttonStyle(.plain)
 			.accessibilityIdentifier("logic.lesson.\(lesson.id)")
@@ -69,17 +60,12 @@ struct LogicCourseView: View {
 private struct LogicLessonRow: View {
 	let lesson: LogicLesson
 	let isFinished: Bool
-	let isOpen: Bool
-
-	private var symbol: String {
-		isFinished ? "checkmark.circle.fill" : isOpen ? "circle" : "lock.fill"
-	}
 
 	var body: some View {
 		HStack(spacing: 12) {
-			Image(systemName: symbol)
+			Image(systemName: isFinished ? "checkmark.circle.fill" : "circle")
 				.foregroundStyle(isFinished ? .green : .secondary)
-				.accessibilityLabel(isFinished ? "Finished" : isOpen ? "Not finished" : "Needs Ergo Plus")
+				.accessibilityLabel(isFinished ? "Finished" : "Not finished")
 
 			VStack(alignment: .leading, spacing: 2) {
 				Text(lesson.title)
@@ -99,12 +85,6 @@ private struct LogicLessonRow: View {
 struct LogicLessonView: View {
 	let lessonID: String
 
-	@Environment(TranslationAccount.self)
-	private var account
-
-	@Environment(NavigationManager.self)
-	private var navigation
-
 	@Default(.logicCourseFinished) private var finished
 
 	/// The exercises got right so far
@@ -112,23 +92,7 @@ struct LogicLessonView: View {
 
 	var body: some View {
 		if let lesson = LogicCourse.lesson(lessonID) {
-			if LogicCourse.isFree(lesson) || account.hasPlusFeatures {
-				content(lesson)
-			} else {
-				locked
-			}
-		}
-	}
-
-	/// Only reached by a route saved before the plan ended
-	private var locked: some View {
-		ContentUnavailableView {
-			Label("This Lesson Needs Ergo Plus", systemImage: "lock.fill")
-		} actions: {
-			Button("See Ergo Plus") {
-				navigation.presentSheet(.plus)
-			}
-			.buttonStyle(.glassProminent)
+			content(lesson)
 		}
 	}
 

@@ -8,8 +8,7 @@
 import AppIntents
 import ErgoCatalog
 
-/// Answers with what the library says rather than opening it. The search itself is `LibraryCatalog.search`, the same
-/// function the server's `search_library` tool runs for Ask, so Siri, Shortcuts and the model all look things up alike.
+/// Answers with what the library says rather than opening it. The search itself is `LibraryCatalog.search`.
 @AppIntent(.tool)
 struct LookUpLibraryIntent: AppIntent {
 	static let title: LocalizedStringResource = "Look Up in Library"

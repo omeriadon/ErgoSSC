@@ -7,14 +7,12 @@
 
 import Defaults
 import ErgoLogic
-import ErgoProtocol
-import ErgoTranslation
 import SwiftUI
 
 extension BoardStore {
 	// MARK: - statements
 
-	/// The statement on the current board, nil once it's gone (deleted here or on another device)
+	/// The statement on the current board, nil once it's gone
 	func statement(_ id: Statement.ID) -> Statement? {
 		current.statement(id)
 	}
@@ -30,11 +28,11 @@ extension BoardStore {
 	}
 
 	/// Adds an empty statement with its centre at `position`, for the canvas dropping one where the person is looking.
-	/// Nil when the board is full (`ArgumentMapValidator.defaultMaximumStatements`), or can only be viewed.
+	/// Nil when the board is full (`ArgumentMapValidator.defaultMaximumStatements`).
 	@discardableResult
 	func addStatement(at position: CanvasPoint) -> Statement.ID? {
 		var board = current
-		guard canEdit(board.id), board.statements.count < ArgumentMapValidator.defaultMaximumStatements else { return nil }
+		guard board.statements.count < ArgumentMapValidator.defaultMaximumStatements else { return nil }
 
 		var statement = Statement(position: position)
 		statement.source = board.home(of: statement)
@@ -51,8 +49,8 @@ extension BoardStore {
 		current = board
 	}
 
-	/// Sets the centre of the box, which can take it in or out of a region. Call it when a drag ends: sync writes the
-	/// position as its own field, and every call restarts the save timer.
+	/// Sets the centre of the box, which can take it in or out of a region. Call it when a drag ends, since every call
+	/// restarts the save timer.
 	func moveStatement(id: Statement.ID, to position: CanvasPoint) {
 		var board = current
 		guard let index = board.statements.firstIndex(where: { $0.id == id }), board.statements[index].position != position else { return }

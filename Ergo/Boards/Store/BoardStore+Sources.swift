@@ -7,8 +7,6 @@
 
 import Defaults
 import ErgoLogic
-import ErgoProtocol
-import ErgoTranslation
 import SwiftUI
 
 extension BoardStore {

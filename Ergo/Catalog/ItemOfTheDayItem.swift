@@ -8,8 +8,7 @@
 import ErgoCatalog
 import Foundation
 
-/// An item of the day, whole. Switch on it for the kind's own properties. The widgets compile this too, so it
-/// leans on the catalog's models alone.
+/// An item of the day, whole. Switch on it for the kind's own properties.
 nonisolated enum ItemOfTheDayItem: Sendable {
 	case bias(Bias)
 	case concept(Concept)
@@ -33,7 +32,7 @@ nonisolated enum ItemOfTheDayItem: Sendable {
 
 	// MARK: - Loading
 
-	/// `entryID` is `category/id`, as `ItemOfTheDay` gives it. Only that kind's file is read, since a widget has little memory.
+	/// `entryID` is `category/id`, as `ItemOfTheDay` gives it. Only that kind's file is read.
 	/// Nil if the library doesn't have it.
 	static func load(_ entryID: String, index: CatalogIndex) -> ItemOfTheDayItem? {
 		let parts = entryID.split(separator: "/", maxSplits: 1).map(String.init)
@@ -64,7 +63,7 @@ nonisolated enum ItemOfTheDayItem: Sendable {
 
 	// MARK: - Link
 
-	/// What a tap on the widget opens: `ergo://library/<category>/<id>`
+	/// A link to the entry: `ergo://library/<category>/<id>`
 	var url: URL? {
 		let reference = reference
 		return URL(string: "ergo://library/\(reference.category.rawValue)/\(reference.id)")

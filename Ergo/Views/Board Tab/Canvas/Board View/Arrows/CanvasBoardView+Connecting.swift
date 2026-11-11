@@ -15,7 +15,7 @@ extension CanvasBoardView {
 	/// Shows the handles on the selected box. Dragging the one above makes the box a conclusion of what it's dragged to,
 	/// and dragging the one below makes it a premise. Let go on empty canvas, that other box is made there.
 	func updateHandles() {
-		guard !isReadOnly, let id = selectedStatement, cells[id] != nil, draggedBox == nil, connection == nil else {
+		guard let id = selectedStatement, cells[id] != nil, draggedBox == nil, connection == nil else {
 			for handle in handles where handle.alpha > 0 {
 				UIView.animate(withDuration: 0.12) {
 					handle.alpha = 0

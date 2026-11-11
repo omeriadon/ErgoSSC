@@ -6,7 +6,6 @@
 //
 
 import ErgoLogic
-import ErgoSync
 import SwiftUI
 import UIKit
 
@@ -17,7 +16,6 @@ extension CanvasBoardView {
 		let cell = CanvasBoxCell(model: model, isNew: isNew, content: boxContent)
 		content.addSubview(cell)
 		let id = model.statement.id
-		cell.openComment = { [weak self] in self?.showAnalysis(.statement(id)) }
 
 		let drag = UIPanGestureRecognizer(target: self, action: #selector(boxPanned))
 		drag.maximumNumberOfTouches = 1
@@ -92,7 +90,6 @@ extension CanvasBoardView {
 		let cell = CanvasSourceCell(model: model, isNew: isNew, content: sourceContent)
 		content.addSubview(cell)
 		let id = model.source.id
-		cell.openComment = { [weak self] in self?.showAnalysis(.source(id)) }
 
 		let drag = UIPanGestureRecognizer(target: self, action: #selector(sourcePanned))
 		drag.maximumNumberOfTouches = 1

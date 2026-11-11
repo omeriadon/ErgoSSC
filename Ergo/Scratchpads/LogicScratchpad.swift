@@ -10,9 +10,6 @@ import ErgoLogic
 import Foundation
 
 /// One saved argument on the Logic tab: logic, what each letter stands for, and the logic read back as English.
-///
-/// Nothing has reached v1, so the stored properties may change until then. Sync holds `english` and `logic`
-/// together as the record's `content` (`ScratchpadRecord`).
 nonisolated struct LogicScratchpad: Codable, Hashable, Identifiable, Defaults.Serializable {
 	var id = UUID()
 	var created = Date.now
@@ -24,7 +21,7 @@ nonisolated struct LogicScratchpad: Codable, Hashable, Identifiable, Defaults.Se
 	/// One per letter slot, at most four words each
 	var descriptors = LogicLetters.emptyDescriptors
 
-	/// Always `LogicEnglish`'s reading of `logic`, kept here for the list and for other devices.
+	/// Always `LogicEnglish`'s reading of `logic`, kept here for the list.
 	var english = ""
 
 	/// The logic's diagnostics aren't stored, they're recomputed in milliseconds and stay current as the checker improves.
