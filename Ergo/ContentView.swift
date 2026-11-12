@@ -110,11 +110,10 @@ private struct AppTabs: View {
 						}
 				}
 			} label: {
-				Label("Logic", systemImage: "function")
-					.labelStyle(.iconOnly)
+				Label("Learn", systemImage: "text.magnifyingglass")
 			}
 
-			Tab(value: .library, role: .prominent) {
+			Tab(value: .library) {
 				NavigationStack(path: libraryPath) {
 					LibraryTabView()
 						.navigationDestination(for: LibraryRoute.self) { route in
@@ -157,7 +156,6 @@ private struct AppTabs: View {
 				}
 			} label: {
 				Label("Library", systemImage: "books.vertical")
-					.labelStyle(.iconOnly)
 			}
 		}
 		.tabViewStyle(.tabBarOnly)

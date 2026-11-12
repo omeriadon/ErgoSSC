@@ -12,7 +12,24 @@ struct LibraryGridView: View {
 		Grid(horizontalSpacing: 12, verticalSpacing: 12) {
 			GridRow {
 				NavigationLink(value: LibraryRoute.finder) {
-					CardView(title: "Describe It", color: .accent)
+					HStack(alignment: .center) {
+						VStack(alignment: .leading, spacing: 8) {
+							Image(systemName: "sparkle.magnifyingglass")
+
+							Text("Describe It")
+								.font(.title2)
+
+							Text("If you don't know the name of a fallacy, but can describe it, try this")
+								.foregroundStyle(.secondary)
+						}
+
+						Spacer()
+
+						Image(systemName: "chevron.right")
+							.padding(.trailing, 3)
+					}
+					.padding(11)
+					.glassEffect(.clear.tint(.accent).interactive(), in: RoundedRectangle(cornerRadius: 22))
 				}
 				.gridCellColumns(2)
 			}
