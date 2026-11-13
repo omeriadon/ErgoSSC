@@ -116,11 +116,6 @@ struct FallacyDetailView: View {
 					hasScrolled = newValue
 				}
 				.libraryDetailTitle(fallacy.name, category: "Fallacies", hasScrolled: hasScrolled)
-				.toolbar {
-					ToolbarItem(placement: .title) {
-						Text("")
-					}
-				}
 			} else {
 				ContentUnavailableView("Fallacy Not Found", systemImage: "repeat.badge.xmark")
 					.toolbar {

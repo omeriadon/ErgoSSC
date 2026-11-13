@@ -125,6 +125,7 @@ private struct BiggerPictureQuizCard: View {
 	/// Zoomed out, a cherry-picked chart shows the usual line and what was special about its start
 	@State private var showsReveal: Bool
 	@State private var showsExplanation: Bool
+	@State private var showsNext: Bool
 
 	init(item: BiggerPictureQuizItem, pick: Bool?, onNext: (() -> Void)?, onPick: @escaping (Bool) -> Void) {
 		self.item = item
@@ -134,6 +135,7 @@ private struct BiggerPictureQuizCard: View {
 		_visibleFrom = State(initialValue: pick == nil ? item.shownFrom : BiggerPicture.firstYear)
 		_showsReveal = State(initialValue: pick != nil && !item.isFair)
 		_showsExplanation = State(initialValue: pick != nil)
+		_showsNext = State(initialValue: pick != nil)
 	}
 
 	private var isRight: Bool {
@@ -157,9 +159,10 @@ private struct BiggerPictureQuizCard: View {
 				result
 					.transition(.opacity)
 
-				if let onNext {
+				// Local, so it comes in after the explanation, but goes at once when tapped
+				if let onNext, showsNext {
 					nextButton(onNext)
-						.transition(.opacity.animation(.smooth(duration: 0.4).delay(0.6)))
+						.transition(.opacity)
 				}
 			}
 		}
@@ -279,6 +282,10 @@ private struct BiggerPictureQuizCard: View {
 				showsReveal = !item.isFair
 				showsExplanation = true
 			}
+			try? await Task.sleep(for: .seconds(0.6))
+			withAnimation(.smooth(duration: 0.4)) {
+				showsNext = true
+			}
 			return
 		}
 
@@ -299,6 +306,11 @@ private struct BiggerPictureQuizCard: View {
 		try? await Task.sleep(for: .seconds(1))
 		withAnimation(.smooth(duration: 0.4)) {
 			showsExplanation = true
+		}
+
+		try? await Task.sleep(for: .seconds(0.6))
+		withAnimation(.smooth(duration: 0.4)) {
+			showsNext = true
 		}
 	}
 }

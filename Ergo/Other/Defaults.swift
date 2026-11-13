@@ -24,6 +24,7 @@ extension Defaults.Keys {
 	static let behindTheWordsState = Key<BehindTheWordsState>("behindTheWordsState", default: .init())
 	static let fairPointState = Key<FairPointState>("fairPointState", default: .init())
 	static let biggerPictureState = Key<BiggerPictureState>("biggerPictureState", default: .init())
+	static let luckySocksState = Key<LuckySocksState>("luckySocksState", default: .init())
 }
 
 // MARK: - Where the app was left

@@ -133,11 +133,6 @@ struct BiasDetailView: View {
 					hasScrolled = newValue
 				}
 				.libraryDetailTitle(bias.name, category: "Biases", hasScrolled: hasScrolled)
-				.toolbar {
-					ToolbarItem(placement: .title) {
-						Text("")
-					}
-				}
 
 			} else {
 				Text("Bias not found")

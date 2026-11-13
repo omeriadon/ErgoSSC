@@ -13,6 +13,7 @@ nonisolated enum Lesson: String, Hashable, CaseIterable, Identifiable, Codable, 
 	case behindTheWords
 	case fairPoint
 	case biggerPicture
+	case luckySocks
 
 	var id: Self {
 		self
@@ -27,6 +28,7 @@ nonisolated enum Lesson: String, Hashable, CaseIterable, Identifiable, Codable, 
 			case .behindTheWords: "Behind the words"
 			case .fairPoint: "Fair point?"
 			case .biggerPicture: "The bigger picture"
+			case .luckySocks: "Lucky socks"
 		}
 	}
 
@@ -36,6 +38,7 @@ nonisolated enum Lesson: String, Hashable, CaseIterable, Identifiable, Codable, 
 			case .behindTheWords: "Behind the words…"
 			case .fairPoint: "Fair point?"
 			case .biggerPicture: "The bigger picture"
+			case .luckySocks: "Lucky socks"
 		}
 	}
 
@@ -45,6 +48,7 @@ nonisolated enum Lesson: String, Hashable, CaseIterable, Identifiable, Codable, 
 			case .behindTheWords: "What does it want you to believe, and what holds it up?"
 			case .fairPoint: "Is that reply about what was actually said?"
 			case .biggerPicture: "Where did the counting start?"
+			case .luckySocks: "Does it really happen every time?"
 		}
 	}
 
@@ -54,6 +58,7 @@ nonisolated enum Lesson: String, Hashable, CaseIterable, Identifiable, Codable, 
 			case .behindTheWords: ["Claims", "Reasons", "Filler", "Proof surrogate"]
 			case .fairPoint: ["Straw man", "Ad hominem", "False dilemma"]
 			case .biggerPicture: ["Cherry-picking", "Back to normal"]
+			case .luckySocks: ["Confirmation bias", "Count the misses"]
 		}
 	}
 
@@ -73,6 +78,11 @@ nonisolated enum Lesson: String, Hashable, CaseIterable, Identifiable, Codable, 
 					LessonLink(name: "Cherry-picking", id: "cherry-picking"),
 					LessonLink(name: "Regression fallacy", id: "regression-fallacy"),
 				]
+			case .luckySocks:
+				[
+					LessonLink(name: "Confirmation bias", category: .biases, id: "confirmation-bias"),
+					LessonLink(name: "Illusory correlation", category: .biases, id: "illusory-correlation"),
+				]
 		}
 	}
 
@@ -87,6 +97,7 @@ nonisolated enum Lesson: String, Hashable, CaseIterable, Identifiable, Codable, 
 			case .behindTheWords: Defaults.reset(.behindTheWordsState)
 			case .fairPoint: Defaults.reset(.fairPointState)
 			case .biggerPicture: Defaults.reset(.biggerPictureState)
+			case .luckySocks: Defaults.reset(.luckySocksState)
 		}
 	}
 

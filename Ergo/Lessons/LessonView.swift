@@ -18,6 +18,7 @@ struct LessonView: View {
 	@Default(.behindTheWordsState) private var behindTheWords
 	@Default(.fairPointState) private var fairPoint
 	@Default(.biggerPictureState) private var biggerPicture
+	@Default(.luckySocksState) private var luckySocks
 
 	/// On the summary, closing is what's left to do, so the button stands out
 	private var isOnSummary: Bool {
@@ -25,6 +26,7 @@ struct LessonView: View {
 			case .behindTheWords: behindTheWords.page == .summary
 			case .fairPoint: fairPoint.page == .summary
 			case .biggerPicture: biggerPicture.page == .summary
+			case .luckySocks: luckySocks.page == .summary
 		}
 	}
 
@@ -60,6 +62,8 @@ struct LessonView: View {
 				FairPointLesson()
 			case .biggerPicture:
 				BiggerPictureLesson()
+			case .luckySocks:
+				LuckySocksLesson()
 		}
 	}
 }

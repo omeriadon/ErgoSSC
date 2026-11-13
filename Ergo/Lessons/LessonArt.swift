@@ -14,6 +14,7 @@ extension Lesson {
 			case .behindTheWords: .orange
 			case .fairPoint: .blue
 			case .biggerPicture: .purple
+			case .luckySocks: .green
 		}
 	}
 }
@@ -42,6 +43,7 @@ struct LessonArt: View {
 			case .behindTheWords: ForumArt(tint: lesson.tint)
 			case .fairPoint: ChatArt(tint: lesson.tint)
 			case .biggerPicture: ChartArt(tint: lesson.tint)
+			case .luckySocks: LessonSymbol(name: "square.grid.2x2", tint: lesson.tint)
 		}
 	}
 

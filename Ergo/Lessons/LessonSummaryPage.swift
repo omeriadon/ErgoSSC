@@ -48,7 +48,7 @@ struct LessonSummaryPage<Extra: View>: View {
 			.padding(.top, 24)
 		}
 		.background {
-			LessonSummaryBackground()
+			LessonSummaryBackground(tint: lesson.tint)
 				.ignoresSafeArea()
 		}
 		.navigationTitle(lessonTitle(lesson, lesson.pageTitle))
@@ -94,8 +94,10 @@ extension LessonSummaryPage where Extra == EmptyView {
 	}
 }
 
-/// The app's accent colour, dithered faintly behind the summary
+/// The lesson's colour, dithered faintly behind the summary
 private struct LessonSummaryBackground: View {
+	let tint: Color
+
 	@Environment(\.self) private var environment
 	@Environment(\.colorScheme) private var colorScheme
 
@@ -104,8 +106,8 @@ private struct LessonSummaryBackground: View {
 	}
 
 	private var configuration: DitherConfiguration {
-		let accent = Color.accentColor.resolve(in: environment)
-		let dot = SIMD3(accent.red, accent.green, accent.blue)
+		let color = tint.resolve(in: environment)
+		let dot = SIMD3(color.red, color.green, color.blue)
 		var configuration = detailViewConf
 		configuration.palette = [dot, dot]
 		configuration.transparent = true

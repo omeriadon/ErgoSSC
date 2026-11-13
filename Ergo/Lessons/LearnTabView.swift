@@ -28,7 +28,7 @@ struct LearnTabView: View {
 
 				if finishedAll {
 					FinishedAllNote()
-						.padding(.top, 30)
+						.padding(.vertical, 30)
 				}
 			}
 			.padding()
