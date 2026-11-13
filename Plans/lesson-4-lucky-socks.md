@@ -34,9 +34,14 @@ Jess, a friend, and her football team's season. Her messages use lesson 2's chat
 
 The part that holds up. Jess again: "ok fine 😅 but when I sleep badly I'm grumpy the next day. that one's real"
 
-"Sort Jess's week into the four boxes. Tap the box each day belongs in." Eight days come up one at a time, each saying how she slept and how she felt the next day. Tapping the right box drops the day into it. A wrong box shakes, and nothing is saved.
+Her last eight days, as the four boxes. Only the top left, the one she remembers, is counted: 3 grumpy days after bad sleep. "Jess remembers 3 grumpy days after bad sleep. Is that enough to know? Tap the other boxes to count them too." Each of the other three shows a question mark, and a tap counts it. (An earlier version had each day tapped into its box one at a time. It was slow and didn't teach more than this.)
 
-Once all eight are in: after bad sleep, grumpy 3 of 4. After good sleep, grumpy 1 of 4. "This one holds up. Counting all four boxes is how you can tell."
+| | Grumpy | Fine |
+|---|---|---|
+| Slept badly | 3 | 1 |
+| Slept well | 1 | 3 |
+
+Once all four are counted: after bad sleep, grumpy 3 of 4. After good sleep, grumpy 1 of 4. "This one holds up. Counting all four boxes is how you can tell."
 
 ## Page 3: Your turn!
 
@@ -71,4 +76,4 @@ There's 250 points of empty room after the end, to scroll past it.
 
 ## Progress
 
-Saved in `LuckySocksState` (Defaults key `luckySocksState`) as it happens: the page, whether page 1 has shown the whole season, how many days page 2 has sorted, each quiz pick, and how many claims the Next button has brought in.
+Saved in `LuckySocksState` (Defaults key `luckySocksState`) as it happens: the page, whether page 1 has shown the whole season, which boxes page 2 has counted, each quiz pick, and how many claims the Next button has brought in.
