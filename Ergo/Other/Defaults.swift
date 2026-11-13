@@ -30,10 +30,20 @@ extension Defaults.Keys {
 	static let itemOfTheDayCategories = Key<[String]>("itemOfTheDayCategories", default: [])
 }
 
+// MARK: - Lessons
+
+extension Defaults.Keys {
+	static let lessonsFinished = Key<Set<Lesson>>("lessonsFinished", default: [])
+
+	/// Each lesson's own state, so it opens where it was left. The types live in the lesson's folder.
+	static let behindTheWordsState = Key<BehindTheWordsState>("behindTheWordsState", default: .init())
+	static let fairPointState = Key<FairPointState>("fairPointState", default: .init())
+}
+
 // MARK: - Where the app was left
 
 extension Defaults.Keys {
-	static let selectedTab = Key<AppTab>("selectedTab", default: .library)
+	static let selectedTab = Key<AppTab>("selectedTab", default: .learn)
 
 	static let libraryPath = Key<[LibraryRoute]>("libraryPath", default: [])
 
@@ -52,6 +62,5 @@ extension Defaults.Keys {
 
 	static let logicPath = Key<[LogicRoute]>("logicPath", default: [])
 
-	/// The course lessons finished
-	static let logicCourseFinished = Key<Set<String>>("logicCourseFinished", default: [])
+	static let learnPath = Key<[LearnRoute]>("learnPath", default: [])
 }

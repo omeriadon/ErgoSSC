@@ -28,16 +28,6 @@ struct LogicTabView: View {
 	var body: some View {
 		List {
 			Section {
-				Button {
-					navigation.logicPath = [.course]
-				} label: {
-					LogicCourseRow()
-				}
-				.buttonStyle(.plain)
-				.accessibilityIdentifier("logic.course")
-			}
-
-			Section {
 				ForEach(scratchpadStore.sortedScratchpads) { scratchpad in
 					Button {
 						open(scratchpad.id)

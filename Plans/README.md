@@ -7,3 +7,5 @@ The full app's plans (the server, sync, Ask, sharing, Break Down) are in the Erg
 | Doc | What it is | State |
 |---|---|---|
 | [dither-device-corners.md](dither-device-corners.md) | A change note on the dither grid | Built, historical |
+| [lesson-1-behind-the-words.md](lesson-1-behind-the-words.md) | Lesson 1: claim, reasons and filler, on a forum reply | First version |
+| [lesson-2-fair-point.md](lesson-2-fair-point.md) | Lesson 2: straw man, ad hominem and false dilemma, in text conversations | First version |

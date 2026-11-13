@@ -80,6 +80,17 @@ private struct AppTabs: View {
 		)
 	}
 
+	private var learnPath: Binding<[LearnRoute]> {
+		Binding(
+			get: {
+				navigation.learnPath
+			},
+			set: { newValue in
+				navigation.learnPath = newValue
+			}
+		)
+	}
+
 	private var logicPath: Binding<[LogicRoute]> {
 		Binding(
 			get: {
@@ -93,6 +104,20 @@ private struct AppTabs: View {
 
 	var body: some View {
 		TabView(selection: tabSelection) {
+			Tab(value: .learn) {
+				NavigationStack(path: learnPath) {
+					LearnTabView()
+						.navigationDestination(for: LearnRoute.self) { route in
+							switch route {
+								case let .lesson(lesson):
+									LessonView(lesson: lesson)
+							}
+						}
+				}
+			} label: {
+				Label("Learn", systemImage: "text.magnifyingglass")
+			}
+
 			Tab(value: .logic) {
 				NavigationStack(path: logicPath) {
 					LogicTabView()
@@ -100,17 +125,11 @@ private struct AppTabs: View {
 							switch route {
 								case .scratchpad:
 									ScratchpadEditorView()
-
-								case .course:
-									LogicCourseView()
-
-								case let .lesson(id):
-									LogicLessonView(lessonID: id)
 							}
 						}
 				}
 			} label: {
-				Label("Learn", systemImage: "text.magnifyingglass")
+				Label("Logic", systemImage: "function")
 			}
 
 			Tab(value: .library) {

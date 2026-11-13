@@ -8,4 +8,3 @@
 - Fallacy ids in `LogicFallacyForm` (ErgoLogic) must match ids in `ErgoKit/Sources/ErgoCatalog/Resources/fallacies.json`.
 - Logic lives in the Logic tab, as a list of saved scratchpads. A `LogicScratchpad` holds a whole argument: `descriptors`, `logic` and `english`, which is always `LogicEnglish`'s reading of the logic. Letters are app-wide, descriptors are per scratchpad. `ScratchpadStore` (`Ergo/Scratchpads/`) is how they change, and `ScratchpadEditorView` edits `ScratchpadStore.current`: logic on top, read-only English below it, updated on every keystroke while the logic parses, and arrow keys in a safe area inset above the keyboard.
 - Logic → English is `LogicEnglish`, deterministic and exact, and reads everything the logic keyboard can write (a test fails if a new key isn't covered).
-- `LogicCourse` (ErgoLogic) is the course in the Logic tab, and a test checks every answer against `LogicChecker`. Every lesson is open.

@@ -1,0 +1,223 @@
+//
+//  BehindTheWordsYourTurnPage.swift
+//  Ergo
+//
+//  Created by Adon Omeri on 13/11/2026.
+//
+
+import Defaults
+import SwiftUI
+
+/// Page 3: four passages, one at a time, each holding something or nothing
+struct BehindTheWordsYourTurnPage: View {
+	@Default(.behindTheWordsState) private var state
+	@Default(.hapticsEnabled) private var hapticsEnabled
+
+	@Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+	/// The passages shown so far: every answered one, and the next
+	private var visible: ArraySlice<BehindTheWordsQuizItem> {
+		BehindTheWords.quiz.prefix(state.quizPicks.count + 1)
+	}
+
+	var body: some View {
+		ScrollViewReader { proxy in
+			ScrollView {
+				content
+					.padding()
+			}
+			.onChange(of: state.quizPicks.count) { _, _ in
+				scrollToEnd(proxy)
+			}
+		}
+		.navigationTitle(lessonTitle(.behindTheWords, "Your turn!"))
+		.sensoryFeedback(trigger: state.quizPicks) { old, new in
+			feedback(old: old, new: new)
+		}
+	}
+
+	private var content: some View {
+		VStack(alignment: .leading, spacing: 20) {
+			Text("For each of these passages, look behind their surface and see if they have any meaning ↓")
+				.font(.headline)
+				.fixedSize(horizontal: false, vertical: true)
+
+			ForEach(visible) { item in
+				BehindTheWordsQuizCard(item: item, pick: pick(for: item)) { holdsSomething in
+					answer(item, holdsSomething: holdsSomething)
+				}
+				.id(item.id)
+				.transition(.opacity.combined(with: .offset(y: 24)))
+			}
+
+			if state.quizFinished {
+				BehindTheWordsScore(score: state.quizScore) {
+					state.page = .summary
+				}
+				.id("score")
+				.transition(.opacity)
+			}
+		}
+		.animation(reduceMotion ? .easeInOut(duration: 0.25) : .smooth(duration: 0.5).delay(0.3), value: state.quizPicks.count)
+	}
+
+	private func pick(for item: BehindTheWordsQuizItem) -> Bool? {
+		state.quizPicks.indices.contains(item.id) ? state.quizPicks[item.id] : nil
+	}
+
+	/// Only the first answer counts, so an answered passage is locked
+	private func answer(_ item: BehindTheWordsQuizItem, holdsSomething: Bool) {
+		guard state.quizPicks.count == item.id else { return }
+		state.quizPicks.append(holdsSomething)
+	}
+
+	private func scrollToEnd(_ proxy: ScrollViewProxy) {
+		let finished = state.quizFinished
+		let next = state.quizPicks.count
+		Task {
+			try? await Task.sleep(for: .seconds(0.5))
+			withAnimation(reduceMotion ? nil : .smooth(duration: 0.6)) {
+				if finished {
+					proxy.scrollTo("score", anchor: .bottom)
+				} else {
+					proxy.scrollTo(next, anchor: .bottom)
+				}
+			}
+		}
+	}
+
+	private func feedback(old: [Bool], new: [Bool]) -> SensoryFeedback? {
+		guard hapticsEnabled, new.count > old.count, let last = new.last else {
+			return nil
+		}
+		return last == BehindTheWords.quiz[new.count - 1].holdsSomething ? .success : .warning
+	}
+}
+
+private struct BehindTheWordsQuizCard: View {
+	let item: BehindTheWordsQuizItem
+	/// True is "Holds something", nil is unanswered
+	let pick: Bool?
+	let onPick: (Bool) -> Void
+
+	private var isRight: Bool {
+		pick == item.holdsSomething
+	}
+
+	var body: some View {
+		VStack(alignment: .leading, spacing: 14) {
+			Text(item.text)
+				.font(.title3)
+				.fixedSize(horizontal: false, vertical: true)
+				.padding(16)
+				.frame(maxWidth: .infinity, alignment: .leading)
+				.background(.background.secondary, in: .rect(cornerRadius: 18))
+
+			Text("This passage…")
+				.font(.subheadline)
+				.foregroundStyle(.secondary)
+
+			HStack(spacing: 8) {
+				option("Holds something", holdsSomething: true)
+				option("Holds nothing", holdsSomething: false)
+			}
+
+			if pick != nil {
+				result
+					.transition(.opacity)
+			}
+		}
+		.animation(.smooth(duration: 0.3), value: pick)
+	}
+
+	private var result: some View {
+		VStack(alignment: .leading, spacing: 4) {
+			Label(isRight ? "That's right." : "Not quite.", systemImage: isRight ? "checkmark.circle.fill" : "xmark.circle.fill")
+				.font(.subheadline.weight(.semibold))
+				.foregroundStyle(isRight ? .green : .orange)
+
+			Text(item.explanation)
+				.font(.subheadline)
+				.fixedSize(horizontal: false, vertical: true)
+		}
+		.accessibilityElement(children: .combine)
+	}
+
+	private func option(_ title: String, holdsSomething: Bool) -> some View {
+		BehindTheWordsQuizOption(
+			title: title,
+			isAnswer: holdsSomething == item.holdsSomething,
+			isPicked: pick == holdsSomething,
+			isLocked: pick != nil
+		) {
+			onPick(holdsSomething)
+		}
+		.accessibilityIdentifier("learn.behindTheWords.quiz.\(item.id).\(holdsSomething ? "holdsSomething" : "holdsNothing")")
+	}
+}
+
+/// One of the two answers. Once picked, the right one is filled in.
+private struct BehindTheWordsQuizOption: View {
+	let title: String
+	let isAnswer: Bool
+	let isPicked: Bool
+	let isLocked: Bool
+	let action: () -> Void
+
+	var body: some View {
+		Button(action: action) {
+			Text(title)
+				.font(.subheadline.weight(.semibold))
+				.foregroundStyle(textColor)
+				.frame(maxWidth: .infinity)
+				.padding(.vertical, 11)
+				.background(fillColor, in: .capsule)
+				.overlay {
+					Capsule()
+						.strokeBorder(isLocked && isPicked && !isAnswer ? Color.orange : .clear, lineWidth: 1.5)
+				}
+				.contentShape(.capsule)
+		}
+		.buttonStyle(BehindTheWordsPressStyle())
+		.disabled(isLocked)
+		.accessibilityValue(isLocked && isPicked ? "Your answer" : "")
+	}
+
+	private var fillColor: Color {
+		guard isLocked else {
+			return .primary.opacity(0.06)
+		}
+		return isAnswer ? .green : .clear
+	}
+
+	private var textColor: Color {
+		guard isLocked else {
+			return .primary
+		}
+		return isAnswer ? .white : .secondary
+	}
+}
+
+/// The score once every passage is answered, and a line about it
+private struct BehindTheWordsScore: View {
+	let score: Int
+	let onContinue: () -> Void
+
+	var body: some View {
+		VStack(spacing: 10) {
+			Text("\(score) of \(BehindTheWords.quiz.count)")
+				.font(.largeTitle.bold().monospacedDigit())
+
+			Text(BehindTheWords.scoreLine(for: score))
+				.font(.body)
+				.multilineTextAlignment(.center)
+				.foregroundStyle(.secondary)
+				.fixedSize(horizontal: false, vertical: true)
+
+			BehindTheWordsContinueButton(identifier: "quiz", action: onContinue)
+				.padding(.top, 12)
+		}
+		.frame(maxWidth: .infinity)
+		.padding(.top, 12)
+	}
+}

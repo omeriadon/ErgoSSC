@@ -10,6 +10,7 @@ import SwiftUI
 
 /// The root tabs
 enum AppTab: String, Hashable, Codable, Defaults.Serializable {
+	case learn
 	case logic
 	case library
 }
@@ -17,8 +18,11 @@ enum AppTab: String, Hashable, Codable, Defaults.Serializable {
 /// Pushed on the Logic tab's list. The editor shows `ScratchpadStore.current`, so the route needs no id.
 nonisolated enum LogicRoute: Hashable, Codable, Defaults.Serializable {
 	case scratchpad
-	case course
-	case lesson(String)
+}
+
+/// Pushed on the Learn tab's list
+nonisolated enum LearnRoute: Hashable, Codable, Defaults.Serializable {
+	case lesson(Lesson)
 }
 
 /// The sheets that don't belong to one tab. A tab's own are in `LogicSheet`.

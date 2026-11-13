@@ -21,7 +21,7 @@ Being succinct matters far more than having lots of features.
 ## Layout
 - `Ergo/` is the iOS app. `Ergo.xcodeproj` links `ErgoKit` as a local package. `Ergo/Scratchpads/` is `LogicScratchpad` and `ScratchpadStore`.
 - `ErgoKit/` is the code that doesn't need the app:
-  - `ErgoLogic`: entries, parser, checker, `LogicEnglish`, `LogicEquivalence` and the course (pure, tested with `swift test`)
+  - `ErgoLogic`: entries, parser, checker, `LogicEnglish`, `LogicEquivalence` (pure, tested with `swift test`)
   - `ErgoCatalog`: the library's JSON files, and a plain-text view of them to search
 - `Plans/` has the design docs: plans and the reasons for them, never progress or how something was built.
 - `Notes/` says how each area works now (below).
@@ -31,7 +31,8 @@ This file is only what every agent needs. How one area works, and what must not 
 
 | File | Read it before touching |
 |---|---|
-| `Notes/Logic.md` | The logic keyboard and editor, the parser and its limits, `LogicChecker`, `LogicEnglish`, scratchpads, the course |
+| `Notes/Logic.md` | The logic keyboard and editor, the parser and its limits, `LogicChecker`, `LogicEnglish`, scratchpads |
+| `Notes/Lessons.md` | The Learn tab, `Lesson`, the lesson host and each lesson's pages |
 | `Notes/Library.md` | The library's entries, `LibraryCatalog`, Describe It and the on-device model |
 
 ## Building and testing

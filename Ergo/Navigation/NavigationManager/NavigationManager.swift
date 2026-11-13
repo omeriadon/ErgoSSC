@@ -13,7 +13,7 @@ import SwiftUI
 final class NavigationManager {
 	// MARK: - selectedTab
 
-	var selectedTab: AppTab = .library {
+	var selectedTab: AppTab = .learn {
 		didSet {
 			Defaults[.selectedTab] = selectedTab
 		}
@@ -24,6 +24,14 @@ final class NavigationManager {
 	var libraryPath: [LibraryRoute] = [] {
 		didSet {
 			Defaults[.libraryPath] = libraryPath
+		}
+	}
+
+	// MARK: - learnPath
+
+	var learnPath: [LearnRoute] = [] {
+		didSet {
+			Defaults[.learnPath] = learnPath
 		}
 	}
 
@@ -66,7 +74,7 @@ final class NavigationManager {
 			}
 			return switch selectedTab {
 				case .logic: logicSheet.map(VisibleSheet.logic)
-				case .library: nil
+				case .learn, .library: nil
 			}
 		}
 		set {
@@ -128,7 +136,7 @@ final class NavigationManager {
 		}
 		switch selectedTab {
 			case .logic: logicSheet = nil
-			case .library: break
+			case .learn, .library: break
 		}
 	}
 
@@ -140,7 +148,7 @@ final class NavigationManager {
 		presentedSheet = nil
 		switch tab {
 			case .logic: logicSheet = nil
-			case .library: break
+			case .learn, .library: break
 		}
 	}
 
@@ -160,6 +168,8 @@ final class NavigationManager {
 
 	func reset(_ tab: AppTab) {
 		switch tab {
+			case .learn:
+				learnPath.removeAll()
 			case .logic:
 				logicPath.removeAll()
 			case .library:
@@ -175,5 +185,6 @@ final class NavigationManager {
 		selectedTab = Defaults[.selectedTab]
 		libraryPath = Defaults[.libraryPath]
 		logicPath = Defaults[.logicPath]
+		learnPath = Defaults[.learnPath]
 	}
 }
