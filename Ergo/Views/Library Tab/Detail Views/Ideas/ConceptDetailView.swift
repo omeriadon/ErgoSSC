@@ -110,13 +110,6 @@ struct ConceptDetailView: View {
 				.libraryDetailTitle(concept.name, category: "Concepts", hasScrolled: hasScrolled)
 				.scrollEdgeEffectStyle(.soft, for: .all)
 				.navigationTitle(concept.name.capitalized)
-				.toolbar {
-					LibraryDetailMenu(reference: CatalogReference(
-						id: concept.id,
-						name: concept.name,
-						category: .concepts
-					))
-				}
 			} else {
 				ContentUnavailableView("Concept Not Found", systemImage: "book.closed")
 					.toolbar {

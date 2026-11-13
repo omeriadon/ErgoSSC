@@ -7,7 +7,6 @@
 
 // LibraryListView.swift
 
-import Defaults
 import SwiftUI
 
 struct LibraryListView<Item: LibraryListItem>: View {
@@ -24,8 +23,6 @@ struct LibraryListView<Item: LibraryListItem>: View {
 	@State private var searchPresented = false
 
 	@State private var searchedItems: [Item] = []
-
-	@Default(.bookmarks) private var bookmarks
 
 	init(initialFilter: LibraryFilter? = nil) {
 		self.initialFilter = initialFilter
@@ -69,12 +66,9 @@ struct LibraryListView<Item: LibraryListItem>: View {
 	}
 
 	var body: some View {
-		// One read of the set for the whole list, instead of one per row
-		let saved = bookmarks
-
-		return List {
+		List {
 			suggestionsSection
-			resultsSections(saved: saved)
+			resultsSections
 			footer
 		}
 		.animation(
@@ -126,20 +120,20 @@ struct LibraryListView<Item: LibraryListItem>: View {
 	}
 
 	@ViewBuilder
-	private func resultsSections(saved: Set<CatalogReference>) -> some View {
+	private var resultsSections: some View {
 		if visibleItems.isEmpty, catalog.isLoaded {
 			ContentUnavailableView.search(text: state.searchText)
 		} else if isSearching {
 			Section {
 				ForEach(visibleItems) { item in
-					row(item, saved: saved)
+					row(item)
 				}
 			}
 		} else {
 			ForEach(LibraryListLogic.sections(visibleItems)) { section in
 				Section(section.title) {
 					ForEach(section.items) { item in
-						row(item, saved: saved)
+						row(item)
 					}
 				}
 				.sectionIndexLabel(section.title)
@@ -147,15 +141,10 @@ struct LibraryListView<Item: LibraryListItem>: View {
 		}
 	}
 
-	private func row(_ item: Item, saved: Set<CatalogReference>) -> some View {
-		LibraryListRow(
-			item: item,
-			isBookmarked: saved.contains(
-				CatalogReference(id: item.id, name: item.name, category: Item.category)
-			)
-		)
-		.equatable()
-		.transition(.opacity)
+	private func row(_ item: Item) -> some View {
+		LibraryListRow(item: item)
+			.equatable()
+			.transition(.opacity)
 	}
 
 	@ViewBuilder

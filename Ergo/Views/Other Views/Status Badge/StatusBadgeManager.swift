@@ -5,7 +5,6 @@
 //  Brought over from Timetable.
 //
 
-import Defaults
 import Foundation
 import Observation
 import SwiftUI
@@ -153,7 +152,6 @@ final class StatusBadgeManager {
 	}
 
 	private func playHaptic(for view: StatusBadgeView) {
-		guard Defaults[.hapticsEnabled] else { return }
 		switch view {
 			case .success:
 				UINotificationFeedbackGenerator().notificationOccurred(.success)

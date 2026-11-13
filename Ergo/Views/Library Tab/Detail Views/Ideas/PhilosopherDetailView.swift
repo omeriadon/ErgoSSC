@@ -108,12 +108,6 @@ struct PhilosopherDetailView: View {
 					ToolbarItem(placement: .title) {
 						Text("")
 					}
-
-					LibraryDetailMenu(reference: CatalogReference(
-						id: philosopher.id,
-						name: philosopher.name,
-						category: .philosophers
-					))
 				}
 
 			} else {

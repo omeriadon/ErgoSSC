@@ -5,7 +5,6 @@
 //  Created by Adon Omeri on 2/11/2026.
 //
 
-import Defaults
 import SwiftUI
 
 struct CatalogTag: Identifiable, Hashable, Sendable {
@@ -15,13 +14,6 @@ struct CatalogTag: Identifiable, Hashable, Sendable {
 }
 
 struct TagSection: View {
-	@Environment(CatalogStore.self) private var catalog
-
-	@Environment(NavigationManager.self)
-	private var navigation
-
-	@Default(.bookmarks) var bookmarks
-
 	let list: [CatalogTag]
 
 	var body: some View {

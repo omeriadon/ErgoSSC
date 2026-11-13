@@ -35,52 +35,12 @@ final class NavigationManager {
 		}
 	}
 
-	// MARK: - logicPath
-
-	var logicPath: [LogicRoute] = [] {
-		didSet {
-			Defaults[.logicPath] = logicPath
-		}
-	}
-
 	// MARK: - presentedSheet
 
-	/// A sheet that doesn't belong to one tab. It's over whichever tab is showing.
+	/// Over whichever tab is showing
 	var presentedSheet: AppSheet? {
 		didSet {
 			Defaults[.presentedSheet] = presentedSheet
-		}
-	}
-
-	// MARK: - Each tab's sheet
-
-	// Each tab keeps its own, and it only shows while that tab does. Leaving a tab takes its sheet away, and coming back
-	// brings it back.
-
-	var logicSheet: LogicSheet? {
-		didSet {
-			Defaults[.logicSheet] = logicSheet
-		}
-	}
-
-	// MARK: - visibleSheet
-
-	/// One presenter shows all of them, so going from one to another is SwiftUI swapping a sheet, which it does reliably.
-	/// Separate presenters would need one to finish going away before the next could appear.
-	var visibleSheet: VisibleSheet? {
-		get {
-			if let presentedSheet {
-				return .app(presentedSheet)
-			}
-			return switch selectedTab {
-				case .logic: logicSheet.map(VisibleSheet.logic)
-				case .learn, .library: nil
-			}
-		}
-		set {
-			if newValue == nil {
-				dismissSheet()
-			}
 		}
 	}
 
@@ -121,35 +81,19 @@ final class NavigationManager {
 		presentedSheet = sheet
 	}
 
-	func presentSheet(_ sheet: LogicSheet) {
-		selectedTab = .logic
-		logicSheet = sheet
-	}
-
 	// MARK: - dismissSheet
 
 	/// Closes the sheet on screen
 	func dismissSheet() {
-		if presentedSheet != nil {
-			presentedSheet = nil
-			return
-		}
-		switch selectedTab {
-			case .logic: logicSheet = nil
-			case .learn, .library: break
-		}
+		presentedSheet = nil
 	}
 
 	// MARK: - reveal
 
-	/// Goes to a tab with nothing over it. Other tabs keep their sheets for when they're next opened.
+	/// Goes to a tab with nothing over it
 	func reveal(_ tab: AppTab) {
 		selectedTab = tab
 		presentedSheet = nil
-		switch tab {
-			case .logic: logicSheet = nil
-			case .learn, .library: break
-		}
 	}
 
 	// MARK: - openLibraryEntry
@@ -170,8 +114,6 @@ final class NavigationManager {
 		switch tab {
 			case .learn:
 				learnPath.removeAll()
-			case .logic:
-				logicPath.removeAll()
 			case .library:
 				libraryPath.removeAll()
 		}
@@ -181,10 +123,8 @@ final class NavigationManager {
 
 	func startup() {
 		presentedSheet = Defaults[.presentedSheet]
-		logicSheet = Defaults[.logicSheet]
 		selectedTab = Defaults[.selectedTab]
 		libraryPath = Defaults[.libraryPath]
-		logicPath = Defaults[.logicPath]
 		learnPath = Defaults[.learnPath]
 	}
 }

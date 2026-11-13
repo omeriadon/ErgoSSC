@@ -36,7 +36,7 @@ extension NavigationManager {
 			case .arguments:
 				.arguments
 
-			case .bookmarks, .finder, nil:
+			case .finder, nil:
 				nil
 		}
 	}

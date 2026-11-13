@@ -137,12 +137,6 @@ struct BiasDetailView: View {
 					ToolbarItem(placement: .title) {
 						Text("")
 					}
-
-					LibraryDetailMenu(reference: CatalogReference(
-						id: bias.id,
-						name: bias.name,
-						category: .biases
-					))
 				}
 
 			} else {

@@ -120,12 +120,6 @@ struct FallacyDetailView: View {
 					ToolbarItem(placement: .title) {
 						Text("")
 					}
-
-					LibraryDetailMenu(reference: CatalogReference(
-						id: fallacy.id,
-						name: fallacy.name,
-						category: .fallacies
-					))
 				}
 			} else {
 				ContentUnavailableView("Fallacy Not Found", systemImage: "repeat.badge.xmark")

@@ -5,7 +5,6 @@
 //  Created by Adon Omeri on 13/11/2026.
 //
 
-import Defaults
 import SwiftUI
 
 // MARK: - Question 2
@@ -14,8 +13,6 @@ import SwiftUI
 struct BehindTheWordsSortQuestion: View {
 	let picks: [Int: BehindTheWordsKind]
 	let onPick: (BehindTheWordsKind, BehindTheWordsUnit) -> Void
-
-	@Default(.hapticsEnabled) private var hapticsEnabled
 
 	var body: some View {
 		VStack(alignment: .leading, spacing: 14) {
@@ -34,8 +31,7 @@ struct BehindTheWordsSortQuestion: View {
 
 	/// Success for a right pick, a warning for a wrong one
 	private func feedback(old: [Int: BehindTheWordsKind], new: [Int: BehindTheWordsKind]) -> SensoryFeedback? {
-		guard hapticsEnabled,
-		      let number = new.keys.first(where: { old[$0] == nil }),
+		guard let number = new.keys.first(where: { old[$0] == nil }),
 		      let unit = BehindTheWords.units.first(where: { $0.number == number })
 		else {
 			return nil
@@ -185,19 +181,19 @@ struct BehindTheWordsSkeleton: View {
 			Text("The friendly bits make it nice to read. The reasons are what make it worth listening to.")
 				.font(.title3)
 				.fixedSize(horizontal: false, vertical: true)
-				.modifier(BehindTheWordsReveal(delay: 1.6, animated: animated))
+				.modifier(BehindTheWordsReveal(delay: 2.4, animated: animated))
 
 			skeleton
-				.modifier(BehindTheWordsReveal(delay: 2.1, animated: animated))
+				.modifier(BehindTheWordsReveal(delay: 3.2, animated: animated))
 
 			Text(BehindTheWords.countLine)
 				.font(.footnote.weight(.medium).monospacedDigit())
 				.foregroundStyle(.secondary)
 				.frame(maxWidth: .infinity)
-				.modifier(BehindTheWordsReveal(delay: 2.5, animated: animated))
+				.modifier(BehindTheWordsReveal(delay: 3.9, animated: animated))
 
 			BehindTheWordsContinueButton(identifier: "skeleton", action: onContinue)
-				.modifier(BehindTheWordsReveal(delay: 2.8, animated: animated))
+				.modifier(BehindTheWordsReveal(delay: 4.4, animated: animated))
 		}
 	}
 

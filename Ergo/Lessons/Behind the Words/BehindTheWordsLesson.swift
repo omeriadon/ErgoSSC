@@ -32,7 +32,7 @@ nonisolated struct BehindTheWordsState: Codable, Hashable, Sendable, Defaults.Se
 	/// The questions have faded and the passage is down to its skeleton
 	var showsSkeleton = false
 
-	/// Page 3: the first pick for each passage, in order. True is "Holds something".
+	/// Page 3: the first pick for each passage, in order. True is "Gives a reason".
 	var quizPicks: [Bool] = []
 
 	var allSorted: Bool {
@@ -40,7 +40,7 @@ nonisolated struct BehindTheWordsState: Codable, Hashable, Sendable, Defaults.Se
 	}
 
 	var quizScore: Int {
-		zip(quizPicks, BehindTheWords.quiz).filter { $0 == $1.holdsSomething }.count
+		zip(quizPicks, BehindTheWords.quiz).filter { $0 == $1.givesReason }.count
 	}
 
 	var quizFinished: Bool {

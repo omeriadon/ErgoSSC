@@ -35,11 +35,11 @@ nonisolated struct BehindTheWordsUnit: Identifiable, Hashable, Sendable {
 	}
 }
 
-/// A passage on page 3, and whether it holds anything
+/// A passage on page 3, and whether it gives a reason
 nonisolated struct BehindTheWordsQuizItem: Identifiable, Hashable, Sendable {
 	let id: Int
 	let text: String
-	let holdsSomething: Bool
+	let givesReason: Bool
 	let explanation: String
 }
 
@@ -100,25 +100,25 @@ nonisolated enum BehindTheWords {
 		BehindTheWordsQuizItem(
 			id: 0,
 			text: "Our new formula is our best yet. You'll feel the difference from day one.",
-			holdsSomething: false,
+			givesReason: false,
 			explanation: "Two claims and no reason for either."
 		),
 		BehindTheWordsQuizItem(
 			id: 1,
 			text: "Bring a jacket. It drops to four degrees after dark.",
-			holdsSomething: true,
+			givesReason: true,
 			explanation: "Short and plain, with a claim and a reason."
 		),
 		BehindTheWordsQuizItem(
 			id: 2,
 			text: "At the end of the day, it is what it is, and what matters is that we keep moving forward together.",
-			holdsSomething: false,
+			givesReason: false,
 			explanation: "There isn't even a claim to disagree with."
 		),
 		BehindTheWordsQuizItem(
 			id: 3,
 			text: "This is the most important election of our lifetime, because the next government sets the emissions targets through 2040.",
-			holdsSomething: true,
+			givesReason: true,
 			explanation: "It sounds like hype, but it gives a reason. Whether the reason is true is a separate question."
 		),
 	]

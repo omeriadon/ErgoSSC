@@ -12,6 +12,7 @@ import Foundation
 nonisolated enum Lesson: String, Hashable, CaseIterable, Identifiable, Codable, Sendable, Defaults.Serializable {
 	case behindTheWords
 	case fairPoint
+	case biggerPicture
 
 	var id: Self {
 		self
@@ -25,6 +26,7 @@ nonisolated enum Lesson: String, Hashable, CaseIterable, Identifiable, Codable, 
 		switch self {
 			case .behindTheWords: "Behind the words"
 			case .fairPoint: "Fair point?"
+			case .biggerPicture: "The bigger picture"
 		}
 	}
 
@@ -33,6 +35,7 @@ nonisolated enum Lesson: String, Hashable, CaseIterable, Identifiable, Codable, 
 		switch self {
 			case .behindTheWords: "Behind the words…"
 			case .fairPoint: "Fair point?"
+			case .biggerPicture: "The bigger picture"
 		}
 	}
 
@@ -41,6 +44,16 @@ nonisolated enum Lesson: String, Hashable, CaseIterable, Identifiable, Codable, 
 		switch self {
 			case .behindTheWords: "What does it want you to believe, and what holds it up?"
 			case .fairPoint: "Is that reply about what was actually said?"
+			case .biggerPicture: "Where did the counting start?"
+		}
+	}
+
+	/// What it teaches, shown on its card in the list
+	var topics: [String] {
+		switch self {
+			case .behindTheWords: ["Claims", "Reasons", "Filler", "Proof surrogate"]
+			case .fairPoint: ["Straw man", "Ad hominem", "False dilemma"]
+			case .biggerPicture: ["Cherry-picking", "Back to normal"]
 		}
 	}
 
@@ -55,7 +68,17 @@ nonisolated enum Lesson: String, Hashable, CaseIterable, Identifiable, Codable, 
 					LessonLink(name: "Ad hominem", id: "ad-hominem"),
 					LessonLink(name: "False dilemma", id: "false-dilemma"),
 				]
+			case .biggerPicture:
+				[
+					LessonLink(name: "Cherry-picking", id: "cherry-picking"),
+					LessonLink(name: "Regression fallacy", id: "regression-fallacy"),
+				]
 		}
+	}
+
+	/// The first lesson is always open, and each one after it opens once the one before is finished
+	func isUnlocked(finished: Set<Lesson>) -> Bool {
+		number == 1 || finished.contains(Self.allCases[number - 2])
 	}
 
 	/// Back to the first page, with nothing answered
@@ -63,7 +86,16 @@ nonisolated enum Lesson: String, Hashable, CaseIterable, Identifiable, Codable, 
 		switch self {
 			case .behindTheWords: Defaults.reset(.behindTheWordsState)
 			case .fairPoint: Defaults.reset(.fairPointState)
+			case .biggerPicture: Defaults.reset(.biggerPictureState)
 		}
+	}
+
+	/// Every lesson back to its first page, and none finished, so only the first is open
+	@MainActor static func resetAll() {
+		for lesson in allCases {
+			lesson.startOver()
+		}
+		Defaults.reset(.lessonsFinished)
 	}
 }
 

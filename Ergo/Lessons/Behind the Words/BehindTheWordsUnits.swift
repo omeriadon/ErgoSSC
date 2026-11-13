@@ -134,8 +134,8 @@ private struct BehindTheWordsUnitRow: View {
 			return .easeInOut(duration: 0.3)
 		}
 		let order = Double(unit.number - 1)
-		let delay = isFiller ? 0.1 + order * 0.08 : 0.7 + order * 0.12
-		return .smooth(duration: 0.7).delay(delay)
+		let delay = isFiller ? 0.6 + order * 0.1 : 1.4 + order * 0.15
+		return .smooth(duration: 0.8).delay(delay)
 	}
 
 	private var voiceOverLabel: String {

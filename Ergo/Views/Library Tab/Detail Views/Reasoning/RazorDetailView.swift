@@ -114,12 +114,6 @@ struct RazorDetailView: View {
 					ToolbarItem(placement: .title) {
 						Text("")
 					}
-
-					LibraryDetailMenu(reference: CatalogReference(
-						id: razor.id,
-						name: razor.name,
-						category: .razors
-					))
 				}
 
 			} else {

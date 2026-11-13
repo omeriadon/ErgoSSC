@@ -31,8 +31,6 @@ struct CardView: View {
 						"repeat.badge.xmark"
 					case "Arguments":
 						"text.bubble"
-					case "Bookmarks":
-						"bookmark"
 					case "Describe It":
 						"sparkle.magnifyingglass"
 					default:

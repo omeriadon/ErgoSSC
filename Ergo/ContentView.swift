@@ -14,16 +14,10 @@ struct ContentView: View {
 	var body: some View {
 		@Bindable var router = navigation
 
-		// The tabs read the selected tab themselves, so changing tabs only changes which sheet this shows
+		// The tabs read the selected tab themselves, so changing tabs doesn't redraw this
 		AppTabs()
-			.sheet(item: $router.visibleSheet) { sheet in
-				switch sheet {
-					case let .app(sheet):
-						AppSheetContent(sheet: sheet)
-
-					case let .logic(sheet):
-						LogicSheetContent(sheet: sheet)
-				}
+			.sheet(item: $router.presentedSheet) { sheet in
+				AppSheetContent(sheet: sheet)
 			}
 			.fontDesign(.rounded)
 	}
@@ -42,9 +36,6 @@ private struct AppSheetContent: View {
 
 			case .result:
 				Text("sheet here!")
-
-			case .settings:
-				SettingsView()
 		}
 	}
 }
@@ -91,17 +82,6 @@ private struct AppTabs: View {
 		)
 	}
 
-	private var logicPath: Binding<[LogicRoute]> {
-		Binding(
-			get: {
-				navigation.logicPath
-			},
-			set: { newValue in
-				navigation.logicPath = newValue
-			}
-		)
-	}
-
 	var body: some View {
 		TabView(selection: tabSelection) {
 			Tab(value: .learn) {
@@ -116,20 +96,6 @@ private struct AppTabs: View {
 				}
 			} label: {
 				Label("Learn", systemImage: "text.magnifyingglass")
-			}
-
-			Tab(value: .logic) {
-				NavigationStack(path: logicPath) {
-					LogicTabView()
-						.navigationDestination(for: LogicRoute.self) { route in
-							switch route {
-								case .scratchpad:
-									ScratchpadEditorView()
-							}
-						}
-				}
-			} label: {
-				Label("Logic", systemImage: "function")
 			}
 
 			Tab(value: .library) {
@@ -164,9 +130,6 @@ private struct AppTabs: View {
 								case let .arguments(filter):
 									LibraryListView<Argument>(initialFilter: filter.libraryFilter)
 
-								case .bookmarks:
-									BookmarksView()
-
 								case .finder:
 									LibraryFinderView()
 							}
@@ -187,16 +150,14 @@ private struct AppTabs: View {
 #Preview {
 	@Previewable @State var thing = NavigationManager()
 	@Previewable @State var catalog = CatalogStore()
-	@Previewable @State var scratchpadStore = ScratchpadStore()
 
 	ContentView()
 		.environment(thing)
 		.environment(catalog)
-		.environment(scratchpadStore)
 		.onAppear {
 			thing.startup()
 			thing.selectedTab = .library
-			thing.libraryPath = [.bookmarks, .category(.philosophers), .detail(category: .philosophers, id: "david-hume")]
+			thing.libraryPath = [.category(.philosophers), .detail(category: .philosophers, id: "david-hume")]
 			Task {
 				try? await catalog.load()
 			}

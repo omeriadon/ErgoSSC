@@ -11,7 +11,6 @@ import SwiftUI
 /// Page 2: find the claim, sort the rest, then see the reply collapse to its skeleton
 struct BehindTheWordsDeeperLookPage: View {
 	@Default(.behindTheWordsState) private var state
-	@Default(.hapticsEnabled) private var hapticsEnabled
 
 	@Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -40,7 +39,7 @@ struct BehindTheWordsDeeperLookPage: View {
 			}
 			.onChange(of: state.claimFound) { _, found in
 				guard found else { return }
-				scroll(proxy, to: "question2", after: 0.6)
+				scroll(proxy, to: "question2", after: 1.1)
 			}
 			.onChange(of: state.showsSkeleton) { _, shows in
 				guard shows else { return }
@@ -50,10 +49,10 @@ struct BehindTheWordsDeeperLookPage: View {
 		}
 		.navigationTitle(lessonTitle(.behindTheWords, "Deeper look"))
 		.sensoryFeedback(.success, trigger: state.claimFound) { _, found in
-			found && hapticsEnabled
+			found
 		}
 		.sensoryFeedback(.error, trigger: state.claimMisses) { old, new in
-			new > old && hapticsEnabled
+			new > old
 		}
 		.onAppear(perform: appear)
 	}
@@ -69,7 +68,7 @@ struct BehindTheWordsDeeperLookPage: View {
 				BehindTheWordsSkeleton(animated: collapsedLive) {
 					state.page = .yourTurn
 				}
-				.transition(.opacity)
+				.transition(.opacity.animation(.smooth(duration: 0.5).delay(0.5)))
 			} else {
 				questions
 					.transition(.opacity)
@@ -84,9 +83,10 @@ struct BehindTheWordsDeeperLookPage: View {
 			BehindTheWordsClaimQuestion(found: state.claimFound, missed: state.claimMisses > 0)
 
 			if state.claimFound {
+				// After the claim has turned green, so the two don't happen at once
 				BehindTheWordsSortQuestion(picks: state.sorted, onPick: pick)
 					.id("question2")
-					.transition(.opacity.combined(with: .offset(y: 20)))
+					.transition(.opacity.combined(with: .offset(y: 20)).animation(.smooth(duration: 0.6).delay(0.7)))
 			}
 		}
 	}
@@ -104,7 +104,7 @@ struct BehindTheWordsDeeperLookPage: View {
 		if reduceMotion || started {
 			isSplit = true
 		} else {
-			withAnimation(.smooth(duration: 0.6).delay(0.5)) {
+			withAnimation(.smooth(duration: 0.8).delay(0.9)) {
 				isSplit = true
 			}
 		}
@@ -134,7 +134,7 @@ struct BehindTheWordsDeeperLookPage: View {
 
 		guard state.allSorted else { return }
 		// A pause to read the last answer, longer if it needs its hint read
-		let pause = kind == unit.kind ? 1.2 : 2.6
+		let pause = kind == unit.kind ? 1.8 : 3.2
 		Task {
 			try? await Task.sleep(for: .seconds(pause))
 			if !state.showsSkeleton {

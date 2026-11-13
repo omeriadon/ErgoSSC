@@ -130,12 +130,6 @@ struct ArgumentDetailView: View {
 					ToolbarItem(placement: .title) {
 						Text("")
 					}
-
-					LibraryDetailMenu(reference: CatalogReference(
-						id: argument.id,
-						name: argument.name,
-						category: .arguments
-					))
 				}
 			} else {
 				ContentUnavailableView("Argument Not Found", systemImage: "text.bubble")

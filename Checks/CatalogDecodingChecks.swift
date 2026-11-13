@@ -63,12 +63,12 @@ let link = try decoder.decode(CatalogLink.self, from: Data("{\"targetID\":\"beca
 precondition(link.target == reference)
 precondition(link.note == "Example")
 
-// Bookmark objects retain their original Codable shape without an index.
-let bookmarkData = try JSONEncoder().encode(reference)
-let bookmark = try JSONDecoder().decode(CatalogReference.self, from: bookmarkData)
-precondition(bookmark == reference)
-let bookmarkObject = try JSONSerialization.jsonObject(with: bookmarkData) as! [String: Any]
-precondition(Set(bookmarkObject.keys) == ["id", "name", "category"])
+// A reference keeps its original Codable shape without an index.
+let referenceData = try JSONEncoder().encode(reference)
+let decodedReference = try JSONDecoder().decode(CatalogReference.self, from: referenceData)
+precondition(decodedReference == reference)
+let referenceObject = try JSONSerialization.jsonObject(with: referenceData) as! [String: Any]
+precondition(Set(referenceObject.keys) == ["id", "name", "category"])
 let canonical = try decoder.decode(CatalogReference.self, from: Data("{\"id\":\"because-marker\",\"name\":\"Wrong name\"}".utf8))
 precondition(canonical == reference)
 
@@ -104,4 +104,4 @@ for argument in await store.arguments.arguments {
 	precondition(reference.route == .detail(category: .arguments, id: argument.id))
 }
 
-print("Catalog checks passed: all eight catalogs loaded, \(references.count) references verified, invalid references/tags rejected, bookmarks preserved.")
+print("Catalog checks passed: all eight catalogs loaded, \(references.count) references verified, invalid references/tags rejected, references round-trip.")

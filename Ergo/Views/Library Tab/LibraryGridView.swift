@@ -72,16 +72,6 @@ struct LibraryGridView: View {
 					CardView(title: "Arguments", color: LibraryContent.arguments.themeColor)
 				}
 			}
-
-			Spacer()
-				.frame(height: 30)
-
-			GridRow {
-				NavigationLink(value: LibraryRoute.bookmarks) {
-					CardView(title: "Bookmarks", color: .accent)
-				}
-				.gridCellColumns(2)
-			}
 		}
 	}
 }

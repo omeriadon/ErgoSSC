@@ -2,7 +2,7 @@
 
 import PackageDescription
 
-/// What the app builds on: the logic checker and the library
+/// What the app builds on: the library
 let package = Package(
 	name: "ErgoKit",
 	platforms: [
@@ -10,14 +10,10 @@ let package = Package(
 		.macOS("27.0"),
 	],
 	products: [
-		.library(name: "ErgoLogic", targets: ["ErgoLogic"]),
 		.library(name: "ErgoCatalog", targets: ["ErgoCatalog"]),
 	],
 	targets: [
-		.target(name: "ErgoLogic"),
 		.target(name: "ErgoCatalog", resources: [.process("Resources")]),
-
-		.testTarget(name: "ErgoLogicTests", dependencies: ["ErgoLogic"]),
 	],
 	swiftLanguageModes: [.v6]
 )

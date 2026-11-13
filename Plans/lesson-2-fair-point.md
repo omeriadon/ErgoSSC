@@ -14,7 +14,7 @@ A messaging app, like Messages: grey bubbles on the left for the other person, b
 
 Title: `Lesson 2: Fair point?`
 
-1. An inbox: a list of conversations that scrolls by on its own, slows and lands on **Sam**, and opens that conversation. Keep it to about two seconds. Judges feel every wait. Other rows in the inbox, as filler: Mum ("dinner's at 7, don't be late"), Jess ("lol did you see that"), Football group ("training moved to thursday"), Leo ("where's the charger"), Dentist ("Reminder: your appointment is on…").
+1. An inbox: a list of conversations that scrolls by on its own, slows and lands on **Sam**, and opens that conversation. Slow enough to read the names as they pass, about four seconds in all: a pause, the scroll, then Sam highlighted before it opens. Other rows in the inbox, as filler: Mum ("dinner's at 7, don't be late"), Jess ("lol did you see that"), Football group ("training moved to thursday"), Leo ("where's the charger"), Dentist ("Reminder: your appointment is on…").
 2. Sam's conversation (below), shown in full.
 3. Under it: "Common scenario: messaging a friend. Arguments can get messy, so let's look at how this one goes →". The arrow is the button to page 2.
 

@@ -127,12 +127,6 @@ struct ParadoxDetailView: View {
 					ToolbarItem(placement: .title) {
 						Text("")
 					}
-
-					LibraryDetailMenu(reference: CatalogReference(
-						id: paradox.id,
-						name: paradox.name,
-						category: .paradoxes
-					))
 				}
 
 			} else {

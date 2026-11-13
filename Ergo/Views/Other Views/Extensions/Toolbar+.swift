@@ -14,30 +14,18 @@ extension View {
 }
 
 private struct ToolbarTitleItemModifier: ViewModifier {
-	@Environment(NavigationManager.self) private var navigation
-
 	func body(content: Content) -> some View {
 		content
 			.toolbar {
-				ToolbarTitleItem(
-					openSettings: {
-						navigation.presentSheet(.settings(id: "3refd"))
-					}
-				)
+				ToolbarTitleItem()
 			}
 	}
 }
 
 struct ToolbarTitleItem: ToolbarContent {
-	let openSettings: () -> Void
-
 	var body: some ToolbarContent {
 		ToolbarItem(placement: .topBarLeading) {
-			Button {
-				openSettings()
-			} label: {
-				ToolbarTitleView()
-			}
+			ToolbarTitleView()
 		}
 		.visibilityPriority(.high)
 		.sharedBackgroundVisibility(.hidden)
@@ -69,7 +57,12 @@ private struct ToolbarTitleViewModifier: ViewModifier {
 			.navigationBarTitleDisplayMode(.inline)
 			.scrollEdgeEffectStyle(.soft, for: .all)
 			.toolbar {
+				// Large and on the left. The empty title item keeps the system's centred one from showing too.
 				ToolbarItem(placement: .title) {
+					Text("")
+				}
+
+				ToolbarItem(placement: .topBarLeading) {
 					Label {
 						Text(title)
 					} icon: {
@@ -81,7 +74,11 @@ private struct ToolbarTitleViewModifier: ViewModifier {
 						}
 					}
 					.labelStyle(.titleAndIcon)
+					.font(.title2.bold())
+					.fixedSize()
+					.accessibilityAddTraits(.isHeader)
 				}
+				.sharedBackgroundVisibility(.hidden)
 			}
 	}
 }

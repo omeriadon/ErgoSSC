@@ -25,8 +25,9 @@ struct FairPointIntroPage: View {
 				screen
 
 				if isOpen {
+					// After the conversation has opened, not alongside it
 					next
-						.transition(.opacity)
+						.transition(.opacity.animation(.smooth(duration: 0.5).delay(0.9)))
 				}
 			}
 			.padding()
@@ -72,7 +73,7 @@ struct FairPointIntroPage: View {
 	}
 
 	private func open() {
-		withAnimation(.smooth(duration: 0.4)) {
+		withAnimation(.smooth(duration: 0.55)) {
 			isOpen = true
 		}
 		state.hasPlayedInbox = true

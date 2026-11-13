@@ -92,19 +92,19 @@ Once all five rows are answered, both question sets fade out and, on the same pa
 
 Title: `Lesson 1: Your turn!`
 
-"For each of these passages, look behind their surface and see if they have any meaning ↓"
+"For each of these, look behind the words. Is there a reason holding it up? ↓"
 
-The passages appear one at a time. Each has "This passage…" and two buttons: **Holds something** / **Holds nothing**.
+The passages appear one at a time. Each has "This passage…" and two buttons: **Gives a reason** / **No reason given**.
 
 - Any answer, right or wrong, locks the passage, shows whether it was right, and shows its explanation. Then the next passage appears.
 - Only the first answer counts towards the score.
 
 | Passage | Answer | Shown after |
 |---|---|---|
-| Our new formula is our best yet. You'll feel the difference from day one. | Holds nothing | Two claims and no reason for either. |
-| Bring a jacket. It drops to four degrees after dark. | Holds something | Short and plain, with a claim and a reason. |
-| At the end of the day, it is what it is, and what matters is that we keep moving forward together. | Holds nothing | There isn't even a claim to disagree with. |
-| This is the most important election of our lifetime, because the next government sets the emissions targets through 2040. | Holds something | It sounds like hype, but it gives a reason. Whether the reason is true is a separate question. |
+| Our new formula is our best yet. You'll feel the difference from day one. | No reason given | Two claims and no reason for either. |
+| Bring a jacket. It drops to four degrees after dark. | Gives a reason | Short and plain, with a claim and a reason. |
+| At the end of the day, it is what it is, and what matters is that we keep moving forward together. | No reason given | There isn't even a claim to disagree with. |
+| This is the most important election of our lifetime, because the next government sets the emissions targets through 2040. | Gives a reason | It sounds like hype, but it gives a reason. Whether the reason is true is a separate question. |
 
 When the last one is answered, the score appears: "3 of 4". Under it is one line about how it went. Adon will write that line with Foundation Models later. For now, it comes from one function that returns a hardcoded line for each score, kept separate so the model can replace it:
 

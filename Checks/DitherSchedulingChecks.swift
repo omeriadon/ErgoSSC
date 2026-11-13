@@ -46,7 +46,7 @@ for tick in 0 ..< 10000 {
 
 precondition(rendered >= 49 && rendered <= 50)
 
-/// AboutView can use 30 fps while other dither instances retain the 5 fps default.
+/// One dither can use 30 fps while other dither instances retain the 5 fps default.
 var aboutScheduler = DitherFrameScheduler()
 aboutScheduler.didRender(now: 0)
 precondition(!aboutScheduler.shouldRender(now: 0.03, isAnimating: true, framesPerSecond: 30))

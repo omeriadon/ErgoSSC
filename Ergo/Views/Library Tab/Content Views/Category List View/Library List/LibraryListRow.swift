@@ -5,91 +5,28 @@
 //  Created by Adon Omeri on 8/11/2026.
 //
 
-import Defaults
 import SwiftUI
 
-/// One entry in a category's list, linking to its page, with a bookmark on a swipe or in its menu
+/// One entry in a category's list, linking to its page
 struct LibraryListRow<Item: LibraryListItem>: View, Equatable {
 	let item: Item
 
-	/// Passed in by the list, which reads the bookmarks once. Reading `@Default` here would decode the whole set for every row.
-	let isBookmarked: Bool
-
-	@Environment(CatalogStore.self) private var catalog
-
-	@Environment(NavigationManager.self) private var navigation
-
 	/// What the row shows, so the list can skip re-rendering a row when none of it changed
 	static func == (lhs: Self, rhs: Self) -> Bool {
-		lhs.item.id == rhs.item.id && lhs.item.name == rhs.item.name && lhs.isBookmarked == rhs.isBookmarked
+		lhs.item.id == rhs.item.id && lhs.item.name == rhs.item.name
 	}
 
 	var body: some View {
-		let target = CatalogReference(
-			id: item.id,
-			name: item.name,
-			category: Item.category
-		)
-
-		return NavigationLink(
+		NavigationLink(
 			value: LibraryRoute.detail(
 				category: Item.category,
 				id: item.id
 			)
 		) {
-			HStack {
-				item.row
-
-				Spacer()
-
-				if isBookmarked {
-					Image(systemName: "bookmark")
-						.foregroundStyle(.secondary)
-						.symbolVariant(.fill)
-				}
-			}
-			.accessibilityIdentifier("library.\(Item.category.rawValue).\(item.id)")
-			.contextMenu {
-				Button {
-					toggleBookmark(target, isBookmarked: isBookmarked)
-				} label: {
-					if isBookmarked {
-						Label("Remove Bookmark", systemImage: "bookmark.fill")
-					} else {
-						Label("Bookmark", systemImage: "bookmark")
-					}
-				}
-			} preview: {
-				LibraryDetailView(category: target.category, id: target.id)
-					.environment(catalog)
-					.environment(navigation)
-			}
+			item.row
+				.frame(maxWidth: .infinity, alignment: .leading)
+				.accessibilityIdentifier("library.\(Item.category.rawValue).\(item.id)")
 		}
 		.buttonStyle(.plain)
-		.swipeActions(edge: .trailing) {
-			Button {
-				toggleBookmark(target, isBookmarked: isBookmarked)
-			} label: {
-				Label(
-					isBookmarked ? "Remove Bookmark" : "Bookmark",
-					systemImage: isBookmarked ? "bookmark.fill" : "bookmark"
-				)
-			}
-			.buttonStyle(.automatic)
-			.tint(.accent)
-		}
-	}
-
-	private func toggleBookmark(
-		_ target: CatalogReference,
-		isBookmarked: Bool
-	) {
-		withAnimation(.easeInOut) {
-			if isBookmarked {
-				Defaults[.bookmarks].remove(target)
-			} else {
-				Defaults[.bookmarks].insert(target)
-			}
-		}
 	}
 }

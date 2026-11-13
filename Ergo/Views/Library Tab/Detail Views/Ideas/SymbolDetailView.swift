@@ -124,12 +124,6 @@ struct SymbolDetailView: View {
 					ToolbarItem(placement: .title) {
 						Text("")
 					}
-
-					LibraryDetailMenu(reference: CatalogReference(
-						id: symbol.id,
-						name: symbol.name,
-						category: .symbols
-					))
 				}
 			} else {
 				Text("Symbol not found")

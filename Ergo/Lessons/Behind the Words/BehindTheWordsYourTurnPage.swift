@@ -11,7 +11,6 @@ import SwiftUI
 /// Page 3: four passages, one at a time, each holding something or nothing
 struct BehindTheWordsYourTurnPage: View {
 	@Default(.behindTheWordsState) private var state
-	@Default(.hapticsEnabled) private var hapticsEnabled
 
 	@Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -38,13 +37,13 @@ struct BehindTheWordsYourTurnPage: View {
 
 	private var content: some View {
 		VStack(alignment: .leading, spacing: 20) {
-			Text("For each of these passages, look behind their surface and see if they have any meaning ↓")
+			Text("For each of these, look behind the words. Is there a reason holding it up? ↓")
 				.font(.headline)
 				.fixedSize(horizontal: false, vertical: true)
 
 			ForEach(visible) { item in
-				BehindTheWordsQuizCard(item: item, pick: pick(for: item)) { holdsSomething in
-					answer(item, holdsSomething: holdsSomething)
+				BehindTheWordsQuizCard(item: item, pick: pick(for: item)) { givesReason in
+					answer(item, givesReason: givesReason)
 				}
 				.id(item.id)
 				.transition(.opacity.combined(with: .offset(y: 24)))
@@ -58,7 +57,7 @@ struct BehindTheWordsYourTurnPage: View {
 				.transition(.opacity)
 			}
 		}
-		.animation(reduceMotion ? .easeInOut(duration: 0.25) : .smooth(duration: 0.5).delay(0.3), value: state.quizPicks.count)
+		.animation(reduceMotion ? .easeInOut(duration: 0.25) : .smooth(duration: 0.6).delay(1.4), value: state.quizPicks.count)
 	}
 
 	private func pick(for item: BehindTheWordsQuizItem) -> Bool? {
@@ -66,17 +65,17 @@ struct BehindTheWordsYourTurnPage: View {
 	}
 
 	/// Only the first answer counts, so an answered passage is locked
-	private func answer(_ item: BehindTheWordsQuizItem, holdsSomething: Bool) {
+	private func answer(_ item: BehindTheWordsQuizItem, givesReason: Bool) {
 		guard state.quizPicks.count == item.id else { return }
-		state.quizPicks.append(holdsSomething)
+		state.quizPicks.append(givesReason)
 	}
 
 	private func scrollToEnd(_ proxy: ScrollViewProxy) {
 		let finished = state.quizFinished
 		let next = state.quizPicks.count
 		Task {
-			try? await Task.sleep(for: .seconds(0.5))
-			withAnimation(reduceMotion ? nil : .smooth(duration: 0.6)) {
+			try? await Task.sleep(for: .seconds(1.6))
+			withAnimation(reduceMotion ? nil : .smooth(duration: 0.7)) {
 				if finished {
 					proxy.scrollTo("score", anchor: .bottom)
 				} else {
@@ -87,21 +86,21 @@ struct BehindTheWordsYourTurnPage: View {
 	}
 
 	private func feedback(old: [Bool], new: [Bool]) -> SensoryFeedback? {
-		guard hapticsEnabled, new.count > old.count, let last = new.last else {
+		guard new.count > old.count, let last = new.last else {
 			return nil
 		}
-		return last == BehindTheWords.quiz[new.count - 1].holdsSomething ? .success : .warning
+		return last == BehindTheWords.quiz[new.count - 1].givesReason ? .success : .warning
 	}
 }
 
 private struct BehindTheWordsQuizCard: View {
 	let item: BehindTheWordsQuizItem
-	/// True is "Holds something", nil is unanswered
+	/// True is "Gives a reason", nil is unanswered
 	let pick: Bool?
 	let onPick: (Bool) -> Void
 
 	private var isRight: Bool {
-		pick == item.holdsSomething
+		pick == item.givesReason
 	}
 
 	var body: some View {
@@ -118,8 +117,8 @@ private struct BehindTheWordsQuizCard: View {
 				.foregroundStyle(.secondary)
 
 			HStack(spacing: 8) {
-				option("Holds something", holdsSomething: true)
-				option("Holds nothing", holdsSomething: false)
+				option("Gives a reason", givesReason: true)
+				option("No reason given", givesReason: false)
 			}
 
 			if pick != nil {
@@ -143,16 +142,16 @@ private struct BehindTheWordsQuizCard: View {
 		.accessibilityElement(children: .combine)
 	}
 
-	private func option(_ title: String, holdsSomething: Bool) -> some View {
+	private func option(_ title: String, givesReason: Bool) -> some View {
 		BehindTheWordsQuizOption(
 			title: title,
-			isAnswer: holdsSomething == item.holdsSomething,
-			isPicked: pick == holdsSomething,
+			isAnswer: givesReason == item.givesReason,
+			isPicked: pick == givesReason,
 			isLocked: pick != nil
 		) {
-			onPick(holdsSomething)
+			onPick(givesReason)
 		}
-		.accessibilityIdentifier("learn.behindTheWords.quiz.\(item.id).\(holdsSomething ? "holdsSomething" : "holdsNothing")")
+		.accessibilityIdentifier("learn.behindTheWords.quiz.\(item.id).\(givesReason ? "givesReason" : "noReason")")
 	}
 }
 

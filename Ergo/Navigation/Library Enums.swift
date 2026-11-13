@@ -72,7 +72,6 @@ nonisolated enum LibraryRoute: Hashable, Codable, Defaults.Serializable {
 	case fallacies(filter: FallacyTag)
 	case arguments(filter: ArgumentTag)
 
-	case bookmarks
 	case finder
 
 	var listCategory: LibraryContent? {
@@ -101,7 +100,7 @@ nonisolated enum LibraryRoute: Hashable, Codable, Defaults.Serializable {
 			case .arguments:
 				.arguments
 
-			case .detail, .bookmarks, .finder:
+			case .detail, .finder:
 				nil
 		}
 	}

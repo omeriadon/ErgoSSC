@@ -5,7 +5,6 @@
 //  Created by Adon Omeri on 7/11/2026.
 //
 
-import Defaults
 import SwiftUI
 
 /// A tap on the tab bar gives a haptic, even on the tab that's already selected. SwiftUI's `TabView` never reports that, so this listens to the tab bar itself with a tap recognizer that doesn't get in the way of the real tap.
@@ -47,10 +46,6 @@ private struct TabBarHaptics: UIViewControllerRepresentable {
 		}
 
 		@objc private func tapped() {
-			guard Defaults[.hapticsEnabled] else {
-				return
-			}
-
 			generator.impactOccurred()
 		}
 

@@ -3,7 +3,6 @@
 // Usage: DitherView() or DitherView(configuration: configuration).
 // On iPhone, set CADisableMinimumFrameDurationOnPhone = YES in Info.plist to allow ProMotion.
 // Use .opacity(...) on DitherView to fade via the compositor without rerendering Metal.
-import Defaults
 import Foundation
 import Metal
 import MetalKit
@@ -1463,24 +1462,12 @@ private final class DitherInputStorage {
 public struct DitherView: View {
 	public var configuration: DitherConfiguration
 
-	/// Ignores the Dither setting, for places like About where it's the whole point
-	public var alwaysEnabled: Bool
-
-	@Default(.ditherEnabled) private var ditherEnabled
-
-	public init(
-		configuration: DitherConfiguration = DitherConfiguration(),
-		alwaysEnabled: Bool = false
-	) {
+	public init(configuration: DitherConfiguration = DitherConfiguration()) {
 		self.configuration = configuration
-		self.alwaysEnabled = alwaysEnabled
 	}
 
-	/// When the setting is off nothing below is created, so no Metal view, layer, or render loop exists at all
 	public var body: some View {
-		if ditherEnabled || alwaysEnabled {
-			DitherContentView(configuration: configuration)
-		}
+		DitherContentView(configuration: configuration)
 	}
 }
 

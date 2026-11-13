@@ -92,10 +92,6 @@
           "product-name": "ErgoCatalog",
           "build-phase": { "build-phase": "frameworks" },
         }, {
-          "package": "ErgoKit",
-          "product-name": "ErgoLogic",
-          "build-phase": { "build-phase": "frameworks" },
-        }, {
           "package": "FuzzyMatch",
           "product-name": "FuzzyMatch",
           "build-phase": { "build-phase": "frameworks" },

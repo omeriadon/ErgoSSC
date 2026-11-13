@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-/// An inbox that scrolls by on its own, slows, lands on one row and opens it. About two seconds.
+/// An inbox that scrolls by on its own, slows, lands on one row and opens it. Slow enough to read the names as they pass.
 struct ChatInbox: View {
 	let rows: [InboxRow]
 	let landingRow: String
@@ -58,15 +58,18 @@ struct ChatInbox: View {
 			isHighlighted = true
 			try? await Task.sleep(for: .seconds(0.8))
 		} else {
-			withAnimation(.timingCurve(0.2, 0.7, 0.2, 1, duration: 1.1)) {
+			// A moment to see it's an inbox before it moves
+			try? await Task.sleep(for: .seconds(0.7))
+			guard !Task.isCancelled else { return }
+			withAnimation(.timingCurve(0.3, 0.1, 0.2, 1, duration: 2.2)) {
 				hasLanded = true
 			}
-			try? await Task.sleep(for: .seconds(1.15))
+			try? await Task.sleep(for: .seconds(2.4))
 			guard !Task.isCancelled else { return }
-			withAnimation(.easeOut(duration: 0.15)) {
+			withAnimation(.easeOut(duration: 0.25)) {
 				isHighlighted = true
 			}
-			try? await Task.sleep(for: .seconds(0.35))
+			try? await Task.sleep(for: .seconds(0.8))
 		}
 
 		guard !Task.isCancelled else { return }
