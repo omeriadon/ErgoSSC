@@ -21,6 +21,8 @@ struct FairPointDeeperLookPage: View {
 		ScrollView {
 			VStack(alignment: .leading, spacing: 20) {
 				Text("Tap each of Sam's messages to take a deeper look ↓")
+					.multilineTextAlignment(.center)
+					.frame(maxWidth: .infinity)
 
 				ChatConversation(thread: FairPoint.sam) { message, bubble in
 					bubbleView(message, bubble)
@@ -61,6 +63,7 @@ struct FairPointDeeperLookPage: View {
 				state.page = .yourTurn
 			}
 			.buttonStyle(.glassProminent)
+			.buttonBorderShape(.roundedRectangle(radius: 12))
 			.accessibilityIdentifier("learn.fairPoint.continue")
 		}
 	}
@@ -79,20 +82,21 @@ private struct SamBubble: View {
 	}
 
 	var body: some View {
-		HStack(spacing: 6) {
-			Button(action: onTap) {
-				bubble
-			}
-			.buttonStyle(.plain)
-			.fairPointNote(message.note, isPresented: $isShowingNote)
-			.accessibilityLabel("Sam: \(message.text)")
-			.accessibilityValue(value)
-			.accessibilityHint("Shows a deeper look")
-			.accessibilityIdentifier("learn.fairPoint.\(message.id)")
-
+		Button(action: onTap) {
+			bubble
+		}
+		.buttonStyle(.plain)
+		.fairPointNote(message.note, isPresented: $isShowingNote)
+		.accessibilityLabel("Sam: \(message.text)")
+		.accessibilityValue(value)
+		.accessibilityHint("Shows a deeper look")
+		.accessibilityIdentifier("learn.fairPoint.\(message.id)")
+		// Beside the bubble but outside its layout, so the bubble keeps its width when it appears
+		.overlay(alignment: .trailing) {
 			if isTapped {
 				Image(systemName: "checkmark.circle.fill")
 					.foregroundStyle(.tertiary)
+					.alignmentGuide(.trailing) { $0[.leading] - 6 }
 					.accessibilityHidden(true)
 			}
 		}

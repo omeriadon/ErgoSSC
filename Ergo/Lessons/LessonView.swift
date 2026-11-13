@@ -35,17 +35,17 @@ struct LessonView: View {
 			.toolbar {
 				ToolbarItem(placement: .topBarTrailing) {
 					if isOnSummary {
-						closeButton
+						closeButton("Done", systemImage: "checkmark")
 							.buttonStyle(.glassProminent)
 					} else {
-						closeButton
+						closeButton("Close", systemImage: "xmark")
 					}
 				}
 			}
 	}
 
-	private var closeButton: some View {
-		Button("Close", systemImage: "xmark") {
+	private func closeButton(_ title: String, systemImage: String) -> some View {
+		Button(title, systemImage: systemImage) {
 			navigation.learnPath.removeAll()
 		}
 		.accessibilityIdentifier("learn.lesson.close")

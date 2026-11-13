@@ -109,26 +109,11 @@ private struct AppTabs: View {
 								case let .detail(category, id):
 									LibraryDetailView(category: category, id: id)
 
-								case let .symbols(filter):
-									LibraryListView<LogicSymbol>(initialFilter: filter.libraryFilter)
-
 								case let .biases(filter):
 									LibraryListView<Bias>(initialFilter: filter.libraryFilter)
 
-								case let .razors(filter):
-									LibraryListView<Razor>(initialFilter: filter.libraryFilter)
-
-								case let .paradoxes(filter):
-									LibraryListView<Paradox>(initialFilter: filter.libraryFilter)
-
-								case let .concepts(filter):
-									LibraryListView<Concept>(initialFilter: filter.libraryFilter)
-
 								case let .fallacies(filter):
 									LibraryListView<Fallacy>(initialFilter: filter.libraryFilter)
-
-								case let .arguments(filter):
-									LibraryListView<Argument>(initialFilter: filter.libraryFilter)
 
 								case .finder:
 									LibraryFinderView()
@@ -157,7 +142,7 @@ private struct AppTabs: View {
 		.onAppear {
 			thing.startup()
 			thing.selectedTab = .library
-			thing.libraryPath = [.category(.philosophers), .detail(category: .philosophers, id: "david-hume")]
+			thing.libraryPath = [.category(.fallacies), .detail(category: .fallacies, id: "straw-man")]
 			Task {
 				try? await catalog.load()
 			}

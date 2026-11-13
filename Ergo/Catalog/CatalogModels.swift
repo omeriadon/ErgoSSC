@@ -1,4 +1,4 @@
-// Models for the eight bundled JSON catalogs.
+// Models for the bundled JSON catalogs.
 
 import Defaults
 import Foundation

@@ -8,7 +8,7 @@
 import Defaults
 import SwiftUI
 
-/// Page 2: drag where the counting starts, and watch the headline change
+/// Page 2: pinch the chart to choose where the counting starts, and watch the headline change
 struct BiggerPictureDeeperLookPage: View {
 	@Default(.biggerPictureState) private var state
 
@@ -16,6 +16,8 @@ struct BiggerPictureDeeperLookPage: View {
 
 	/// Local, so the comparison comes in after the find has registered, not with it
 	@State private var showsComparison: Bool
+	/// Where the counting started when the pinch began
+	@State private var pinchStart: Int?
 
 	init() {
 		_showsComparison = State(initialValue: Defaults[.biggerPictureState].foundBest)
@@ -24,14 +26,12 @@ struct BiggerPictureDeeperLookPage: View {
 	var body: some View {
 		ScrollViewReader { proxy in
 			ScrollView {
-				VStack(alignment: .leading, spacing: 24) {
-					Text("Drag along the chart to find the start year that makes the cameras look best.")
+				VStack(alignment: .leading, spacing: 29) {
+					Text("Pinch the chart to zoom in, and find the start year that makes the cameras look best.")
 						.font(.headline)
 						.fixedSize(horizontal: false, vertical: true)
 
 					article
-
-					countingLabel
 
 					if showsComparison {
 						comparison
@@ -63,12 +63,12 @@ struct BiggerPictureDeeperLookPage: View {
 			BiggerPictureChart(
 				points: BiggerPicture.crashes,
 				measure: BiggerPicture.measure,
-				visibleFrom: BiggerPicture.firstYear,
+				visibleFrom: state.countingFrom,
 				highlighted: [state.countingFrom, BiggerPicture.lastYear],
-				countingFrom: state.countingFrom,
-				comparison: showsComparison ? BiggerPicture.otherRoads : nil,
-				onPick: pick
+				comparison: showsComparison ? BiggerPicture.otherRoads : nil
 			)
+			.contentShape(.rect)
+			.gesture(pinch)
 		}
 		.accessibilityElement(children: .ignore)
 		.accessibilityLabel(BiggerPicture.headline(from: state.countingFrom))
@@ -83,39 +83,41 @@ struct BiggerPictureDeeperLookPage: View {
 		.accessibilityIdentifier("learn.biggerPicture.chart")
 	}
 
-	private var countingLabel: some View {
-		Label {
-			Text("Counting from **\(String(state.countingFrom))**")
-				.contentTransition(.numericText())
-		} icon: {
-			Image(systemName: "hand.draw")
-		}
-		.font(.subheadline)
-		.foregroundStyle(.secondary)
-		.frame(maxWidth: .infinity)
-	}
-
 	private var comparison: some View {
-		VStack(alignment: .leading, spacing: 16) {
-			Label("That's the one. From 2023, the cameras look like they halved the crashes.", systemImage: "checkmark.circle.fill")
+		VStack(alignment: .leading, spacing: 21) {
+			Text("That's the one. From 2023, the cameras look like they halved the crashes.")
 				.font(.headline)
 				.foregroundStyle(.green)
 				.fixedSize(horizontal: false, vertical: true)
 
-			HStack(alignment: .firstTextBaseline, spacing: 10) {
-				Image(systemName: "line.diagonal")
-					.foregroundStyle(.secondary)
-				Text(BiggerPicture.comparisonLine)
-					.font(.body)
-					.fixedSize(horizontal: false, vertical: true)
-			}
-			.padding(14)
-			.background(.background.secondary, in: .rect(cornerRadius: 16))
+			Text(BiggerPicture.comparisonLine)
+				.font(.body)
+				.fixedSize(horizontal: false, vertical: true)
+				.padding(14)
+				.frame(maxWidth: .infinity, alignment: .leading)
+				.background(.background.secondary, in: .rect(cornerRadius: 16))
 
 			BiggerPictureContinueButton(identifier: "deeperLook") {
 				state.page = .yourTurn
 			}
 		}
+	}
+
+	// MARK: - Zooming
+
+	/// Pinned to the last year: spreading the fingers shows fewer years, pinching shows more
+	private var pinch: some Gesture {
+		MagnifyGesture()
+			.onChanged { value in
+				let start = pinchStart ?? state.countingFrom
+				pinchStart = start
+				let years = Double(BiggerPicture.lastYear - start + 1)
+				let shown = Int((years / value.magnification).rounded())
+				pick(BiggerPicture.lastYear - shown + 1)
+			}
+			.onEnded { _ in
+				pinchStart = nil
+			}
 	}
 
 	// MARK: - Actions
@@ -125,7 +127,7 @@ struct BiggerPictureDeeperLookPage: View {
 		let year = min(max(year, BiggerPicture.firstYear), BiggerPicture.lastYear - 1)
 		guard year != state.countingFrom else { return }
 
-		withAnimation(.smooth(duration: 0.25)) {
+		withAnimation(.smooth(duration: 0.3)) {
 			state.countingFrom = year
 		}
 

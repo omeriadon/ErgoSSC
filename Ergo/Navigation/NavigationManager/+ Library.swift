@@ -15,26 +15,11 @@ extension NavigationManager {
 			case let .category(category), let .detail(category, _):
 				category
 
-			case .symbols:
-				.symbols
-
 			case .biases:
 				.biases
 
-			case .razors:
-				.razors
-
-			case .paradoxes:
-				.paradoxes
-
-			case .concepts:
-				.concepts
-
 			case .fallacies:
 				.fallacies
-
-			case .arguments:
-				.arguments
 
 			case .finder, nil:
 				nil

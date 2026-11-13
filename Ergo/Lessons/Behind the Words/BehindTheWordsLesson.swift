@@ -101,6 +101,7 @@ struct BehindTheWordsContinueButton: View {
 				.frame(maxWidth: .infinity)
 		}
 		.buttonStyle(.glassProminent)
+		.buttonBorderShape(.roundedRectangle(radius: 12))
 		.controlSize(.large)
 		.accessibilityIdentifier("learn.behindTheWords.continue.\(identifier)")
 	}

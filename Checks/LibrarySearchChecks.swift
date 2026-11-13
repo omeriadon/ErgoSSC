@@ -9,13 +9,13 @@ func checkLibrarySearch() async throws {
 	let named = LibrarySearchEntry(
 		id: "named",
 		name: "Arbitrary",
-		category: .concepts,
+		category: .fallacies,
 		searchFields: [("Arbitrary", 1.0)]
 	)
 	let incidental = LibrarySearchEntry(
 		id: "incidental",
 		name: "Other entry",
-		category: .concepts,
+		category: .fallacies,
 		searchFields: [("Other entry", 1.0), ("Arbitrary", 0.5)]
 	)
 	let ranked = try await CatalogSearch.ranked([incidental, named], query: "Arbitrary") {
@@ -27,19 +27,19 @@ func checkLibrarySearch() async throws {
 		LibrarySearchEntry(
 			id: "tie-a",
 			name: "Arbitrary",
-			category: .concepts,
+			category: .fallacies,
 			searchFields: [("Arbitrary", 1.0)]
 		),
 		LibrarySearchEntry(
 			id: "tie-b",
 			name: "Arbitrary",
-			category: .concepts,
+			category: .fallacies,
 			searchFields: [("Arbitrary", 1.0)]
 		),
 		LibrarySearchEntry(
 			id: "tie-c",
 			name: "Arbitrary",
-			category: .concepts,
+			category: .fallacies,
 			searchFields: [("Arbitrary", 1.0)]
 		),
 	]
@@ -69,42 +69,21 @@ func checkLibrarySearch() async throws {
 		// Expected: cancelled work must not publish results.
 	}
 
-	for query in ["a", "logic", "knowledge", "justice", "arbtr"] {
-		let all = try await CatalogSearch.ranked(store.concepts.concepts, query: query) { $0.searchFields }
+	for query in ["a", "logic", "straw", "evidence", "arbtr"] {
+		let all = try await CatalogSearch.ranked(store.fallacies.fallacies, query: query) { $0.searchFields }
 		let limited = try await CatalogSearch.ranked(
-			store.concepts.concepts,
+			store.fallacies.fallacies,
 			query: query,
 			limit: CatalogSearch.resultLimit
 		) { $0.searchFields }
 		precondition(limited.map(\.id) == all.prefix(CatalogSearch.resultLimit).map(\.id))
 	}
-	let aristotle = store.philosophers.philosophers.first { $0.name == "Aristotle" }!
-	for query in ["Aristotle", "384", "-384", "384 BC", "384 BCE", "322"] {
-		let matches = try await CatalogSearch.ranked([aristotle], query: query) { $0.searchFields }
-		precondition(matches.first?.id == aristotle.id)
-	}
-	precondition(!aristotle.searchFields.contains { $0.text == aristotle.body })
-	let living = store.philosophers.philosophers.first { $0.deathYear == nil }!
-	precondition(living.searchFields.contains { $0.text == "present" })
-	precondition(!living.searchFields.contains { $0.text == "0" })
-
-	let conjunction = store.logicSymbols.symbols.first { $0.name == "Conjunction" }!
-	for query in [conjunction.glyph] + conjunction.alternateGlyphs + conjunction.shortcodes + conjunction.englishReadings {
-		let matches = try await CatalogSearch.ranked([conjunction], query: query) { $0.searchFields }
-		precondition(matches.first?.id == conjunction.id)
-	}
-	for concept in store.concepts.concepts {
-		let expected = [concept.name, concept.summary] + concept.aliases
-		precondition(concept.searchFields.map(\.text).sorted() == expected.sorted())
+	for fallacy in store.fallacies.fallacies {
+		let expected = [fallacy.name, fallacy.summary] + fallacy.aliases
+		precondition(fallacy.searchFields.map(\.text).sorted() == expected.sorted())
 	}
 	var fields = store.biases.biases.flatMap(\.searchFields)
-	fields += store.concepts.concepts.flatMap(\.searchFields)
 	fields += store.fallacies.fallacies.flatMap(\.searchFields)
-	fields += store.logicSymbols.symbols.flatMap(\.searchFields)
-	fields += store.paradoxes.paradoxes.flatMap(\.searchFields)
-	fields += store.philosophers.philosophers.flatMap(\.searchFields)
-	fields += store.razors.razors.flatMap(\.searchFields)
-	fields += store.arguments.arguments.flatMap(\.searchFields)
 	precondition(!fields.isEmpty)
 	print("Verified short search fields, fuzzy ranking, background execution and cancellation.")
 }

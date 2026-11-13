@@ -57,6 +57,7 @@ struct BehindTheWordsIntroPage: View {
 					.font(.headline)
 			}
 			.buttonStyle(.glassProminent)
+			.buttonBorderShape(.roundedRectangle(radius: 12))
 			.controlSize(.large)
 			.accessibilityIdentifier("learn.behindTheWords.lookCloser")
 		}

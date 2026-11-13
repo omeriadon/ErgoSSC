@@ -19,8 +19,8 @@ import Foundation
 /// list. An entry the library no longer has is skipped to the next one, so no other day moves.
 /// Past the end of the shorter list, or after a filter wraps round, versions can differ until everyone has updated.
 public enum ItemOfTheDay {
-	/// Every category of the library but symbols, which are the keyboard's glyphs and not something to read about
-	public static let categories = ["biases", "concepts", "fallacies", "paradoxes", "philosophers", "razors", "arguments"]
+	/// Every category of the library
+	public static let categories = ["biases", "fallacies"]
 
 	/// The pinned order, as `category/id`. Empty only if the package's resources are broken.
 	public static let pinned: [String] = {

@@ -124,12 +124,12 @@ private struct BehindTheWordsSortOption: View {
 				.foregroundStyle(textColor)
 				.frame(maxWidth: .infinity)
 				.padding(.vertical, 10)
-				.background(fillColor, in: .capsule)
+				.background(fillColor, in: .rect(cornerRadius: 12))
 				.overlay {
-					Capsule()
+					RoundedRectangle(cornerRadius: 12)
 						.strokeBorder(strokeColor, lineWidth: 1.5)
 				}
-				.contentShape(.capsule)
+				.contentShape(.rect(cornerRadius: 12))
 		}
 		.buttonStyle(BehindTheWordsPressStyle())
 		.disabled(isLocked)

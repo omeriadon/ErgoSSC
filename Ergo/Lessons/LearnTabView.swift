@@ -28,6 +28,7 @@ struct LearnTabView: View {
 
 				if finishedAll {
 					FinishedAllNote()
+						.padding(.top, 30)
 				}
 			}
 			.padding()
@@ -36,7 +37,7 @@ struct LearnTabView: View {
 			LearnBackground()
 				.ignoresSafeArea()
 		}
-		.toolbarTitleVire("Learn", "text.magnifyingglass")
+		.toolbarTitleVire("Learn", "")
 		#if DEBUG
 			.toolbar {
 				ToolbarItem(placement: .topBarTrailing) {
@@ -87,12 +88,7 @@ private struct LessonCard: View {
 			HStack(alignment: .top, spacing: 14) {
 				LessonArt(lesson: lesson, isFinished: isFinished, isUnlocked: isUnlocked)
 
-				VStack(alignment: .leading, spacing: 4) {
-					Text("\(lesson.number)")
-						.font(.caption.weight(.semibold))
-						.foregroundStyle(lesson.tint)
-						.textCase(.uppercase)
-
+				VStack(alignment: .leading, spacing: 8) {
 					Text(lesson.title)
 						.font(.title3.bold())
 
@@ -107,6 +103,8 @@ private struct LessonCard: View {
 				Spacer(minLength: 0)
 			}
 		}
+		// A button's label centres wrapped lines by default
+		.multilineTextAlignment(.leading)
 		.padding(16)
 		.frame(maxWidth: .infinity, alignment: .leading)
 		.glassEffect(.regular.interactive(), in: .rect(cornerRadius: 28))
@@ -125,8 +123,6 @@ private struct LessonTopics: View {
 	var body: some View {
 		Text(topics.joined(separator: ", "))
 			.font(.caption.weight(.medium))
-			.padding(.horizontal, 10)
-			.padding(.vertical, 5)
 			.foregroundStyle(tint)
 	}
 }
@@ -138,7 +134,7 @@ private struct FinishedAllNote: View {
 			Text("Well done, you've finished every lesson!")
 				.font(.headline)
 
-			Text("Next time you read a post, an ad or an argument, you'll be able to see what it's actually claiming, and whether anything holds it up.")
+			Text("Next time you read a post, an ad or an argument, you'll be able to see what it's actually claiming, and whether anything holds it up. There's more to explore in the Library, too.")
 				.font(.subheadline)
 				.foregroundStyle(.secondary)
 		}

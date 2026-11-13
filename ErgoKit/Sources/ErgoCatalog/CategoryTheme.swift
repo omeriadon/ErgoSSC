@@ -26,20 +26,8 @@ public enum CategoryTheme: String, Sendable, CaseIterable {
 		switch category {
 			case "biases":
 				.red
-			case "concepts":
-				.green
 			case "fallacies":
 				.blue
-			case "symbols":
-				.orange
-			case "paradoxes":
-				.mint
-			case "philosophers":
-				.purple
-			case "razors":
-				.yellow
-			case "arguments":
-				.teal
 			default:
 				nil
 		}

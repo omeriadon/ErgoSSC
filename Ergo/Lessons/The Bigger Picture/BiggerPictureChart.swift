@@ -15,13 +15,9 @@ struct BiggerPictureChart: View {
 	let visibleFrom: Int
 	/// Drawn in the lesson's colour. The rest are faint.
 	var highlighted: Set<Int> = []
-	/// Page 2: bars before it are dimmed right down
-	var countingFrom: Int?
 	var usual: Double?
 	var comparison: [ChartPoint]?
 	var note: (year: Int, text: String)?
-	/// Page 2: dragging picks a year
-	var onPick: ((Int) -> Void)?
 	var height: CGFloat = 200
 
 	private let tint = Lesson.biggerPicture.tint
@@ -50,15 +46,6 @@ struct BiggerPictureChart: View {
 						Text("’\(label.suffix(2))")
 					}
 				}
-			}
-		}
-		.chartOverlay { proxy in
-			GeometryReader { geometry in
-				Rectangle()
-					.fill(.clear)
-					.contentShape(.rect)
-					.gesture(drag(proxy: proxy, geometry: geometry))
-					.allowsHitTesting(onPick != nil)
 			}
 		}
 		.frame(height: height)
@@ -118,30 +105,14 @@ struct BiggerPictureChart: View {
 	}
 
 	private func color(for point: ChartPoint) -> Color {
-		if let countingFrom, point.year < countingFrom {
-			return .secondary.opacity(0.15)
-		}
-		return highlighted.contains(point.year) ? tint : tint.opacity(0.3)
-	}
-
-	// MARK: - Picking a year
-
-	private func drag(proxy: ChartProxy, geometry: GeometryProxy) -> some Gesture {
-		DragGesture(minimumDistance: 0)
-			.onChanged { value in
-				guard let onPick, let plotFrame = proxy.plotFrame else { return }
-				let x = value.location.x - geometry[plotFrame].origin.x
-				if let label: String = proxy.value(atX: x), let year = Int(label) {
-					onPick(year)
-				}
-			}
+		highlighted.contains(point.year) ? tint : tint.opacity(0.3)
 	}
 }
 
 /// The article the chart sits in, like a page of a local paper
 struct BiggerPictureArticle<Content: View>: View {
 	let headline: String
-	/// Page 2 rewrites the headline as you drag, so it keeps two lines' room whatever it says
+	/// Page 2 rewrites the headline as you zoom, so it keeps two lines' room whatever it says
 	var reservesTwoLines = false
 	@ViewBuilder var chart: Content
 
@@ -154,7 +125,6 @@ struct BiggerPictureArticle<Content: View>: View {
 
 			Text(headline)
 				.font(.title2.bold())
-				.fontDesign(.serif)
 				.lineLimit(reservesTwoLines ? 2 : 4, reservesSpace: reservesTwoLines)
 				.fixedSize(horizontal: false, vertical: true)
 				.contentTransition(.numericText())
@@ -167,6 +137,7 @@ struct BiggerPictureArticle<Content: View>: View {
 				.font(.caption)
 				.foregroundStyle(.secondary)
 		}
+		.fontDesign(.serif)
 		.padding(16)
 		.frame(maxWidth: .infinity, alignment: .leading)
 		.background(.background.secondary, in: .rect(cornerRadius: 22))
@@ -185,6 +156,7 @@ struct BiggerPictureContinueButton: View {
 				.frame(maxWidth: .infinity)
 		}
 		.buttonStyle(.glassProminent)
+		.buttonBorderShape(.roundedRectangle(radius: 12))
 		.controlSize(.large)
 		.accessibilityIdentifier("learn.biggerPicture.continue.\(identifier)")
 	}

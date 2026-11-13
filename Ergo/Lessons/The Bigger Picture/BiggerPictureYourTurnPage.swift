@@ -14,11 +14,12 @@ struct BiggerPictureYourTurnPage: View {
 
 	@Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-	/// Long enough for the chart to zoom out, show what it hid, and its explanation to be read
-	private let nextDelay = 4.6
-
 	private var visible: [BiggerPictureQuizItem] {
-		Array(BiggerPicture.quiz.prefix(state.quizPicks.count + 1))
+		Array(BiggerPicture.quiz.prefix(state.quizShown))
+	}
+
+	private var showsScore: Bool {
+		state.quizShown > BiggerPicture.quiz.count
 	}
 
 	var body: some View {
@@ -27,7 +28,7 @@ struct BiggerPictureYourTurnPage: View {
 				content
 					.padding()
 			}
-			.onChange(of: state.quizPicks.count) { old, new in
+			.onChange(of: state.quizShown) { old, new in
 				guard new > old else { return }
 				scrollToEnd(proxy)
 			}
@@ -45,14 +46,14 @@ struct BiggerPictureYourTurnPage: View {
 				.fixedSize(horizontal: false, vertical: true)
 
 			ForEach(visible) { item in
-				BiggerPictureQuizCard(item: item, pick: pick(for: item)) { isFair in
+				BiggerPictureQuizCard(item: item, pick: pick(for: item), onNext: onNext(for: item)) { isFair in
 					answer(item, isFair: isFair)
 				}
 				.id(item.id)
 				.transition(.opacity.combined(with: .offset(y: 24)))
 			}
 
-			if state.quizFinished {
+			if showsScore {
 				BiggerPictureScore(score: state.quizScore) {
 					state.page = .summary
 				}
@@ -64,7 +65,15 @@ struct BiggerPictureYourTurnPage: View {
 			Color.clear
 				.frame(height: 250)
 		}
-		.animation(reduceMotion ? .easeInOut(duration: 0.25) : .smooth(duration: 0.6).delay(nextDelay), value: state.quizPicks.count)
+		.animation(reduceMotion ? .easeInOut(duration: 0.25) : .smooth(duration: 0.6), value: state.quizShown)
+	}
+
+	/// Only the last headline on screen moves on, once it's answered
+	private func onNext(for item: BiggerPictureQuizItem) -> (() -> Void)? {
+		guard item.id == state.quizShown - 1, pick(for: item) != nil else { return nil }
+		return {
+			state.quizShown += 1
+		}
 	}
 
 	private func pick(for item: BiggerPictureQuizItem) -> Bool? {
@@ -78,10 +87,11 @@ struct BiggerPictureYourTurnPage: View {
 	}
 
 	private func scrollToEnd(_ proxy: ScrollViewProxy) {
-		let finished = state.quizFinished
-		let next = state.quizPicks.count
+		let finished = showsScore
+		let next = state.quizShown - 1
 		Task {
-			try? await Task.sleep(for: .seconds(nextDelay + 0.2))
+			// After the new headline has started to fade in
+			try? await Task.sleep(for: .seconds(0.3))
 			withAnimation(reduceMotion ? nil : .smooth(duration: 0.7)) {
 				if finished {
 					proxy.scrollTo("continue", anchor: .center)
@@ -104,6 +114,8 @@ private struct BiggerPictureQuizCard: View {
 	let item: BiggerPictureQuizItem
 	/// True is "Fair picture", nil is unanswered
 	let pick: Bool?
+	/// Shown once the explanation is, on the headline that's last on screen
+	let onNext: (() -> Void)?
 	let onPick: (Bool) -> Void
 
 	@Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -114,11 +126,12 @@ private struct BiggerPictureQuizCard: View {
 	@State private var showsReveal: Bool
 	@State private var showsExplanation: Bool
 
-	init(item: BiggerPictureQuizItem, pick: Bool?, onPick: @escaping (Bool) -> Void) {
+	init(item: BiggerPictureQuizItem, pick: Bool?, onNext: (() -> Void)?, onPick: @escaping (Bool) -> Void) {
 		self.item = item
 		self.pick = pick
+		self.onNext = onNext
 		self.onPick = onPick
-		_visibleFrom = State(initialValue: pick == nil ? item.pickedFrom : BiggerPicture.firstYear)
+		_visibleFrom = State(initialValue: pick == nil ? item.shownFrom : BiggerPicture.firstYear)
 		_showsReveal = State(initialValue: pick != nil && !item.isFair)
 		_showsExplanation = State(initialValue: pick != nil)
 	}
@@ -143,6 +156,11 @@ private struct BiggerPictureQuizCard: View {
 			if showsExplanation {
 				result
 					.transition(.opacity)
+
+				if let onNext {
+					nextButton(onNext)
+						.transition(.opacity.animation(.smooth(duration: 0.4).delay(0.6)))
+				}
 			}
 		}
 		.onChange(of: pick) { old, new in
@@ -171,11 +189,12 @@ private struct BiggerPictureQuizCard: View {
 			)
 			.overlay(alignment: .topTrailing) {
 				if showsReveal {
-					Label("Zoomed out", systemImage: "arrow.up.left.and.arrow.down.right")
+					// A chart that showed every year all along has nothing to zoom out from
+					Label(item.shownFrom == BiggerPicture.firstYear ? "Whole picture" : "Zoomed out", systemImage: "arrow.up.left.and.arrow.down.right")
 						.font(.caption.weight(.semibold))
 						.padding(.horizontal, 10)
 						.padding(.vertical, 5)
-						.background(.orange.opacity(0.2), in: .capsule)
+						.background(.orange.opacity(0.2), in: .rect(cornerRadius: 8))
 						.foregroundStyle(.orange)
 						.transition(.scale(0.8).combined(with: .opacity))
 				}
@@ -193,10 +212,10 @@ private struct BiggerPictureQuizCard: View {
 		.accessibilityValue(chartDescription)
 	}
 
-	/// Before an answer, every bar shown is lit. Once zoomed out, only the headline's window is.
+	/// Before the reveal, every bar is lit. After it, only the headline's window is.
 	private var highlighted: Set<Int> {
-		let window = item.points.map(\.year).filter { $0 >= item.pickedFrom }
-		return Set(window)
+		let from = showsReveal ? item.pickedFrom : BiggerPicture.firstYear
+		return Set(item.points.map(\.year).filter { $0 >= from })
 	}
 
 	private var chartDescription: String {
@@ -208,7 +227,7 @@ private struct BiggerPictureQuizCard: View {
 
 	private var result: some View {
 		VStack(alignment: .leading, spacing: 4) {
-			Label(resultTitle, systemImage: isRight ? "checkmark.circle.fill" : "xmark.circle.fill")
+			Text(resultTitle)
 				.font(.subheadline.weight(.semibold))
 				.foregroundStyle(isRight ? .green : .orange)
 
@@ -224,6 +243,19 @@ private struct BiggerPictureQuizCard: View {
 			return item.isFair ? "That's right, it's fair." : "That's right, it's cherry-picked."
 		}
 		return item.isFair ? "It's actually fair." : "Zoomed out, it's a different story."
+	}
+
+	private func nextButton(_ action: @escaping () -> Void) -> some View {
+		Button(action: action) {
+			Text(item.id == BiggerPicture.quiz.count - 1 ? "See how you did" : "Next headline")
+				.font(.subheadline.weight(.semibold))
+				.frame(maxWidth: .infinity)
+				.padding(.vertical, 11)
+		}
+		.buttonStyle(.glassProminent)
+		.buttonBorderShape(.roundedRectangle(radius: 12))
+		.padding(.top, 4)
+		.accessibilityIdentifier("learn.biggerPicture.quiz.\(item.id).next")
 	}
 
 	private func option(_ title: String, isFair: Bool) -> some View {
@@ -286,12 +318,12 @@ private struct BiggerPictureQuizOption: View {
 				.foregroundStyle(textColor)
 				.frame(maxWidth: .infinity)
 				.padding(.vertical, 11)
-				.background(fillColor, in: .capsule)
+				.background(fillColor, in: .rect(cornerRadius: 12))
 				.overlay {
-					Capsule()
+					RoundedRectangle(cornerRadius: 12)
 						.strokeBorder(isLocked && isPicked && !isAnswer ? Color.orange : .clear, lineWidth: 1.5)
 				}
-				.contentShape(.capsule)
+				.contentShape(.rect(cornerRadius: 12))
 		}
 		.buttonStyle(.plain)
 		.disabled(isLocked)

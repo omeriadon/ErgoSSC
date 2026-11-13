@@ -72,25 +72,3 @@ extension LibraryTag {
 		allCases.map(\.libraryFilter)
 	}
 }
-
-extension SymbolGroup {
-	nonisolated var libraryFilter: LibraryFilter {
-		LibraryFilter(kind: .group, key: rawValue, title: rawValue.capitalized)
-	}
-
-	nonisolated static var libraryFilters: [LibraryFilter] {
-		allCases.map(\.libraryFilter)
-	}
-}
-
-extension SymbolSearchToken {
-	nonisolated var libraryFilter: LibraryFilter {
-		switch self {
-			case let .group(group):
-				group.libraryFilter
-
-			case let .tag(tag):
-				tag.libraryFilter
-		}
-	}
-}

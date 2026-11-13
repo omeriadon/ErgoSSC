@@ -11,22 +11,12 @@ import Foundation
 /// An item of the day, whole. Switch on it for the kind's own properties.
 nonisolated enum ItemOfTheDayItem: Sendable {
 	case bias(Bias)
-	case concept(Concept)
 	case fallacy(Fallacy)
-	case paradox(Paradox)
-	case philosopher(Philosopher)
-	case razor(Razor)
-	case argument(Argument)
 
 	var reference: CatalogReference {
 		switch self {
 			case let .bias(item): CatalogReference(id: item.id, name: item.name, category: .biases)
-			case let .concept(item): CatalogReference(id: item.id, name: item.name, category: .concepts)
 			case let .fallacy(item): CatalogReference(id: item.id, name: item.name, category: .fallacies)
-			case let .paradox(item): CatalogReference(id: item.id, name: item.name, category: .paradoxes)
-			case let .philosopher(item): CatalogReference(id: item.id, name: item.name, category: .philosophers)
-			case let .razor(item): CatalogReference(id: item.id, name: item.name, category: .razors)
-			case let .argument(item): CatalogReference(id: item.id, name: item.name, category: .arguments)
 		}
 	}
 
@@ -41,12 +31,7 @@ nonisolated enum ItemOfTheDayItem: Sendable {
 
 		switch parts[0] {
 			case "biases": return find(id, in: "biases", index: index, \BiasCatalog.biases).map(Self.bias)
-			case "concepts": return find(id, in: "concepts", index: index, \ConceptCatalog.concepts).map(Self.concept)
 			case "fallacies": return find(id, in: "fallacies", index: index, \FallacyCatalog.fallacies).map(Self.fallacy)
-			case "paradoxes": return find(id, in: "paradoxes", index: index, \ParadoxCatalog.paradoxes).map(Self.paradox)
-			case "philosophers": return find(id, in: "philosophers", index: index, \PhilosopherCatalog.philosophers).map(Self.philosopher)
-			case "razors": return find(id, in: "razors", index: index, \RazorCatalog.razors).map(Self.razor)
-			case "arguments": return find(id, in: "arguments", index: index, \ArgumentCatalog.arguments).map(Self.argument)
 			default: return nil
 		}
 	}

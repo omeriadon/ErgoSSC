@@ -137,9 +137,7 @@
       ],
       "evidenceNote": "Mood-congruent judgment is supported in controlled research, but affect infusion is moderated by processing style, task ambiguity, and whether the feeling is relevant to the target.",
       "lookalikes": [],
-      "related": [
-        "tarzwells-razor"
-      ],
+      "related": [],
       "tags": [
         "decision-making"
       ]
@@ -1874,9 +1872,7 @@
       ],
       "evidenceNote": "A methodological concern whose risk varies with subjectivity, contact, blinding, and discretion.",
       "lookalikes": [],
-      "related": [
-        "pygmalion-razor"
-      ],
+      "related": [],
       "tags": [
         "research-and-measurement"
       ]
@@ -2400,7 +2396,6 @@
       "evidenceNote": null,
       "lookalikes": [],
       "related": [
-        "charisma-razor",
         "heroes-all-fallacy"
       ],
       "tags": [
@@ -2653,9 +2648,7 @@
       ],
       "evidenceNote": null,
       "lookalikes": [],
-      "related": [
-        "hanlons-razor"
-      ],
+      "related": [],
       "tags": [
         "attribution"
       ]
@@ -2866,9 +2859,7 @@
         }
       ],
       "lookalikes": [],
-      "related": [
-        "processing-fluency"
-      ],
+      "related": [],
       "counters": [
         "Use retrieval practice and delayed quizzes rather than relying on rereading as the only measure.",
         "Practice explaining and applying the idea in unfamiliar examples, then correct errors with feedback."
@@ -5508,9 +5499,7 @@
       ],
       "evidenceNote": "Selection bias is a central causal-inference and epidemiologic concept, with multiple forms and no single correction.",
       "lookalikes": [],
-      "related": [
-        "instagram-razor"
-      ],
+      "related": [],
       "tags": [
         "research-and-measurement"
       ]
@@ -5913,9 +5902,7 @@
       ],
       "evidenceNote": "The spotlight effect was demonstrated in social psychology experiments involving conspicuous clothing and performance.",
       "lookalikes": [],
-      "related": [
-        "narcissism-razor"
-      ],
+      "related": [],
       "tags": [
         "social-judgment"
       ]

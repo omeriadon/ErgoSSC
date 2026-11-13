@@ -16,9 +16,7 @@
         }
       ],
       "lookalikes": [],
-      "related": [
-        "rationalism"
-      ],
+      "related": [],
       "detectionCriteria": "The conclusion is protected from disconfirmation by ad hoc dismissal of contrary evidence.",
       "checkMode": "model",
       "doesNotCountWhen": [
@@ -72,9 +70,7 @@
         "Accurately identifying emphasis that was present and relevant to the original meaning is not a fallacy."
       ],
       "lookalikes": [],
-      "related": [
-        "aristotle"
-      ],
+      "related": [],
       "tags": [
         "language-and-ambiguity"
       ]
@@ -101,9 +97,7 @@
         "Applying a rule to an ordinary case within its intended scope is not an accident fallacy."
       ],
       "lookalikes": [],
-      "related": [
-        "aristotle"
-      ],
+      "related": [],
       "tags": [
         "generalization-and-sampling"
       ]
@@ -224,8 +218,7 @@
       ],
       "lookalikes": [],
       "related": [
-        "denying-the-antecedent",
-        "material-conditional"
+        "denying-the-antecedent"
       ],
       "tags": [
         "formal-logic"
@@ -372,9 +365,7 @@
         "Clarifying the intended grammatical relation before drawing a conclusion removes the ambiguity."
       ],
       "lookalikes": [],
-      "related": [
-        "aristotle"
-      ],
+      "related": [],
       "tags": [
         "language-and-ambiguity"
       ]
@@ -1930,11 +1921,7 @@
         "A base rate need not dominate when strong evidence has a very high likelihood ratio; sound inference combines both."
       ],
       "lookalikes": [],
-      "related": [
-        "sagan-standard",
-        "optimist-razor",
-        "smart-friends-razor"
-      ],
+      "related": [],
       "tags": [
         "probability-and-statistics"
       ]
@@ -1960,9 +1947,7 @@
         "A premise may support the conclusion when it has independent grounds, even if the two claims are closely related."
       ],
       "lookalikes": [],
-      "related": [
-        "aristotle"
-      ],
+      "related": [],
       "tags": [
         "premises-and-evidence"
       ]
@@ -2288,9 +2273,7 @@
         "A question is fair when its presupposition is established or the respondent can challenge it without being framed as evasive."
       ],
       "lookalikes": [],
-      "related": [
-        "aristotle"
-      ],
+      "related": [],
       "tags": [
         "premises-and-evidence"
       ]
@@ -2314,9 +2297,7 @@
         "The inference is sound for properties that genuinely distribute across the whole, such as each member being present in the set."
       ],
       "lookalikes": [],
-      "related": [
-        "aristotle"
-      ],
+      "related": [],
       "tags": [
         "language-and-ambiguity"
       ]
@@ -2686,9 +2667,7 @@
         "The inference is valid for properties that apply to every member by definition or evidence."
       ],
       "lookalikes": [],
-      "related": [
-        "aristotle"
-      ],
+      "related": [],
       "tags": [
         "language-and-ambiguity"
       ]
@@ -2788,10 +2767,7 @@
         "A word may have several meanings without error when the argument uses one consistent sense throughout."
       ],
       "lookalikes": [],
-      "related": [
-        "distinction-making",
-        "aristotle"
-      ],
+      "related": [],
       "tags": [
         "language-and-ambiguity"
       ]
@@ -3459,9 +3435,7 @@
         "Provenance is relevant to evidential weight when linked to methods, incentives, or reliability and then assessed alongside the evidence."
       ],
       "lookalikes": [],
-      "related": [
-        "genealogical-critique"
-      ],
+      "related": [],
       "tags": [
         "relevance-and-appeals"
       ]
@@ -3830,9 +3804,7 @@
         "A related benefit is relevant when the question is whether to adopt the plan overall, but it does not answer a separate safety claim."
       ],
       "lookalikes": [],
-      "related": [
-        "aristotle"
-      ],
+      "related": [],
       "tags": [
         "relevance-and-debate"
       ]
@@ -4149,9 +4121,7 @@
         "An ought conclusion can follow when an explicit normative premise connects the facts to a duty or policy."
       ],
       "lookalikes": [],
-      "related": [
-        "humes-guillotine"
-      ],
+      "related": [],
       "tags": [
         "ethics-history-and-economics"
       ]
@@ -4636,9 +4606,7 @@
         "A moral theory may argue that a natural property grounds value, but it must defend that account rather than assume identity by definition."
       ],
       "lookalikes": [],
-      "related": [
-        "g-e-moore"
-      ],
+      "related": [],
       "tags": [
         "ethics-history-and-economics"
       ]
@@ -5738,9 +5706,7 @@
         "Burden can shift after a claim has met an appropriate evidential threshold or when the critic advances a new claim."
       ],
       "lookalikes": [],
-      "related": [
-        "hitchens-razor"
-      ],
+      "related": [],
       "tags": [
         "premises-and-evidence"
       ]

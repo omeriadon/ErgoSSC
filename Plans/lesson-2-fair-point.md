@@ -69,7 +69,7 @@ Leo is a sibling.
 
 ### Scribbling
 
-- The person draws with a finger over the conversation. The stroke is drawn as it goes, like a highlighter or pen.
+- The person draws with a finger over the conversation. The stroke is drawn as it goes in the accent colour, like a highlighter, curved so it stays smooth. A tap on a bubble counts the same as a scribble.
 - When a stroke ends, every one of Leo's bubbles it crossed counts as scribbled. Matching is by bubble frame, not by words, so a messy scribble still works. Use a drag gesture's points hit-tested against each bubble's frame in a shared coordinate space. No PencilKit.
 - As soon as a bubble is scribbled, its popover shows (same popover style as page 2) and the bubble gets marked: caught for an unfair one, a gentle "fair" look for the fair one. The ink stroke can then fade.
 - Scribbling the fair message isn't a failure. Its popover just explains it.

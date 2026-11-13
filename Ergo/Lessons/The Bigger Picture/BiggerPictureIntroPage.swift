@@ -91,6 +91,7 @@ struct BiggerPictureIntroPage: View {
 					.font(.headline)
 			}
 			.buttonStyle(.glassProminent)
+			.buttonBorderShape(.roundedRectangle(radius: 12))
 			.controlSize(.large)
 			.accessibilityIdentifier("learn.biggerPicture.zoomOut")
 		}
@@ -175,7 +176,7 @@ private struct BiggerPictureTerms: View {
 				BiggerPictureTermRow(
 					name: "Back to normal",
 					symbol: "arrow.uturn.down",
-					definition: "After an unusually bad (or good) stretch, things usually drift back to normal on their own, whatever anyone does."
+					definition: "After an unusually bad (or good) stretch, things usually drift back to normal on their own, even if nothing changes."
 				)
 			}
 

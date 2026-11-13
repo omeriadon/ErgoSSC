@@ -68,26 +68,8 @@ extension LibraryContent {
 			case .biases:
 				Bias.availableFilters
 
-			case .razors:
-				Razor.availableFilters
-
-			case .symbols:
-				LogicSymbol.availableFilters
-
-			case .concepts:
-				Concept.availableFilters
-
-			case .paradoxes:
-				Paradox.availableFilters
-
 			case .fallacies:
 				Fallacy.availableFilters
-
-			case .arguments:
-				Argument.availableFilters
-
-			case .philosophers:
-				[]
 		}
 	}
 }

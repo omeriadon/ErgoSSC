@@ -164,7 +164,7 @@ private struct BehindTheWordsClaimQuestion: View {
 			BehindTheWordsQuestionHeading(number: 1, text: "Which part here actually says what it wants you to do?")
 
 			if found {
-				Label("That's the claim.", systemImage: "checkmark.circle.fill")
+				Text("That's the claim.")
 					.foregroundStyle(.green)
 					.transition(.opacity)
 			} else if missed {

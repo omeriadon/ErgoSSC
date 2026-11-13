@@ -16,10 +16,12 @@ struct LibraryFinderView: View {
 	@State private var search: Task<Void, Never>?
 	@FocusState private var isWriting: Bool
 
+	/// Situations, not definitions, since that's how people notice these
 	private static let examples = [
-		"Attacking the person instead of what they said",
-		"Believing something because everyone else does",
-		"A ship that has had every plank replaced",
+		"My brother says I can't tell him to exercise because I don't either",
+		"I only seem to notice the news that agrees with what I already think",
+		"I'm still watching a bad film because I paid for the ticket",
+		"Someone turned what I said into something way more extreme, then argued against that",
 	]
 
 	private var canFind: Bool {
@@ -88,7 +90,7 @@ private struct LibraryFinderField: View {
 		VStack(alignment: .trailing, spacing: 10) {
 			// No upper line limit: a field that scrolls inside itself cuts its text off at the padding, so it grows and
 			// the page scrolls instead. `descriptionLimit` is what stops it.
-			TextField("Describe a fallacy, a bias, or a concept...", text: $description, axis: .vertical)
+			TextField("Describe something someone said, or a way of thinking you've noticed…", text: $description, axis: .vertical)
 				.lineLimit(3...)
 				.focused(isWriting)
 				.accessibilityIdentifier("library.finder.field")
@@ -118,7 +120,7 @@ private struct LibraryFinderResults: View {
 		switch state {
 			case .idle:
 				VStack(alignment: .leading, spacing: 10) {
-					Text("Or try one of these:")
+					Text("Or try one of these")
 						.font(.footnote)
 						.foregroundStyle(.secondary)
 
@@ -152,7 +154,7 @@ private struct LibraryFinderResults: View {
 			case let .found(answer):
 				VStack(alignment: .leading, spacing: 14) {
 					if !answer.byModel {
-						Text(LibraryFinder.isModelAvailable ? "Nothing fits well. These are the closest." : "Apple Intelligence isn't available, so these are the closest matches by search.")
+						Text("Nothing fits well. These are the closest.")
 							.font(.footnote)
 							.foregroundStyle(.secondary)
 					}

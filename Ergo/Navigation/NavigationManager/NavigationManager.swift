@@ -52,10 +52,6 @@ final class NavigationManager {
 		}
 	)
 
-	// MARK: - symbolFilters
-
-	var symbolFilters: [SymbolSearchToken] = []
-
 	// MARK: - libraryTagFilters
 
 	var libraryTagFilters: [LibraryContent: [String]] = [:]

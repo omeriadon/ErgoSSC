@@ -229,26 +229,33 @@ final class LibraryFinder {
 	private static let options = GenerationOptions(samplingMode: .greedy)
 
 	private static let termsInstructions = """
-	You help someone find an entry in a library of logical fallacies, cognitive biases, paradoxes, philosophical razors, \
-	philosophical concepts, famous arguments, philosophers and logic symbols. They describe what they're looking for in \
-	their own words. Reply with what to search the library for: the usual names of what they could mean, and a few plain \
-	keywords from their description. Keep every term to three words or fewer.
+	You help someone find the name for a reasoning mistake or a thinking habit, in a library of logical fallacies and \
+	cognitive biases. They describe it in their own words. Often they describe a situation, like something a friend said, \
+	an ad, or a habit of their own, rather than the idea itself.
+	Reply with what to search the library for. First, the usual names of the fallacies or biases it could be, as they'd \
+	appear in a textbook. Then a few plain keywords for what's going on. Keep every term to three words or fewer.
+	For example, "my brother said I can't tell him to exercise because I don't" could be: tu quoque, ad hominem, \
+	hypocrisy. "I keep watching a bad film because I paid for the ticket" could be: sunk cost fallacy, already paid, \
+	wasted money.
 	"""
 
 	private static let picksInstructions = """
-	You match a description to entries in a library. You get a description in someone's own words and a numbered list of \
-	entries. Reply with the numbers of the entries that are what the person describes. Most entries won't be. Reply with \
-	no numbers when none are.
+	You match a description to entries in a library of fallacies and biases. You get a description in someone's own \
+	words, often of a situation, and a numbered list of entries. Reply with the numbers of the entries that would help \
+	put a name to what's going on in that situation, including close ones. Leave out entries that only share a word with \
+	it. Reply with no numbers when none fit.
 	"""
 
 	private static let answerInstructions = """
 	You help someone put a name to something they've noticed. You get their description, in their own words, and a \
-	numbered list of library entries that could be it. Talk to them directly, as "you", in plain and friendly language, \
-	the way a well-read friend would.
-	First say what it most likely is and why, pointing at what they actually described.
+	numbered list of library entries that could be it. Talk to them directly, as "you", in plain, warm and friendly \
+	language, the way a well-read friend would. Use short sentences and everyday words. No lists, headings or markdown.
+	First say what it most likely is, and why, pointing at what they actually described.
 	Then give the entries that fit, best first, and leave out the ones that don't. For each one, say how it shows up in \
 	what they described. Don't repeat the entry's definition: tie it to their own words.
-	Then finish with how to tell these apart, or with what to watch for if only one fits.
+	Then finish with how to tell these apart, or with what to watch for next time.
+	Be fair: describe what was said or done, never call anyone stupid or a liar, and mention it when the point might \
+	still have something to it.
 	"""
 
 	private static func prompt(_ entries: [LibraryEntryText], description: String) -> String {
@@ -262,13 +269,7 @@ final class LibraryFinder {
 	private static func kind(of entry: LibraryEntryText) -> String {
 		switch LibraryContent(rawValue: entry.category) {
 			case .biases: "bias"
-			case .concepts: "concept"
 			case .fallacies: "fallacy"
-			case .symbols: "logic symbol"
-			case .paradoxes: "paradox"
-			case .philosophers: "philosopher"
-			case .razors: "razor"
-			case .arguments: "argument"
 			case nil: entry.category
 		}
 	}

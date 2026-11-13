@@ -135,7 +135,7 @@ private struct BehindTheWordsQuizCard: View {
 
 	private var result: some View {
 		VStack(alignment: .leading, spacing: 4) {
-			Label(isRight ? "That's right." : "Not quite.", systemImage: isRight ? "checkmark.circle.fill" : "xmark.circle.fill")
+			Text(isRight ? "That's right." : "Not quite.")
 				.font(.subheadline.weight(.semibold))
 				.foregroundStyle(isRight ? .green : .orange)
 
@@ -174,12 +174,12 @@ private struct BehindTheWordsQuizOption: View {
 				.foregroundStyle(textColor)
 				.frame(maxWidth: .infinity)
 				.padding(.vertical, 11)
-				.background(fillColor, in: .capsule)
+				.background(fillColor, in: .rect(cornerRadius: 12))
 				.overlay {
-					Capsule()
+					RoundedRectangle(cornerRadius: 12)
 						.strokeBorder(isLocked && isPicked && !isAnswer ? Color.orange : .clear, lineWidth: 1.5)
 				}
-				.contentShape(.capsule)
+				.contentShape(.rect(cornerRadius: 12))
 		}
 		.buttonStyle(BehindTheWordsPressStyle())
 		.disabled(isLocked)

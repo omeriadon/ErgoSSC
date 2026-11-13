@@ -10,7 +10,7 @@ import Foundation
 /// Ergo's library as plain text, for what reads it without showing it: the server's tools for the model, and the
 /// app's intents that share them. The app's Library has richer models of its own, from these same files.
 public struct LibraryCatalog: Sendable {
-	public static let categories = ["biases", "concepts", "fallacies", "symbols", "paradoxes", "philosophers", "razors", "arguments"]
+	public static let categories = ["biases", "fallacies"]
 
 	/// Loaded the first time it's needed. Nil only if the package's resources are broken.
 	public static let shared = try? LibraryCatalog.load()

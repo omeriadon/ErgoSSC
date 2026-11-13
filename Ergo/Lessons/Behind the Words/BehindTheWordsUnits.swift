@@ -162,7 +162,7 @@ struct BehindTheWordsKindTag: View {
 			.foregroundStyle(kind.color)
 			.padding(.horizontal, 7)
 			.padding(.vertical, 3)
-			.background(kind.color.opacity(0.15), in: .capsule)
+			.background(kind.color.opacity(0.15), in: .rect(cornerRadius: 5))
 			.fixedSize()
 	}
 }

@@ -10,17 +10,17 @@ func checkCatalogLoading() async throws {
 				try await store.load()
 				await MainActor.run {
 					precondition(store.isLoaded, "Load returned before publishing the catalog")
-					precondition(!store.concepts.concepts.isEmpty)
+					precondition(!store.fallacies.fallacies.isEmpty)
 				}
 			}
 		}
 		try await group.waitForAll()
 	}
 
-	let original = store.concepts.concepts
+	let original = store.fallacies.fallacies
 	try await store.load()
 	original.withUnsafeBufferPointer { first in
-		store.concepts.concepts.withUnsafeBufferPointer { second in
+		store.fallacies.fallacies.withUnsafeBufferPointer { second in
 			precondition(first.baseAddress == second.baseAddress, "Repeated load decoded another copy")
 		}
 	}

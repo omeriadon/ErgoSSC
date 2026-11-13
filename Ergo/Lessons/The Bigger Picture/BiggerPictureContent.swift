@@ -29,8 +29,10 @@ nonisolated struct BiggerPictureQuizItem: Identifiable, Hashable, Sendable {
 	/// What the bars count, for VoiceOver and the axis
 	let measure: String
 	let points: [ChartPoint]
-	/// The first year the headline's chart shows
+	/// The first year the headline counts from
 	let pickedFrom: Int
+	/// The first year its chart shows before it's answered. Usually where the headline counts from, so a cherry-picked one looks fair.
+	let shownFrom: Int
 	let isFair: Bool
 	/// On the year the headline started from, once zoomed out
 	let pickNote: String?
@@ -67,7 +69,7 @@ nonisolated enum BiggerPicture {
 		return before.map(\.value).reduce(0, +) / Double(before.count)
 	}
 
-	static let spikeNote = "Cameras go in after this"
+	static let spikeNote = "Worst year"
 
 	static let zoomedOutLine = "Zoomed out, 2023 was a one-off. The cameras went in because it was so bad, and most years are about \(Int(usual.rounded())) anyway."
 
@@ -103,6 +105,7 @@ nonisolated enum BiggerPicture {
 			measure: "Average price ($k)",
 			points: points([610, 640, 655, 630, 620, 520, 600, 650, 660, 676]),
 			pickedFrom: 2020,
+			shownFrom: 2020,
 			isFair: false,
 			pickNote: "A dip",
 			explanation: "2020 was a dip. Over ten years, prices have only gone up about 10%."
@@ -113,6 +116,7 @@ nonisolated enum BiggerPicture {
 			measure: "Visits (thousands)",
 			points: points([40, 43, 46, 48, 51, 53, 56, 58, 61, 64]),
 			pickedFrom: 2015,
+			shownFrom: 2015,
 			isFair: true,
 			pickNote: nil,
 			explanation: "This one's fair. It shows the whole picture, and the climb is steady all the way."
@@ -123,6 +127,7 @@ nonisolated enum BiggerPicture {
 			measure: "Goals",
 			points: points([48, 52, 50, 47, 51, 49, 53, 50, 24, 49]),
 			pickedFrom: 2023,
+			shownFrom: firstYear,
 			isFair: false,
 			pickNote: "Worst season",
 			explanation: "Last season was their worst in a decade. Most seasons they score about 50, so this is mostly back to normal."

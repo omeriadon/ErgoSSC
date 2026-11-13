@@ -16,26 +16,8 @@ struct LibraryDetailView: View {
 			case .biases:
 				BiasDetailView(id: id)
 
-			case .concepts:
-				ConceptDetailView(id: id)
-
 			case .fallacies:
 				FallacyDetailView(id: id)
-
-			case .symbols:
-				SymbolDetailView(id: id)
-
-			case .paradoxes:
-				ParadoxDetailView(id: id)
-
-			case .philosophers:
-				PhilosopherDetailView(id: id)
-
-			case .razors:
-				RazorDetailView(id: id)
-
-			case .arguments:
-				ArgumentDetailView(id: id)
 		}
 	}
 }

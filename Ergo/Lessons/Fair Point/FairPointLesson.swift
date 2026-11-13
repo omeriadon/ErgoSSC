@@ -31,7 +31,19 @@ nonisolated struct FairPointState: Codable, Hashable, Sendable, Defaults.Seriali
 struct FairPointLesson: View {
 	@Default(.fairPointState) private var state
 
+	@Environment(\.accessibilityReduceMotion) private var reduceMotion
+
 	var body: some View {
+		ZStack {
+			page
+				.id(state.page)
+				.transition(pageTransition)
+		}
+		.animation(reduceMotion ? .easeInOut(duration: 0.2) : .smooth(duration: 0.45), value: state.page)
+	}
+
+	@ViewBuilder
+	private var page: some View {
 		switch state.page {
 			case .intro:
 				FairPointIntroPage(state: $state)
@@ -42,5 +54,13 @@ struct FairPointLesson: View {
 			case .summary:
 				LessonSummaryPage(lesson: .fairPoint, takeaway: FairPoint.takeaway)
 		}
+	}
+
+	/// SwiftUI turns this into a fade with Reduce Motion
+	private var pageTransition: some Transition {
+		AsymmetricTransition(
+			insertion: MoveTransition(edge: .trailing).combined(with: .opacity),
+			removal: MoveTransition(edge: .leading).combined(with: .opacity)
+		)
 	}
 }

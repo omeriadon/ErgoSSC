@@ -12,12 +12,7 @@ nonisolated protocol LibraryTag: CaseIterable, RawRepresentable where RawValue =
 }
 
 extension BiasTag: LibraryTag {}
-extension RazorTag: LibraryTag {}
-extension ParadoxTag: LibraryTag {}
-extension ConceptTag: LibraryTag {}
 extension FallacyTag: LibraryTag {}
-extension ArgumentTag: LibraryTag {}
-extension SymbolTag: LibraryTag {}
 
 extension String {
 	nonisolated var normalizedTagText: String {

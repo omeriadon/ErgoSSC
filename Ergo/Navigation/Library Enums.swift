@@ -21,32 +21,14 @@ nonisolated enum LibraryContent: String, Hashable, CaseIterable, Codable, Sendab
 	}
 
 	case biases
-	case concepts
 	case fallacies
-	case symbols
-	case paradoxes
-	case philosophers
-	case razors
-	case arguments
 
 	var symbol: String {
 		switch self {
 			case .biases:
 				"distribute.vertical.center"
-			case .razors:
-				"scissors"
-			case .symbols:
-				"f.cursive"
-			case .concepts:
-				"book.closed"
-			case .paradoxes:
-				"infinity"
-			case .philosophers:
-				"brain.head.profile"
 			case .fallacies:
 				"repeat.badge.xmark"
-			case .arguments:
-				"text.bubble"
 		}
 	}
 
@@ -64,13 +46,8 @@ nonisolated enum LibraryRoute: Hashable, Codable, Defaults.Serializable {
 	case category(LibraryContent)
 	case detail(category: LibraryContent, id: String)
 
-	case symbols(filter: SymbolSearchToken)
 	case biases(filter: BiasTag)
-	case razors(filter: RazorTag)
-	case paradoxes(filter: ParadoxTag)
-	case concepts(filter: ConceptTag)
 	case fallacies(filter: FallacyTag)
-	case arguments(filter: ArgumentTag)
 
 	case finder
 
@@ -79,26 +56,11 @@ nonisolated enum LibraryRoute: Hashable, Codable, Defaults.Serializable {
 			case let .category(category):
 				category
 
-			case .symbols:
-				.symbols
-
 			case .biases:
 				.biases
 
-			case .razors:
-				.razors
-
-			case .paradoxes:
-				.paradoxes
-
-			case .concepts:
-				.concepts
-
 			case .fallacies:
 				.fallacies
-
-			case .arguments:
-				.arguments
 
 			case .detail, .finder:
 				nil

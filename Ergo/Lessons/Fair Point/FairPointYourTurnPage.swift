@@ -45,6 +45,7 @@ struct FairPointYourTurnPage: View {
 				state.page = .summary
 			}
 			.buttonStyle(.glassProminent)
+			.buttonBorderShape(.roundedRectangle(radius: 12))
 			.frame(maxWidth: .infinity)
 			.opacity(hasFoundAll ? 1 : 0)
 			.disabled(!hasFoundAll)
@@ -102,16 +103,8 @@ struct FairPointYourTurnPage: View {
 	}
 
 	private func finishStroke() {
-		let crossed = Scribble.crossed(ink, frames: frames, order: FairPoint.leo.notedMessages.map(\.id))
-
-		if Scribble.length(ink) < 10 {
-			// A tap on a bubble that's already marked shows its popover again
-			if let id = crossed.first, state.scribbledLeo.contains(id) {
-				shown = id
-			}
-		} else {
-			mark(crossed)
-		}
+		// A tap counts as a scribble too, and shows the popover again on one that's already marked
+		mark(Scribble.crossed(ink, frames: frames, order: FairPoint.leo.notedMessages.map(\.id)))
 
 		withAnimation(.easeOut(duration: 0.6).delay(0.2)) {
 			inkOpacity = 0
@@ -142,26 +135,27 @@ private struct LeoBubble: View {
 	}
 
 	var body: some View {
-		HStack(spacing: 6) {
-			bubble.outlined(tint)
-				.onGeometryChange(for: CGRect.self) { proxy in
-					proxy.frame(in: .named("fairPoint.scribble"))
-				} action: { frame in
-					onFrame(frame)
-				}
-				.fairPointNote(message.note, isPresented: $isShowingNote)
-				.accessibilityElement(children: .ignore)
-				.accessibilityLabel("Leo: \(message.text)")
-				.accessibilityValue(value)
-				.accessibilityAction(named: "Scribble over", onScribble)
-				.accessibilityIdentifier("learn.fairPoint.\(message.id)")
-
-			if let tint {
-				Image(systemName: message.isFair ? "checkmark.circle.fill" : "xmark.circle.fill")
-					.foregroundStyle(tint)
-					.accessibilityHidden(true)
+		bubble.outlined(tint)
+			.onGeometryChange(for: CGRect.self) { proxy in
+				proxy.frame(in: .named("fairPoint.scribble"))
+			} action: { frame in
+				onFrame(frame)
 			}
-		}
+			.fairPointNote(message.note, isPresented: $isShowingNote)
+			.accessibilityElement(children: .ignore)
+			.accessibilityLabel("Leo: \(message.text)")
+			.accessibilityValue(value)
+			.accessibilityAction(named: "Scribble over", onScribble)
+			.accessibilityIdentifier("learn.fairPoint.\(message.id)")
+			// Beside the bubble but outside its layout, so the bubble keeps its width when it appears
+			.overlay(alignment: .trailing) {
+				if let tint {
+					Image(systemName: message.isFair ? "checkmark.circle.fill" : "xmark.circle.fill")
+						.foregroundStyle(tint)
+						.alignmentGuide(.trailing) { $0[.leading] - 6 }
+						.accessibilityHidden(true)
+				}
+			}
 	}
 
 	private var value: String {
@@ -170,16 +164,25 @@ private struct LeoBubble: View {
 	}
 }
 
-/// The ink as it's drawn, like a highlighter
+/// The ink as it's drawn, like a highlighter. Curved through the midpoints, so it's smooth however fast the finger moves.
 private struct InkStroke: View {
 	let points: [CGPoint]
 
 	var body: some View {
 		Path { path in
-			path.addLines(points)
+			guard let first = points.first else { return }
+			path.move(to: first)
+			// A tap still leaves a dot
+			path.addLine(to: first)
+			for (point, next) in zip(points, points.dropFirst()) {
+				path.addQuadCurve(to: CGPoint(x: (point.x + next.x) / 2, y: (point.y + next.y) / 2), control: point)
+			}
+			if let last = points.last {
+				path.addLine(to: last)
+			}
 		}
 		.stroke(
-			Color.yellow.opacity(0.55),
+			Color.accentColor.opacity(0.55),
 			style: StrokeStyle(lineWidth: 14, lineCap: .round, lineJoin: .round)
 		)
 	}
@@ -187,29 +190,23 @@ private struct InkStroke: View {
 
 /// Matching a stroke to bubbles by their frames, not their words
 private nonisolated enum Scribble {
-	/// The ids whose frames the stroke crosses, in conversation order
+	/// The ids whose frames the stroke crosses, in conversation order. A frame reaches a little past the bubble's sides, so a stroke that only just misses still counts.
 	static func crossed(_ points: [CGPoint], frames: [String: CGRect], order: [String]) -> [String] {
 		let samples = densified(points)
 		return order.filter { id in
-			guard let frame = frames[id] else { return false }
+			guard let frame = frames[id]?.insetBy(dx: -12, dy: -1) else { return false }
 			return samples.contains { frame.contains($0) }
 		}
 	}
 
-	static func length(_ points: [CGPoint]) -> CGFloat {
-		zip(points, points.dropFirst()).reduce(0) { total, pair in
-			total + hypot(pair.1.x - pair.0.x, pair.1.y - pair.0.y)
-		}
-	}
-
-	/// Fills in points every few points along the stroke, so a fast flick can't skip a bubble
+	/// Fills in a point every two points along the stroke, so a fast flick can't skip a bubble
 	private static func densified(_ points: [CGPoint]) -> [CGPoint] {
 		guard var previous = points.first else { return [] }
 		var result = [previous]
 
 		for point in points.dropFirst() {
 			let distance = hypot(point.x - previous.x, point.y - previous.y)
-			let steps = max(1, Int(distance / 4))
+			let steps = max(1, Int(distance / 2))
 
 			for step in 1 ... steps {
 				let t = CGFloat(step) / CGFloat(steps)

@@ -3,7 +3,7 @@
 What the lesson teaches: a number can be true and still give the wrong picture, depending on where the counting starts. Two ideas:
 
 - **Cherry-picking:** choosing where to start counting so the numbers tell your story.
-- **Back to normal:** after an unusually bad (or good) stretch, things usually drift back to normal on their own, whatever anyone does. Its proper name is regression to the mean, and the Library entry is Regression fallacy.
+- **Back to normal:** after an unusually bad (or good) stretch, things usually drift back to normal on their own, even if nothing changes. Its proper name is regression to the mean, and the Library entry is Regression fallacy.
 
 The tone is curious, not cynical: the lesson always shows what a fair comparison looks like, and the cameras might still help. Lessons 1 and 2 are about writing and people. This one is about numbers, and isn't personal.
 
@@ -11,7 +11,7 @@ There's no Freeform mockup. The design was agreed in conversation, and this doc 
 
 ## The theme
 
-A local news article, "The Northside Herald", with a bar chart drawn in Swift Charts. The headline is in a serif face, like a paper.
+A local news article, "The Northside Herald", with a bar chart drawn in Swift Charts. The article is set in a serif face, like a paper, and so is every headline in the lesson.
 
 ## The data
 
@@ -26,22 +26,22 @@ Similar roads without cameras: 22, 20, 21, 21, 20, 19, 19, 22, 38, 24. They spik
 3. Tapping it changes the same page. This is the moment the lesson is built around, so the animation matters most:
    1. The two bars move right and shrink as the other years grow in one at a time from the right to the left.
    2. A dashed "Usual" line draws across.
-   3. 2023 gets a note: "Cameras go in after this".
+   3. 2023 gets a note: "Worst year".
    4. A line: "Zoomed out, 2023 was a one-off. The cameras went in because it was so bad, and most years are about 20 anyway."
    5. The two terms, then a Continue button.
 
 ## Page 2: Deeper look
 
-The article again, with all ten years. The person drags along the chart to choose where the counting starts. Bars before it dim, and the headline rewrites itself (computed from the data):
+The article again, with all ten years. The person pinches the chart to choose where the counting starts. The chart is pinned at its right edge to 2024: spreading the fingers zooms in to fewer years, pinching zooms back out. The headline rewrites itself as it goes (computed from the data):
 
 - from 2023: "Crashes halved since 2023!"
 - from 2019: "Crashes down 5% since 2019"
 - from 2020: "Crashes up 11% since 2020"
 - from 2018: "Crashes about the same as 2018"
 
-The question: "Drag along the chart to find the start year that makes the cameras look best."
+The question: "Pinch the chart to zoom in, and find the start year that makes the cameras look best."
 
-Once they land on 2023, the part that holds up appears: a dashed line for similar roads without cameras, and "Roads without cameras dropped too, from 38 to 24. So the cameras might still help, just less than the headline says." Then Continue.
+Once they land on 2023, "That's the one…" and the part that holds up appear: a dashed line for similar roads without cameras, and "Roads without cameras dropped too, from 38 to 24. So the cameras might still help, just less than the headline says." Then Continue.
 
 The headline always keeps two lines' room, so the chart doesn't jump as it rewrites. VoiceOver can change the start year with the adjustable action.
 
@@ -49,9 +49,9 @@ The headline always keeps two lines' room, so the chart doesn't jump as it rewri
 
 "Here are some more headlines. Is each one a fair picture, or cherry-picked? ↓"
 
-One at a time, each with a small chart showing only the window the headline picked, so a cherry-picked one looks fair at first. Two buttons: **Fair picture** / **Cherry-picked**. After any answer, the chart zooms out to all ten years. A cherry-picked one then makes the reveal obvious: a "Zoomed out" tag, the usual line, a note on the year the headline started from ("A dip", "Worst season"), and only the headline's window stays lit. Then the explanation, then the next headline.
+One at a time. The first two charts show only the window the headline picked, so a cherry-picked one looks fair at first. The last shows every year from the start, since hiding them isn't what makes it unfair. Two options: **Fair picture** / **Cherry-picked**. After any answer, the chart zooms out to all ten years. A cherry-picked one then makes the reveal obvious: a "Zoomed out" tag ("Whole picture" on the last, which never zoomed), the usual line, a note on the year the headline started from ("A dip", "Worst season"), and only the headline's window stays lit. Then the explanation, then a **Next headline** button brings in the next one, in the person's own time. The last one's button is **See how you did**.
 
-Once all three are answered, the score ("2 of 3") and a line under it, then Continue. The line is hardcoded per score until Foundation Models writes it (`BiggerPicture.scoreLine(for:)`):
+After the last one, the score ("2 of 3") and a line under it, then Continue. The line is hardcoded per score until Foundation Models writes it (`BiggerPicture.scoreLine(for:)`):
 
 | Score | Line |
 |---|---|
@@ -76,4 +76,4 @@ There's 250 points of empty room after the end, to scroll past it.
 
 ## Progress
 
-Saved in `BiggerPictureState` (Defaults key `biggerPictureState`) as it happens: the page, whether page 1 has zoomed out, page 2's start year and whether the best one was found, and each quiz pick.
+Saved in `BiggerPictureState` (Defaults key `biggerPictureState`) as it happens: the page, whether page 1 has zoomed out, page 2's start year and whether the best one was found, each quiz pick, and how many headlines the Next button has brought in.

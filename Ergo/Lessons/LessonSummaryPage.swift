@@ -35,7 +35,7 @@ struct LessonSummaryPage<Extra: View>: View {
 						.font(.body)
 						.padding()
 						.frame(maxWidth: .infinity, alignment: .leading)
-						.background(.tint.opacity(0.15), in: .rect(cornerRadius: 16))
+						.background(.background.secondary, in: .rect(cornerRadius: 16))
 				}
 
 				section("Related") {
@@ -45,6 +45,11 @@ struct LessonSummaryPage<Extra: View>: View {
 				}
 			}
 			.padding()
+			.padding(.top, 24)
+		}
+		.background {
+			LessonSummaryBackground()
+				.ignoresSafeArea()
 		}
 		.navigationTitle(lessonTitle(lesson, lesson.pageTitle))
 		.onAppear {
@@ -74,7 +79,7 @@ struct LessonSummaryPage<Extra: View>: View {
 			}
 			.padding()
 			.frame(maxWidth: .infinity)
-			.background(.tint.opacity(0.15), in: .rect(cornerRadius: 16))
+			.background(.background.secondary, in: .rect(cornerRadius: 16))
 		}
 		.buttonStyle(.plain)
 		.accessibilityIdentifier("learn.related.\(link.id)")
@@ -86,5 +91,25 @@ extension LessonSummaryPage where Extra == EmptyView {
 		self.init(lesson: lesson, takeaway: takeaway) {
 			EmptyView()
 		}
+	}
+}
+
+/// The app's accent colour, dithered faintly behind the summary
+private struct LessonSummaryBackground: View {
+	@Environment(\.self) private var environment
+	@Environment(\.colorScheme) private var colorScheme
+
+	var body: some View {
+		DitherView(configuration: configuration)
+	}
+
+	private var configuration: DitherConfiguration {
+		let accent = Color.accentColor.resolve(in: environment)
+		let dot = SIMD3(accent.red, accent.green, accent.blue)
+		var configuration = detailViewConf
+		configuration.palette = [dot, dot]
+		configuration.transparent = true
+		configuration.opacity = colorScheme == .dark ? 0.35 : 0.2
+		return configuration
 	}
 }

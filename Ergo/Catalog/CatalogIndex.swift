@@ -11,7 +11,6 @@ enum CatalogIndexError: Error {
 	case duplicateID(String)
 	case emptyID
 	case missingID(String)
-	case invalidKeyFigure(String)
 }
 
 nonisolated struct CatalogIndex: Sendable {
