@@ -57,12 +57,7 @@ private struct ToolbarTitleViewModifier: ViewModifier {
 			.navigationBarTitleDisplayMode(.inline)
 			.scrollEdgeEffectStyle(.soft, for: .all)
 			.toolbar {
-				// Large and on the left. The empty title item keeps the system's centred one from showing too.
 				ToolbarItem(placement: .title) {
-					Text("")
-				}
-
-				ToolbarItem(placement: .topBarLeading) {
 					Label {
 						Text(title)
 					} icon: {
@@ -74,11 +69,7 @@ private struct ToolbarTitleViewModifier: ViewModifier {
 						}
 					}
 					.labelStyle(.titleAndIcon)
-					.font(.title2.bold())
-					.fixedSize()
-					.accessibilityAddTraits(.isHeader)
 				}
-				.sharedBackgroundVisibility(.hidden)
 			}
 	}
 }

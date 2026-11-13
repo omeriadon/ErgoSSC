@@ -56,6 +56,10 @@ struct BehindTheWordsYourTurnPage: View {
 				.id("score")
 				.transition(.opacity)
 			}
+
+			// Room to scroll past the end
+			Color.clear
+				.frame(height: 250)
 		}
 		.animation(reduceMotion ? .easeInOut(duration: 0.25) : .smooth(duration: 0.6).delay(1.4), value: state.quizPicks.count)
 	}

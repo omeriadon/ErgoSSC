@@ -59,7 +59,7 @@ struct BiggerPictureDeeperLookPage: View {
 	}
 
 	private var article: some View {
-		BiggerPictureArticle(headline: BiggerPicture.headline(from: state.countingFrom)) {
+		BiggerPictureArticle(headline: BiggerPicture.headline(from: state.countingFrom), reservesTwoLines: true) {
 			BiggerPictureChart(
 				points: BiggerPicture.crashes,
 				measure: BiggerPicture.measure,

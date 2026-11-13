@@ -30,6 +30,10 @@ nonisolated struct BiggerPictureState: Codable, Hashable, Sendable, Defaults.Ser
 	/// Page 3: the first pick for each headline, in order. True is "Fair picture".
 	var quizPicks: [Bool] = []
 
+	var quizScore: Int {
+		zip(quizPicks, BiggerPicture.quiz).filter { $0 == $1.isFair }.count
+	}
+
 	var quizFinished: Bool {
 		quizPicks.count >= BiggerPicture.quiz.count
 	}

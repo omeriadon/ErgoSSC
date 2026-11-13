@@ -43,13 +43,23 @@ The question: "Drag along the chart to find the start year that makes the camera
 
 Once they land on 2023, the part that holds up appears: a dashed line for similar roads without cameras, and "Roads without cameras dropped too, from 38 to 24. So the cameras might still help, just less than the headline says." Then Continue.
 
-VoiceOver can change the start year with the adjustable action.
+The headline always keeps two lines' room, so the chart doesn't jump as it rewrites. VoiceOver can change the start year with the adjustable action.
 
 ## Page 3: Your turn!
 
 "Here are some more headlines. Is each one a fair picture, or cherry-picked? ↓"
 
-One at a time, each with a small chart showing only the window the headline picked. Two buttons: **Fair picture** / **Cherry-picked**. After any answer, the chart zooms out to all ten years, and the explanation shows. Then the next one appears. There's no score. Once all three are answered, a Continue button.
+One at a time, each with a small chart showing only the window the headline picked, so a cherry-picked one looks fair at first. Two buttons: **Fair picture** / **Cherry-picked**. After any answer, the chart zooms out to all ten years. A cherry-picked one then makes the reveal obvious: a "Zoomed out" tag, the usual line, a note on the year the headline started from ("A dip", "Worst season"), and only the headline's window stays lit. Then the explanation, then the next headline.
+
+Once all three are answered, the score ("2 of 3") and a line under it, then Continue. The line is hardcoded per score until Foundation Models writes it (`BiggerPicture.scoreLine(for:)`):
+
+| Score | Line |
+|---|---|
+| 3 | All three. You're already asking where the counting started. |
+| 2 | Two of three. The one you missed is worth another look. |
+| 0–1 | These charts are made to look convincing. Zooming out is the habit to build. |
+
+There's 250 points of empty room after the end, to scroll past it.
 
 | Headline | Window | Answer | Shown after |
 |---|---|---|---|

@@ -60,69 +60,44 @@ struct LessonArt: View {
 	}
 }
 
-/// Lesson 1: lines of a post, with the one that matters lit up
+/// Lesson 1: reading closely
 private struct ForumArt: View {
 	let tint: Color
 
 	var body: some View {
-		VStack(alignment: .leading, spacing: 5) {
-			line(width: 30, lit: false)
-			line(width: 40, lit: true)
-			line(width: 36, lit: false)
-			line(width: 22, lit: false)
-		}
-	}
-
-	private func line(width: CGFloat, lit: Bool) -> some View {
-		Capsule()
-			.fill(lit ? AnyShapeStyle(tint) : AnyShapeStyle(.secondary.opacity(0.4)))
-			.frame(width: width, height: 6)
+		LessonSymbol(name: "rectangle.and.text.magnifyingglass", tint: tint)
 	}
 }
 
-/// Lesson 2: two messages, one each way
+/// Lesson 2: a conversation
 private struct ChatArt: View {
 	let tint: Color
 
 	var body: some View {
-		VStack(spacing: 6) {
-			UnevenRoundedRectangle(topLeadingRadius: 8, bottomLeadingRadius: 2, bottomTrailingRadius: 8, topTrailingRadius: 8)
-				.fill(.secondary.opacity(0.4))
-				.frame(width: 32, height: 14)
-				.frame(maxWidth: .infinity, alignment: .leading)
-
-			UnevenRoundedRectangle(topLeadingRadius: 8, bottomLeadingRadius: 8, bottomTrailingRadius: 2, topTrailingRadius: 8)
-				.fill(tint)
-				.frame(width: 28, height: 14)
-				.frame(maxWidth: .infinity, alignment: .trailing)
-		}
-		.frame(width: 46)
+		LessonSymbol(name: "ellipsis.message", tint: tint)
 	}
 }
 
-/// Lesson 3: a few ordinary bars and one tall one
+/// Lesson 3: a chart
 private struct ChartArt: View {
 	let tint: Color
 
 	var body: some View {
-		HStack(alignment: .bottom, spacing: 4) {
-			bar(height: 14, lit: false)
-			bar(height: 16, lit: false)
-			bar(height: 13, lit: false)
-			bar(height: 34, lit: true)
-			bar(height: 15, lit: true)
-		}
-		.overlay(alignment: .bottom) {
-			Rectangle()
-				.fill(.secondary.opacity(0.5))
-				.frame(height: 1)
-				.offset(y: -15)
-		}
+		LessonSymbol(name: "chart.bar.xaxis", tint: tint)
 	}
+}
 
-	private func bar(height: CGFloat, lit: Bool) -> some View {
-		RoundedRectangle(cornerRadius: 2)
-			.fill(lit ? AnyShapeStyle(tint) : AnyShapeStyle(.secondary.opacity(0.4)))
-			.frame(width: 6, height: height)
+/// Fitted to the same box, so every lesson's symbol is the same size whatever its shape
+private struct LessonSymbol: View {
+	let name: String
+	let tint: Color
+
+	var body: some View {
+		Image(systemName: name)
+			.resizable()
+			.scaledToFit()
+			.fontWeight(.medium)
+			.foregroundStyle(tint)
+			.frame(width: 46, height: 46)
 	}
 }

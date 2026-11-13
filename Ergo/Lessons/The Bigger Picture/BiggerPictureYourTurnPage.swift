@@ -14,8 +14,8 @@ struct BiggerPictureYourTurnPage: View {
 
 	@Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-	/// Long enough for the chart to zoom out and its explanation to be read
-	private let nextDelay = 3.0
+	/// Long enough for the chart to zoom out, show what it hid, and its explanation to be read
+	private let nextDelay = 4.6
 
 	private var visible: [BiggerPictureQuizItem] {
 		Array(BiggerPicture.quiz.prefix(state.quizPicks.count + 1))
@@ -53,12 +53,16 @@ struct BiggerPictureYourTurnPage: View {
 			}
 
 			if state.quizFinished {
-				BiggerPictureContinueButton(identifier: "yourTurn") {
+				BiggerPictureScore(score: state.quizScore) {
 					state.page = .summary
 				}
 				.id("continue")
 				.transition(.opacity)
 			}
+
+			// Room to scroll past the end
+			Color.clear
+				.frame(height: 250)
 		}
 		.animation(reduceMotion ? .easeInOut(duration: 0.25) : .smooth(duration: 0.6).delay(nextDelay), value: state.quizPicks.count)
 	}
@@ -80,7 +84,7 @@ struct BiggerPictureYourTurnPage: View {
 			try? await Task.sleep(for: .seconds(nextDelay + 0.2))
 			withAnimation(reduceMotion ? nil : .smooth(duration: 0.7)) {
 				if finished {
-					proxy.scrollTo("continue", anchor: .bottom)
+					proxy.scrollTo("continue", anchor: .center)
 				} else {
 					proxy.scrollTo(next, anchor: .top)
 				}
@@ -106,6 +110,8 @@ private struct BiggerPictureQuizCard: View {
 
 	/// Local, so the zoom can play after the pick
 	@State private var visibleFrom: Int
+	/// Zoomed out, a cherry-picked chart shows the usual line and what was special about its start
+	@State private var showsReveal: Bool
 	@State private var showsExplanation: Bool
 
 	init(item: BiggerPictureQuizItem, pick: Bool?, onPick: @escaping (Bool) -> Void) {
@@ -113,6 +119,7 @@ private struct BiggerPictureQuizCard: View {
 		self.pick = pick
 		self.onPick = onPick
 		_visibleFrom = State(initialValue: pick == nil ? item.pickedFrom : BiggerPicture.firstYear)
+		_showsReveal = State(initialValue: pick != nil && !item.isFair)
 		_showsExplanation = State(initialValue: pick != nil)
 	}
 
@@ -157,9 +164,22 @@ private struct BiggerPictureQuizCard: View {
 				points: item.points,
 				measure: item.measure,
 				visibleFrom: visibleFrom,
-				highlighted: [item.pickedFrom, BiggerPicture.lastYear],
+				highlighted: highlighted,
+				usual: showsReveal ? item.usual : nil,
+				note: showsReveal ? item.pickNote.map { (year: item.pickedFrom, text: $0) } : nil,
 				height: 150
 			)
+			.overlay(alignment: .topTrailing) {
+				if showsReveal {
+					Label("Zoomed out", systemImage: "arrow.up.left.and.arrow.down.right")
+						.font(.caption.weight(.semibold))
+						.padding(.horizontal, 10)
+						.padding(.vertical, 5)
+						.background(.orange.opacity(0.2), in: .capsule)
+						.foregroundStyle(.orange)
+						.transition(.scale(0.8).combined(with: .opacity))
+				}
+			}
 
 			Text(item.measure)
 				.font(.caption)
@@ -173,6 +193,12 @@ private struct BiggerPictureQuizCard: View {
 		.accessibilityValue(chartDescription)
 	}
 
+	/// Before an answer, every bar shown is lit. Once zoomed out, only the headline's window is.
+	private var highlighted: Set<Int> {
+		let window = item.points.map(\.year).filter { $0 >= item.pickedFrom }
+		return Set(window)
+	}
+
 	private var chartDescription: String {
 		item.points
 			.filter { $0.year >= visibleFrom }
@@ -182,7 +208,7 @@ private struct BiggerPictureQuizCard: View {
 
 	private var result: some View {
 		VStack(alignment: .leading, spacing: 4) {
-			Label(isRight ? "That's right." : "Not quite.", systemImage: isRight ? "checkmark.circle.fill" : "xmark.circle.fill")
+			Label(resultTitle, systemImage: isRight ? "checkmark.circle.fill" : "xmark.circle.fill")
 				.font(.subheadline.weight(.semibold))
 				.foregroundStyle(isRight ? .green : .orange)
 
@@ -191,6 +217,13 @@ private struct BiggerPictureQuizCard: View {
 				.fixedSize(horizontal: false, vertical: true)
 		}
 		.accessibilityElement(children: .combine)
+	}
+
+	private var resultTitle: String {
+		if isRight {
+			return item.isFair ? "That's right, it's fair." : "That's right, it's cherry-picked."
+		}
+		return item.isFair ? "It's actually fair." : "Zoomed out, it's a different story."
 	}
 
 	private func option(_ title: String, isFair: Bool) -> some View {
@@ -211,6 +244,7 @@ private struct BiggerPictureQuizCard: View {
 			try? await Task.sleep(for: .seconds(0.4))
 			withAnimation(.easeInOut(duration: 0.4)) {
 				visibleFrom = BiggerPicture.firstYear
+				showsReveal = !item.isFair
 				showsExplanation = true
 			}
 			return
@@ -224,7 +258,13 @@ private struct BiggerPictureQuizCard: View {
 			try? await Task.sleep(for: .seconds(0.15))
 		}
 
-		try? await Task.sleep(for: .seconds(0.4))
+		// What zooming out shows: the usual line, then what was special about the headline's start
+		try? await Task.sleep(for: .seconds(0.5))
+		withAnimation(.bouncy(duration: 0.5)) {
+			showsReveal = true
+		}
+
+		try? await Task.sleep(for: .seconds(1))
 		withAnimation(.smooth(duration: 0.4)) {
 			showsExplanation = true
 		}
@@ -271,5 +311,29 @@ private struct BiggerPictureQuizOption: View {
 			return .primary
 		}
 		return isAnswer ? .white : .secondary
+	}
+}
+
+/// The score once every headline is answered, and a line about it
+private struct BiggerPictureScore: View {
+	let score: Int
+	let onContinue: () -> Void
+
+	var body: some View {
+		VStack(spacing: 10) {
+			Text("\(score) of \(BiggerPicture.quiz.count)")
+				.font(.largeTitle.bold().monospacedDigit())
+
+			Text(BiggerPicture.scoreLine(for: score))
+				.font(.body)
+				.multilineTextAlignment(.center)
+				.foregroundStyle(.secondary)
+				.fixedSize(horizontal: false, vertical: true)
+
+			BiggerPictureContinueButton(identifier: "quiz", action: onContinue)
+				.padding(.top, 12)
+		}
+		.frame(maxWidth: .infinity)
+		.padding(.top, 12)
 	}
 }

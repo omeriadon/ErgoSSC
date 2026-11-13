@@ -32,7 +32,15 @@ nonisolated struct BiggerPictureQuizItem: Identifiable, Hashable, Sendable {
 	/// The first year the headline's chart shows
 	let pickedFrom: Int
 	let isFair: Bool
+	/// On the year the headline started from, once zoomed out
+	let pickNote: String?
 	let explanation: String
+
+	/// What a normal year looks like, without the one the headline started from
+	var usual: Double {
+		let others = points.filter { $0.year != pickedFrom }
+		return others.map(\.value).reduce(0, +) / Double(others.count)
+	}
 }
 
 /// Everything lesson 3 says. Every answer is authored here, and every number is computed from the data.
@@ -96,6 +104,7 @@ nonisolated enum BiggerPicture {
 			points: points([610, 640, 655, 630, 620, 520, 600, 650, 660, 676]),
 			pickedFrom: 2020,
 			isFair: false,
+			pickNote: "A dip",
 			explanation: "2020 was a dip. Over ten years, prices have only gone up about 10%."
 		),
 		BiggerPictureQuizItem(
@@ -105,6 +114,7 @@ nonisolated enum BiggerPicture {
 			points: points([40, 43, 46, 48, 51, 53, 56, 58, 61, 64]),
 			pickedFrom: 2015,
 			isFair: true,
+			pickNote: nil,
 			explanation: "This one's fair. It shows the whole picture, and the climb is steady all the way."
 		),
 		BiggerPictureQuizItem(
@@ -114,9 +124,19 @@ nonisolated enum BiggerPicture {
 			points: points([48, 52, 50, 47, 51, 49, 53, 50, 24, 49]),
 			pickedFrom: 2023,
 			isFair: false,
+			pickNote: "Worst season",
 			explanation: "Last season was their worst in a decade. Most seasons they score about 50, so this is mostly back to normal."
 		),
 	]
+
+	/// The line under the quiz score. Hardcoded until Foundation Models writes it.
+	static func scoreLine(for score: Int) -> String {
+		switch score {
+			case 3: "All three. You're already asking where the counting started."
+			case 2: "Two of three. The one you missed is worth another look."
+			default: "These charts are made to look convincing. Zooming out is the habit to build."
+		}
+	}
 
 	static func value(_ points: [ChartPoint], _ year: Int) -> Double {
 		points.first { $0.year == year }?.value ?? 0

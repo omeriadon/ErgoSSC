@@ -88,7 +88,7 @@ private struct LessonCard: View {
 				LessonArt(lesson: lesson, isFinished: isFinished, isUnlocked: isUnlocked)
 
 				VStack(alignment: .leading, spacing: 4) {
-					Text("Lesson \(lesson.number)")
+					Text("\(lesson.number)")
 						.font(.caption.weight(.semibold))
 						.foregroundStyle(lesson.tint)
 						.textCase(.uppercase)
@@ -100,16 +100,16 @@ private struct LessonCard: View {
 						.font(.subheadline)
 						.foregroundStyle(.secondary)
 						.fixedSize(horizontal: false, vertical: true)
+
+					LessonTopics(topics: lesson.topics, tint: lesson.tint)
 				}
 
 				Spacer(minLength: 0)
 			}
-
-			LessonTopics(topics: lesson.topics, tint: lesson.tint)
 		}
 		.padding(16)
 		.frame(maxWidth: .infinity, alignment: .leading)
-		.glassEffect(.regular, in: .rect(cornerRadius: 28))
+		.glassEffect(.regular.interactive(), in: .rect(cornerRadius: 28))
 		.opacity(isUnlocked ? 1 : 0.55)
 		.contentShape(.rect(cornerRadius: 28))
 		.accessibilityElement(children: .combine)
@@ -123,16 +123,11 @@ private struct LessonTopics: View {
 	let tint: Color
 
 	var body: some View {
-		FlowLayout(spacing: 6) {
-			ForEach(topics, id: \.self) { topic in
-				Text(topic)
-					.font(.caption.weight(.medium))
-					.padding(.horizontal, 10)
-					.padding(.vertical, 5)
-					.background(tint.opacity(0.15), in: .capsule)
-					.foregroundStyle(tint)
-			}
-		}
+		Text(topics.joined(separator: ", "))
+			.font(.caption.weight(.medium))
+			.padding(.horizontal, 10)
+			.padding(.vertical, 5)
+			.foregroundStyle(tint)
 	}
 }
 
@@ -166,7 +161,7 @@ private struct LearnBackground: View {
 		let dot: SIMD3<Float> = colorScheme == .dark ? SIMD3(1, 1, 1) : SIMD3(0, 0, 0)
 		configuration.palette = [dot, dot]
 		configuration.transparent = true
-		configuration.opacity = colorScheme == .dark ? 0.18 : 0.08
+		configuration.opacity = colorScheme == .dark ? 0.48 : 0.08
 		return configuration
 	}
 }

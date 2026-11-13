@@ -141,6 +141,8 @@ struct BiggerPictureChart: View {
 /// The article the chart sits in, like a page of a local paper
 struct BiggerPictureArticle<Content: View>: View {
 	let headline: String
+	/// Page 2 rewrites the headline as you drag, so it keeps two lines' room whatever it says
+	var reservesTwoLines = false
 	@ViewBuilder var chart: Content
 
 	var body: some View {
@@ -153,6 +155,7 @@ struct BiggerPictureArticle<Content: View>: View {
 			Text(headline)
 				.font(.title2.bold())
 				.fontDesign(.serif)
+				.lineLimit(reservesTwoLines ? 2 : 4, reservesSpace: reservesTwoLines)
 				.fixedSize(horizontal: false, vertical: true)
 				.contentTransition(.numericText())
 
