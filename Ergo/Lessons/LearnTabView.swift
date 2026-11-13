@@ -129,14 +129,22 @@ private struct LessonTopics: View {
 
 /// Under the lessons once every one is finished
 private struct FinishedAllNote: View {
+	@Environment(NavigationManager.self)
+	private var navigation
+
 	var body: some View {
 		VStack(spacing: 6) {
 			Text("Well done, you've finished every lesson!")
 				.font(.headline)
 
-			Text("Next time you read a post, an ad or an argument, you'll be able to see what it's actually claiming, and whether anything holds it up. There's more to explore in the Library, too.")
+			Text("Next time you read a post, an ad or an argument, you'll be able to see what it's actually claiming, and whether it holds it up. There's more to explore in the [Library](ergo://library), too.")
 				.font(.subheadline)
 				.foregroundStyle(.secondary)
+				.tint(.blue)
+				.environment(\.openURL, OpenURLAction { _ in
+					navigation.reveal(.library)
+					return .handled
+				})
 		}
 		.multilineTextAlignment(.center)
 		.frame(maxWidth: .infinity)

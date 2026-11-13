@@ -114,10 +114,10 @@ final class LibraryFinder {
 			}
 			try Task.checkCancellation()
 
-			guard !finalists.isEmpty else {
-				// The model liked none of them, so what the search liked best is still worth showing
-				try finish(plain: Array(candidates.prefix(5)))
-				return
+			// Every batch gives its best one or two, so this is only empty when the calls failed. The answer then reads what
+			// the search liked best instead, and still leaves out what doesn't fit.
+			if finalists.isEmpty {
+				finalists = Array(candidates.prefix(Self.finalistLimit))
 			}
 
 			state = .working(.ranking)
@@ -150,7 +150,7 @@ final class LibraryFinder {
 		return Array((reply?.content.terms ?? []).prefix(Self.termLimit))
 	}
 
-	/// Which of a few entries fit. A batch that won't fit the context is read as two halves.
+	/// The one or two of a few entries that fit best. A batch that won't fit the context is read as two halves.
 	private func picks(from batch: [LibraryEntryText], for description: String) async -> [LibraryEntryText] {
 		let prompt = Self.prompt(batch, description: description)
 		guard await fits(Self.picksInstructions + prompt) else {
@@ -234,16 +234,16 @@ final class LibraryFinder {
 	an ad, or a habit of their own, rather than the idea itself.
 	Reply with what to search the library for. First, the usual names of the fallacies or biases it could be, as they'd \
 	appear in a textbook. Then a few plain keywords for what's going on. Keep every term to three words or fewer.
-	For example, "my brother said I can't tell him to exercise because I don't" could be: tu quoque, ad hominem, \
-	hypocrisy. "I keep watching a bad film because I paid for the ticket" could be: sunk cost fallacy, already paid, \
-	wasted money.
+	For example, "an ad says a famous actor uses this toothpaste, so it must be good" could be: appeal to authority, \
+	false authority, celebrity endorsement. "I've lost five times in a row, so I'm due a win" could be: gambler's \
+	fallacy, due a win, losing streak.
 	"""
 
 	private static let picksInstructions = """
 	You match a description to entries in a library of fallacies and biases. You get a description in someone's own \
-	words, often of a situation, and a numbered list of entries. Reply with the numbers of the entries that would help \
-	put a name to what's going on in that situation, including close ones. Leave out entries that only share a word with \
-	it. Reply with no numbers when none fit.
+	words, often of a situation, and a numbered list of entries. Reply with the numbers of the one or two entries that \
+	best name what's going on in that situation, even if neither is a perfect fit. Prefer an entry about the same kind of \
+	mistake over one that only shares a word with it.
 	"""
 
 	private static let answerInstructions = """
@@ -290,7 +290,7 @@ nonisolated struct LibraryFinderTerms {
 
 @Generable
 nonisolated struct LibraryFinderPicks {
-	@Guide(description: "The numbers of the entries that are what the person describes. Empty when none are.")
+	@Guide(description: "The numbers of the one or two entries that best fit what the person describes", .count(1 ... 2))
 	var numbers: [Int]
 }
 

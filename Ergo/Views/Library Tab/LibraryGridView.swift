@@ -30,7 +30,7 @@ struct LibraryGridView: View {
 							Image(systemName: "chevron.right")
 								.padding(.trailing, 3)
 						}
-						.padding(22)
+						.padding(18)
 						.glassEffect(.clear.tint(.accent).interactive(), in: RoundedRectangle(cornerRadius: 30))
 					}
 				}
@@ -41,7 +41,7 @@ struct LibraryGridView: View {
 
 			GridRow {
 				NavigationLink(value: LibraryRoute.category(.fallacies)) {
-					CardView(title: "Fallacies", color: LibraryContent.fallacies.themeColor)
+					CardView(title: "Fallacies", subtitle: "A flaw in reasoning that makes an argument seem stronger than it actually is.", color: LibraryContent.fallacies.themeColor)
 				}
 			}
 
@@ -50,7 +50,7 @@ struct LibraryGridView: View {
 
 			GridRow {
 				NavigationLink(value: LibraryRoute.category(.biases)) {
-					CardView(title: "Biases", color: LibraryContent.biases.themeColor)
+					CardView(title: "Biases", subtitle: "A tendency to see or judge something in a particular way, often without realising it.", color: LibraryContent.biases.themeColor)
 				}
 			}
 		}

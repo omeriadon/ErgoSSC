@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CardView: View {
 	let title: String
+	/// What the category is, in a line
+	let subtitle: String
 	let color: Color
 
 	var body: some View {
@@ -29,6 +31,10 @@ struct CardView: View {
 
 				Text(title)
 					.font(.title2)
+
+				Text(subtitle)
+					.opacity(0.6)
+					.multilineTextAlignment(.leading)
 			}
 
 			Spacer()

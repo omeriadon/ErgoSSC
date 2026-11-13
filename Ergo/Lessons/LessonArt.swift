@@ -18,7 +18,7 @@ extension Lesson {
 	}
 }
 
-/// A small picture of what a lesson looks like, with a tick once it's finished or a lock until it opens
+/// A small picture of what a lesson looks like. Filled in with its colour once it's finished, with a lock until it opens.
 struct LessonArt: View {
 	let lesson: Lesson
 	let isFinished: Bool
@@ -26,8 +26,9 @@ struct LessonArt: View {
 
 	var body: some View {
 		picture
+			.foregroundStyle(isFinished ? .white : lesson.tint)
 			.frame(width: 72, height: 72)
-			.background(lesson.tint.opacity(0.15), in: .rect(cornerRadius: 20))
+			.background(lesson.tint.opacity(isFinished ? 1 : 0.15), in: .rect(cornerRadius: 20))
 			.overlay(alignment: .bottomTrailing) {
 				badge
 					.offset(x: 6, y: 6)
@@ -47,10 +48,12 @@ struct LessonArt: View {
 	@ViewBuilder
 	private var badge: some View {
 		if isFinished {
-			Image(systemName: "checkmark.circle.fill")
-				.font(.title3)
-				.symbolRenderingMode(.palette)
-				.foregroundStyle(.white, .green)
+			Image(systemName: "checkmark")
+				.font(.caption.weight(.heavy))
+				.foregroundStyle(.white)
+				.frame(width: 24, height: 24)
+				.background(lesson.tint.opacity(2), in: .circle)
+				.shadow(color: .black.opacity(0.2), radius: 2, y: 1)
 		} else if !isUnlocked {
 			Image(systemName: "lock.circle.fill")
 				.font(.title3)
@@ -97,7 +100,6 @@ private struct LessonSymbol: View {
 			.resizable()
 			.scaledToFit()
 			.fontWeight(.medium)
-			.foregroundStyle(tint)
 			.frame(width: 46, height: 46)
 	}
 }

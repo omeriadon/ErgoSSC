@@ -95,13 +95,6 @@ struct LibraryListView<Item: LibraryListItem>: View {
 			ToolbarItem(placement: .title) {
 				Text(Item.listTitle)
 			}
-
-			if !Item.availableFilters.isEmpty {
-				ToolbarItem(placement: .topBarTrailing) {
-					LibraryFilterMenu<Item>(state: state)
-						.background(state.filters.isEmpty ? .clear : .accent, in: Circle())
-				}
-			}
 		}
 		.onAppear(perform: applyInitialFilter)
 		.onChange(of: state.searchText, initial: true) { _, newValue in
