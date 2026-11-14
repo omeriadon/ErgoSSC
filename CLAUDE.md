@@ -23,6 +23,8 @@ Being succinct matters far more than having lots of features.
 - `SquintKit/` is `SquintCatalog`: the library's JSON files, and a plain-text view of them to search.
 - `Packages/` is the open source the app uses (Defaults, FuzzyMatch), copied in and linked as local packages so nothing is fetched. What was trimmed from each, and their credits, are in its `README.md`. Never add a remote package.
 - `Design/` has the app icon's layers, made into `Squint/Special/Squint.icon` in Icon Composer. `SquintIcon` draws the same three lines in the app.
+- `Credits.md` credits the Wikipedia lists the Library's entries came from, and points to `Packages/README.md` for the code.
+- `Submission/Questions.md` is practice for the written answers: Adon's own drafts, the facts to draw on, and feedback. Never write the answers for him.
 - `Plans/` has the design docs: plans and the reasons for them, never progress or how something was built.
 - `Notes/` says how each area works now (below).
 
