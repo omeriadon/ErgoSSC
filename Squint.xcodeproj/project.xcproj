@@ -68,12 +68,12 @@
           "product-name": "Defaults",
           "build-phase": { "build-phase": "frameworks" },
         }, {
-          "package": "SquintKit",
-          "product-name": "SquintCatalog",
-          "build-phase": { "build-phase": "frameworks" },
-        }, {
           "package": "FuzzyMatch",
           "product-name": "FuzzyMatch",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "SquintKit",
+          "product-name": "SquintCatalog",
           "build-phase": { "build-phase": "frameworks" },
         },
       ],

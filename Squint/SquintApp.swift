@@ -18,7 +18,6 @@ struct SquintApp: App {
 				.environment(catalog)
 				.environment(navigation)
 				.task {
-					StatusBadgeWindow.install()
 					navigation.startup()
 
 					do {
