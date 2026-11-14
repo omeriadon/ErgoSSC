@@ -54,17 +54,6 @@ private struct AppTabs: View {
 		)
 	}
 
-	private var libraryPath: Binding<[LibraryRoute]> {
-		Binding(
-			get: {
-				navigation.libraryPath
-			},
-			set: { newValue in
-				navigation.libraryPath = newValue
-			}
-		)
-	}
-
 	private var learnPath: Binding<[LearnRoute]> {
 		Binding(
 			get: {
@@ -93,30 +82,12 @@ private struct AppTabs: View {
 			}
 
 			Tab(value: .library) {
-				NavigationStack(path: libraryPath) {
-					LibraryTabView()
-						.navigationDestination(for: LibraryRoute.self) { route in
-							switch route {
-								case let .category(category):
-									LibraryCategoryView(category: category)
-
-								case let .detail(category, id):
-									LibraryDetailView(category: category, id: id)
-
-								case let .biases(filter):
-									LibraryListView<Bias>(initialFilter: filter.libraryFilter)
-
-								case let .fallacies(filter):
-									LibraryListView<Fallacy>(initialFilter: filter.libraryFilter)
-
-								case .finder:
-									LibraryFinderView()
-							}
-						}
+				NavigationStack {
+					LibraryFinderView()
 						.toolbarTitleItem()
 				}
 			} label: {
-				Label("Library", systemImage: "books.vertical")
+				Label("Describe It", systemImage: "sparkle.magnifyingglass")
 			}
 		}
 		.tabViewStyle(.tabBarOnly)
@@ -128,17 +99,11 @@ private struct AppTabs: View {
 
 #Preview {
 	@Previewable @State var thing = NavigationManager()
-	@Previewable @State var catalog = CatalogStore()
 
 	ContentView()
 		.environment(thing)
-		.environment(catalog)
 		.onAppear {
 			thing.startup()
 			thing.selectedTab = .library
-			thing.libraryPath = [.category(.fallacies), .detail(category: .fallacies, id: "straw-man")]
-			Task {
-				try? await catalog.load()
-			}
 		}
 }

@@ -53,27 +53,17 @@ nonisolated enum Lesson: String, Hashable, CaseIterable, Identifiable, Codable, 
 		}
 	}
 
-	/// The Library entries its summary links to
-	var related: [LessonLink] {
+	/// The fallacies and biases its summary names
+	var related: [String] {
 		switch self {
 			case .behindTheWords:
-				[LessonLink(name: "Proof surrogate", id: "proof-surrogate")]
+				["Proof surrogate"]
 			case .fairPoint:
-				[
-					LessonLink(name: "Straw man", id: "straw-man"),
-					LessonLink(name: "Ad hominem", id: "ad-hominem"),
-					LessonLink(name: "False dilemma", id: "false-dilemma"),
-				]
+				["Straw man", "Ad hominem", "False dilemma"]
 			case .biggerPicture:
-				[
-					LessonLink(name: "Cherry-picking", id: "cherry-picking"),
-					LessonLink(name: "Regression fallacy", id: "regression-fallacy"),
-				]
+				["Cherry-picking", "Regression fallacy"]
 			case .luckySocks:
-				[
-					LessonLink(name: "Confirmation bias", category: .biases, id: "confirmation-bias"),
-					LessonLink(name: "Illusory correlation", category: .biases, id: "illusory-correlation"),
-				]
+				["Confirmation bias", "Illusory correlation"]
 		}
 	}
 
@@ -94,11 +84,4 @@ nonisolated enum Lesson: String, Hashable, CaseIterable, Identifiable, Codable, 
 		}
 		Defaults.reset(.lessonsFinished)
 	}
-}
-
-/// A Library entry a lesson links to. Every id must be in the category's JSON.
-nonisolated struct LessonLink: Hashable, Sendable {
-	let name: String
-	var category: LibraryContent = .fallacies
-	let id: String
 }

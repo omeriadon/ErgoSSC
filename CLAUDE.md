@@ -1,6 +1,6 @@
 # Squint, for the Swift Student Challenge
 
-Squint is Adon's app Ergo cut down to enter the Swift Student Challenge: lessons and the library, all on the device. The full app, with its server, is the separate Ergo repo. Nothing from it comes back here, and this repo's folder is still called `ErgoSSC`.
+Squint is Adon's app Ergo cut down to enter the Swift Student Challenge: lessons and Describe It, all on the device. The full app, with its server, is the separate Ergo repo. Nothing from it comes back here, and this repo's folder is still called `ErgoSSC`.
 
 Being succinct matters far more than having lots of features.
 
@@ -20,10 +20,10 @@ Being succinct matters far more than having lots of features.
 
 ## Layout
 - `Squint/` is the iOS app. `Squint.xcodeproj` links `SquintKit` as a local package. `Squint/Lessons/` is the Learn tab.
-- `SquintKit/` is `SquintCatalog`: the library's JSON files, and a plain-text view of them to search.
-- `Packages/` is the open source the app uses (Defaults, FuzzyMatch), copied in and linked as local packages so nothing is fetched. What was trimmed from each, and their credits, are in its `README.md`. Never add a remote package.
+- `SquintKit/` is `SquintCatalog`: the small catalog's JSON files (12 entries), and a plain-text view of them for Describe It.
+- `Packages/` is the open source the app uses (Defaults, FuzzyMatch; FuzzyMatch is no longer imported by the app), copied in and linked as local packages so nothing is fetched. What was trimmed from each, and their credits, are in its `README.md`. Never add a remote package.
 - `Design/` has the app icon's layers, made into `Squint/Special/Squint.icon` in Icon Composer. `SquintIcon` draws the same three lines in the app.
-- `Credits.md` credits the Wikipedia lists the Library's entries came from, and points to `Packages/README.md` for the code.
+- `Credits.md` credits the Wikipedia lists the catalog's entries came from (also footnoted on the Describe It tab), and points to `Packages/README.md` for the code.
 - `Submission/Questions.md` is practice for the written answers: Adon's own drafts, the facts to draw on, and feedback. Never write the answers for him.
 - `Plans/` has the design docs: plans and the reasons for them, never progress or how something was built.
 - `Notes/` says how each area works now (below).
@@ -34,7 +34,7 @@ This file is only what every agent needs. How one area works, and what must not 
 | File | Read it before touching |
 |---|---|
 | `Notes/Lessons.md` | The Learn tab, `Lesson`, the lesson host and each lesson's pages |
-| `Notes/Library.md` | The library's entries, `LibraryCatalog`, Describe It and the on-device model |
+| `Notes/Library.md` | The catalog, `LibraryCatalog`, Describe It and the on-device model |
 
 ## Building and testing
 Xcode is a beta at a non-default path. Prefix every `xcodebuild` and `swift` command with its `DEVELOPER_DIR`.
@@ -47,7 +47,7 @@ xcodebuild -project Squint.xcodeproj -scheme Squint -configuration Debug -destin
 - The project uses the new `Squint.xcodeproj/project.xcproj` format with a folder-synced `Squint/` group, so new files are picked up automatically.
 - The app build fails when a view's `body` takes over 500 ms to type-check. Keep bodies small.
 - There are no test targets.
-- `Checks/` only holds the dither, catalog and library precondition scripts. Run them with the Xcode MCP `RunCodeSnippet`.
+- `Checks/` only holds the dither precondition scripts. Run them with the Xcode MCP `RunCodeSnippet`.
 
 ## Conventions
 - Default actor isolation is `MainActor`. Model and logic types that must work off the main actor are marked `nonisolated`.

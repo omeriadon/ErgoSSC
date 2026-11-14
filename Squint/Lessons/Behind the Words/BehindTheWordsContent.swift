@@ -54,7 +54,7 @@ nonisolated enum BehindTheWords {
 			number: 1,
 			text: "Honestly, life's too short for bad coffee.",
 			kind: .filler,
-			hint: "This is of every café. It doesn't tell you anything about this one."
+			hint: "This is true of every café. It doesn't tell you anything about this one."
 		),
 		BehindTheWordsUnit(
 			number: 2,

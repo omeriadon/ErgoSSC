@@ -29,10 +29,10 @@ struct WelcomeSheet: View {
 					detail: "Each takes a few minutes. Try it on posts, chats and charts, and see what holds up."
 				)
 				WelcomeRow(
-					symbol: "books.vertical",
+					symbol: "sparkle.magnifyingglass",
 					tint: .blue,
-					title: "Read further in the Library",
-					detail: "Every fallacy and bias the lessons mention, and many more, each with examples."
+					title: "Name what you notice",
+					detail: "Describe something in your own words, and Describe It finds its name."
 				)
 			}
 			.padding(.horizontal, 8)

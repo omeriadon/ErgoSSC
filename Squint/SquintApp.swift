@@ -10,21 +10,13 @@ import SwiftUI
 @main
 struct SquintApp: App {
 	@State private var navigation = NavigationManager()
-	@State private var catalog = CatalogStore()
 
 	var body: some Scene {
 		WindowGroup {
 			AppScene()
-				.environment(catalog)
 				.environment(navigation)
 				.task {
 					navigation.startup()
-
-					do {
-						try await catalog.load()
-					} catch {
-						print("Library loading failed: \(error)")
-					}
 				}
 		}
 	}

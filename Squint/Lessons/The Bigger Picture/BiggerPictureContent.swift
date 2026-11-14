@@ -79,7 +79,7 @@ nonisolated enum BiggerPicture {
 
 	static let spikeNote = "Worst year"
 
-	static let zoomedOutLine = "Zoomed out, we can see 2023 was a one-off. The cameras focussed in to 23-24, because it looks much bigger than it actually is. Most years are about \(Int(usual.rounded())) anyway."
+	static let zoomedOutLine = "Zoomed out, 2023 was a one-off. The headline only counts from there, so the drop looks much bigger than it is. Most years are about \(Int(usual.rounded())) anyway."
 
 	static var comparisonLine: String {
 		let before = Int(value(otherRoads, spikeYear))

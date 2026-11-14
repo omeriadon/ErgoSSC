@@ -28,11 +28,7 @@ extension Defaults.Keys {
 extension Defaults.Keys {
 	static let selectedTab = Key<AppTab>("selectedTab", default: .learn)
 
-	static let libraryPath = Key<[LibraryRoute]>("libraryPath", default: [])
-
 	static let presentedSheet = Key<AppSheet?>("presentedSheet", default: nil)
-
-	static let libraryGeneralSearchText = Key<String>("libraryGeneralSearchText", default: "")
 
 	static let learnPath = Key<[LearnRoute]>("learnPath", default: [])
 }

@@ -161,7 +161,7 @@ private struct FinishedAllNote: View {
 			Text("Well done, you've finished every lesson!")
 				.font(.headline)
 
-			Text("Next time you read a post, an ad or an argument, you'll be able to see what it's actually claiming, and whether it holds it up. There's more to explore in the [Library](squint://library), too.")
+			Text("Next time you read a post, an ad or an argument, you'll be able to see what it's actually claiming, and whether it holds it up. Noticed something you can't name? Try [Describe It](squint://library).")
 				.font(.subheadline)
 				.foregroundStyle(.secondary)
 				.tint(.blue)

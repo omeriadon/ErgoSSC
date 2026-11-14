@@ -8,16 +8,13 @@
 import Defaults
 import SwiftUI
 
-/// Every lesson's last page: what it taught, and the Library entries behind it. Showing it finishes the lesson.
+/// Every lesson's last page: what it taught, and the names behind it. Showing it finishes the lesson.
 struct LessonSummaryPage<Extra: View>: View {
 	let lesson: Lesson
 	let takeaway: String
 
 	/// Anything the lesson adds between the heading and the takeaway, like a score
 	@ViewBuilder var extra: Extra
-
-	@Environment(NavigationManager.self)
-	private var navigation
 
 	@Default(.lessonsFinished) private var finished
 
@@ -38,9 +35,9 @@ struct LessonSummaryPage<Extra: View>: View {
 						.background(.background.secondary, in: .rect(cornerRadius: 16))
 				}
 
-				section("Related") {
-					ForEach(lesson.related, id: \.self) { link in
-						relatedButton(link)
+				section("Named here") {
+					ForEach(lesson.related, id: \.self) { name in
+						relatedName(name)
 					}
 				}
 			}
@@ -68,21 +65,11 @@ struct LessonSummaryPage<Extra: View>: View {
 		}
 	}
 
-	private func relatedButton(_ link: LessonLink) -> some View {
-		Button {
-			navigation.openLibraryEntry(category: link.category, id: link.id)
-		} label: {
-			HStack {
-				Text(link.name)
-				Spacer(minLength: 0)
-				Image(systemName: "arrow.right")
-			}
+	private func relatedName(_ name: String) -> some View {
+		Text(name)
 			.padding()
-			.frame(maxWidth: .infinity)
+			.frame(maxWidth: .infinity, alignment: .leading)
 			.background(.background.secondary, in: .rect(cornerRadius: 16))
-		}
-		.buttonStyle(.plain)
-		.accessibilityIdentifier("learn.related.\(link.id)")
 	}
 }
 

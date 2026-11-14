@@ -70,15 +70,15 @@ nonisolated enum FairPoint {
 			ChatMessage(
 				id: "sam.boring",
 				sender: .contact,
-				text: "you've been so boring lately honestly",
-				note: "This is about you, not about the exam. That's called **ad hominem**.",
+				text: "says you. you always find an excuse",
+				note: "Sam doesn't answer the exam. They say you can't be trusted, so your reason doesn't count. That's called **ad hominem**.",
 				isFair: false
 			),
 			ChatMessage(
 				id: "sam.either",
 				sender: .contact,
 				text: "either you come or you've just given up on having fun",
-				note: "This message implies there's only two options, when theres more. That's a **false dilemma**.",
+				note: "This message implies there's only two options, when there's more. That's a **false dilemma**.",
 				isFair: false
 			),
 			ChatMessage(
@@ -113,7 +113,7 @@ nonisolated enum FairPoint {
 				id: "leo.either",
 				sender: .contact,
 				text: "either you walk him or he doesn't get walked",
-				note: "Another **false dilemma**, Leo implies here that theres only two possible options, when there's more.",
+				note: "Another **false dilemma**, Leo implies here that there's only two possible options, when there's more.",
 				isFair: false,
 				label: "False dilemma"
 			),
@@ -134,7 +134,7 @@ nonisolated enum FairPoint {
 		InboxRow(name: "Jess", preview: "lol did you see that", time: "5:48 pm"),
 		InboxRow(name: "Football group", preview: "training moved to thursday", time: "4:30 pm"),
 		InboxRow(name: "Leo", preview: "where's the charger", time: "3:05 pm"),
-		InboxRow(name: "Sam", preview: "ok sorry. what if you study all weekend and just come for the first hour?", time: "2:17 pm"),
+		InboxRow(name: "Sam", preview: "alright, what if you study all weekend and just come for the first hour?", time: "2:17 pm"),
 		InboxRow(name: "Dentist", preview: "Reminder: your appointment is on…", time: "Yesterday"),
 	]
 

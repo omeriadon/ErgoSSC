@@ -58,7 +58,7 @@ struct LuckySocksDeeperLookPage: View {
 	private var grid: some View {
 		FourBoxGrid(labels: LuckySocks.sleepLabels) { box in
 			LuckySocksCountBox(
-				count: LuckySocks.weekCounts[box],
+				count: LuckySocks.monthCounts[box],
 				isCounted: box == .both || state.countedBoxes.contains(box),
 				isRemembered: box == .both
 			) {
@@ -70,7 +70,7 @@ struct LuckySocksDeeperLookPage: View {
 
 	private var result: some View {
 		VStack(alignment: .leading, spacing: 16) {
-			FourBoxComparison(labels: LuckySocks.sleepLabels, counts: LuckySocks.weekCounts)
+			FourBoxComparison(labels: LuckySocks.sleepLabels, counts: LuckySocks.monthCounts)
 
 			Text(LuckySocks.sleepLine)
 				.font(.title3)

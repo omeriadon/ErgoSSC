@@ -2,7 +2,7 @@
 
 import PackageDescription
 
-/// What the app builds on: the library
+/// What the app builds on: Squint's small catalog of fallacies and biases
 let package = Package(
 	name: "SquintKit",
 	platforms: [

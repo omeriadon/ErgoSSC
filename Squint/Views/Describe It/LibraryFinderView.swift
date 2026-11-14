@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-/// Describe something in your own words, and the model on the device finds it in the library
+/// Describe something in your own words, and the model on the device names it
 struct LibraryFinderView: View {
 	@Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -20,8 +20,9 @@ struct LibraryFinderView: View {
 	private static let examples = [
 		"My brother says I can't tell him to exercise because I don't either",
 		"I only seem to notice the news that agrees with what I already think",
-		"I'm still watching a bad film because I paid for the ticket",
 		"Someone turned what I said into something way more extreme, then argued against that",
+		"The first price I saw was so high that the sale price felt like a bargain",
+		"I'm still watching a bad film because I paid for the ticket",
 	]
 
 	private var canFind: Bool {
@@ -33,13 +34,26 @@ struct LibraryFinderView: View {
 	private var stage: String {
 		switch finder.state {
 			case .idle: "idle"
-			case let .working(step): "working \(step)"
-			case let .found(answer): "found \(answer.matches.count) \(answer.opening.isEmpty) \(answer.closing.isEmpty)"
+			case .working: "working"
+			case let .found(answer): "found \(answer.matches.count) \(answer.opening.isEmpty)"
 			case .nothing: "nothing"
+			case .failed: "failed"
 		}
 	}
 
 	var body: some View {
+		Group {
+			if LibraryFinder.isModelAvailable {
+				finderPage
+			} else {
+				unavailable
+			}
+		}
+		.navigationBarTitleDisplayMode(.inline)
+		.toolbarTitleVire("Describe It", "sparkle.magnifyingglass")
+	}
+
+	private var finderPage: some View {
 		ScrollView {
 			VStack(alignment: .leading, spacing: 16) {
 				LibraryFinderField(description: $description, isWriting: $isWriting, canFind: canFind, find: find)
@@ -48,15 +62,17 @@ struct LibraryFinderView: View {
 					description = example
 					find()
 				}
+
+				LibraryFinderCredit()
+					.padding(.top, 8)
 			}
 			.padding(.horizontal, 12)
 			.padding(.top, 12)
+			.padding(.bottom, 16)
 			.animation(reduceMotion ? nil : .smooth(duration: 0.22), value: stage)
 		}
 		.scrollDismissesKeyboard(.interactively)
 		.scrollEdgeEffectStyle(.soft, for: .all)
-		.navigationBarTitleDisplayMode(.inline)
-		.toolbarTitleVire("Describe It", "sparkle.magnifyingglass")
 		.onChange(of: description) {
 			// What's shown was found for other words
 			if finder.state != .idle {
@@ -66,6 +82,19 @@ struct LibraryFinderView: View {
 		}
 		.onDisappear {
 			search?.cancel()
+		}
+	}
+
+	private var unavailable: some View {
+		VStack {
+			ContentUnavailableView(
+				"Apple Intelligence Needed",
+				systemImage: "sparkle.magnifyingglass",
+				description: Text("Describe It runs on your device with Apple Intelligence. Turn it on in Settings, or try on a device that supports it.")
+			)
+
+			LibraryFinderCredit()
+				.padding([.horizontal, .bottom], 16)
 		}
 	}
 
@@ -90,6 +119,9 @@ private struct LibraryFinderField: View {
 		VStack(alignment: .trailing, spacing: 10) {
 			// No upper line limit: a field that scrolls inside itself cuts its text off at the padding, so it grows and
 			// the page scrolls instead. `descriptionLimit` is what stops it.
+
+			Text("Found something")
+
 			TextField("Describe something someone said, or a way of thinking you've noticed…", text: $description, axis: .vertical)
 				.lineLimit(3...)
 				.focused(isWriting)
@@ -140,12 +172,11 @@ private struct LibraryFinderResults: View {
 				}
 				.transition(.opacity)
 
-			case let .working(step):
+			case .working:
 				HStack(spacing: 10) {
 					ProgressView()
-					Text(Self.label(for: step))
+					Text("Thinking it over")
 						.foregroundStyle(.secondary)
-						.contentTransition(.numericText())
 				}
 				.frame(maxWidth: .infinity)
 				.padding(.top, 30)
@@ -153,12 +184,6 @@ private struct LibraryFinderResults: View {
 
 			case let .found(answer):
 				VStack(alignment: .leading, spacing: 14) {
-					if !answer.byModel {
-						Text("Nothing fits well. These are the closest.")
-							.font(.footnote)
-							.foregroundStyle(.secondary)
-					}
-
 					if !answer.opening.isEmpty {
 						Text(answer.opening)
 							.padding(.horizontal, 4)
@@ -169,77 +194,77 @@ private struct LibraryFinderResults: View {
 						LibraryFinderRow(match: match)
 							.transition(.opacity)
 					}
-
-					if !answer.closing.isEmpty {
-						Text(answer.closing)
-							.padding(.horizontal, 4)
-							.transition(.opacity)
-					}
 				}
 				.frame(maxWidth: .infinity, alignment: .leading)
 				.transition(.opacity)
 
 			case .nothing:
-				ContentUnavailableView("Nothing Found", systemImage: "sparkle.magnifyingglass", description: Text("Try describing it another way."))
-					.padding(.top, 30)
-					.transition(.opacity)
-		}
-	}
+				ContentUnavailableView(
+					"No Match",
+					systemImage: "sparkle.magnifyingglass",
+					description: Text("That doesn't match anything Squint knows about yet. Thanks for trying, though!")
+				)
+				.padding(.top, 30)
+				.transition(.opacity)
 
-	private static func label(for step: LibraryFinder.Step) -> String {
-		switch step {
-			case .naming: "Working out what to look for"
-			case .searching: "Searching the library"
-			case let .reading(read, total): "Reading \(read) of \(total)"
-			case .ranking: "Thinking it over"
+			case .failed:
+				ContentUnavailableView(
+					"Couldn't Answer",
+					systemImage: "exclamationmark.bubble",
+					description: Text("Describe It couldn't answer that just now. Please try again, or describe it another way.")
+				)
+				.padding(.top, 30)
+				.transition(.opacity)
 		}
 	}
 }
 
-/// One entry the finder chose, with what the model says about it, linking to its page
+/// One entry the finder chose, with what the model says about it
 private struct LibraryFinderRow: View {
 	let match: LibraryFinder.Match
 
 	var body: some View {
-		NavigationLink(value: LibraryRoute.detail(category: match.category, id: match.entryID)) {
-			HStack(alignment: .top, spacing: 10) {
-				Image(systemName: match.category.symbol)
-					.foregroundStyle(.accent)
+		HStack(alignment: .top, spacing: 10) {
+			Image(systemName: match.symbol)
+				.foregroundStyle(.accent)
+				.font(.title3)
+				.frame(width: 28)
+
+			VStack(alignment: .leading, spacing: 6) {
+				Text(match.name)
 					.font(.title3)
-					.frame(width: 28)
 
-				VStack(alignment: .leading, spacing: 6) {
-					Text(match.name)
-						.font(.title3)
+				Text(match.kind)
+					.textCase(.uppercase)
+					.font(.caption2)
+					.foregroundStyle(.secondary)
 
-					Text(match.category.title)
-						.textCase(.uppercase)
-						.font(.caption2)
-						.foregroundStyle(.secondary)
-
-					if let reason = match.reason {
-						Text(reason)
-							.multilineTextAlignment(.leading)
-					} else {
-						Text(match.summary)
-							.font(.subheadline)
-							.foregroundStyle(.secondary)
-							.multilineTextAlignment(.leading)
-					}
+				if let reason = match.reason {
+					Text(reason)
 				}
-				.frame(maxWidth: .infinity, alignment: .leading)
 
-				Image(systemName: "chevron.right")
-					.foregroundStyle(.tertiary)
-					.imageScale(.large)
+				Text(match.summary)
+					.font(.subheadline)
+					.foregroundStyle(.secondary)
 			}
-			.contentShape(Rectangle())
+			.multilineTextAlignment(.leading)
+			.frame(maxWidth: .infinity, alignment: .leading)
 		}
-		.buttonStyle(.plain)
-		.accessibilityIdentifier("library.finder.\(match.category).\(match.entryID)")
+		.accessibilityElement(children: .combine)
+		.accessibilityIdentifier("library.finder.\(match.id)")
 		.padding(.horizontal, 14)
 		.padding(.vertical, 13)
 		.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 18))
-		.contentShape(RoundedRectangle(cornerRadius: 18))
+	}
+}
+
+/// Where the fallacies and biases came from, as Wikipedia asks
+private struct LibraryFinderCredit: View {
+	var body: some View {
+		Text("The fallacies and biases were drawn from Wikipedia's [List of fallacies](https://en.wikipedia.org/wiki/List_of_fallacies) and [List of cognitive biases](https://en.wikipedia.org/wiki/List_of_cognitive_biases), whose text is under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).")
+			.font(.caption)
+			.foregroundStyle(.secondary)
+			.multilineTextAlignment(.leading)
+			.frame(maxWidth: .infinity)
 	}
 }

@@ -19,14 +19,6 @@ final class NavigationManager {
 		}
 	}
 
-	// MARK: - libraryPath
-
-	var libraryPath: [LibraryRoute] = [] {
-		didSet {
-			Defaults[.libraryPath] = libraryPath
-		}
-	}
-
 	// MARK: - learnPath
 
 	var learnPath: [LearnRoute] = [] {
@@ -42,33 +34,6 @@ final class NavigationManager {
 		didSet {
 			Defaults[.presentedSheet] = presentedSheet
 		}
-	}
-
-	// MARK: - listStates
-
-	let listStates: [LibraryContent: LibraryListState] = Dictionary(
-		uniqueKeysWithValues: LibraryContent.allCases.map { category in
-			(category, LibraryListState())
-		}
-	)
-
-	// MARK: - libraryTagFilters
-
-	var libraryTagFilters: [LibraryContent: [String]] = [:]
-
-	// MARK: - libraryGeneralSearchText
-
-	var libraryGeneralSearchText = "" {
-		didSet {
-			Defaults[.libraryGeneralSearchText] = libraryGeneralSearchText
-		}
-	}
-
-	// MARK: - openLibrary
-
-	func openLibrary(_ route: LibraryRoute) {
-		selectedTab = .library
-		libraryPath.append(route)
 	}
 
 	// MARK: - presentSheet
@@ -92,36 +57,12 @@ final class NavigationManager {
 		presentedSheet = nil
 	}
 
-	// MARK: - openLibraryEntry
-
-	func openLibraryEntry(category: LibraryContent, id: String) {
-		// A sheet left open would hide the page, so the link would look like it did nothing
-		reveal(.library)
-
-		let route = LibraryRoute.detail(category: category, id: id)
-		if libraryPath.last != route {
-			libraryPath.append(route)
-		}
-	}
-
-	// MARK: - reset()
-
-	func reset(_ tab: AppTab) {
-		switch tab {
-			case .learn:
-				learnPath.removeAll()
-			case .library:
-				libraryPath.removeAll()
-		}
-	}
-
 	// MARK: - startup()
 
 	func startup() {
 		// The welcome sheet comes first until it's been closed once
 		presentedSheet = Defaults[.hasSeenWelcome] ? Defaults[.presentedSheet] : .welcome
 		selectedTab = Defaults[.selectedTab]
-		libraryPath = Defaults[.libraryPath]
 		learnPath = Defaults[.learnPath]
 	}
 }
