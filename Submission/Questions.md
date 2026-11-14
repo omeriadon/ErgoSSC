@@ -6,7 +6,7 @@ The written answers are one of the three things judged, with technical accomplis
 
 ## Open items
 
-- **Library credits.** The list of fallacies and biases came from Wikipedia's lists. Each entry was written from light research on Wikipedia and Google, then reviewed with AI. The names themselves are fine, but the app should still credit Wikipedia as where the list and research came from, with links to the two lists. If any sentence is close to Wikipedia's wording, it's CC BY-SA and must be attributed, like the element summaries last year. Both pages are credited in `Credits.md` at the project's root. Nothing inside the app credits them yet.
+- **Library credits.** The list of fallacies and biases came from Wikipedia's lists. Each entry was written from light research on Wikipedia and Google, then reviewed with AI. The names themselves are fine, but the app should still credit Wikipedia as where the list and research came from, with links to the two lists. If any sentence is close to Wikipedia's wording, it's CC BY-SA and must be attributed, like the element summaries last year. Both pages are credited in `Credits.md` at the project's root. The Describe It tab now footnotes Wikipedia with links to both lists.
 - **Accessibility testing.** Test the largest Dynamic Type sizes, and do a full VoiceOver run through one lesson, before writing question 4.
 - **Name the post.** Question 1 needs the actual post that started it.
 
@@ -66,7 +66,7 @@ Last year: "Other tech".
 
 - SwiftUI: every screen, `matchedGeometryEffect` for lesson 4's sort, Liquid Glass, the page transitions.
 - Swift Charts: lesson 3's charts, `MagnifyGesture` to pinch, bars that grow in.
-- Foundation Models: Describe It (`LibraryFinder`), and the line under each quiz score (`LessonScoreLine`, greedy, so the same results always get the same line), with a fixed line when there's no model.
+- Foundation Models: Describe It (`LibraryFinder`) names what's described freely, then the name is mapped to one of the 12 entries, so only real entries show. Also the line under each quiz score (`LessonScoreLine`, greedy, so the same results always get the same line), with a fixed line when there's no model.
 - Metal: the dither behind the pages and summaries.
 - UIKit: the tab transition's blur, and the status badges drawn over sheets.
 
@@ -84,7 +84,7 @@ Last year: "Other tech".
 ## 5. Did you use open source? List it and why.
 
 - [Defaults](https://github.com/sindresorhus/Defaults) by Sindre Sorhus (MIT): saving each lesson's progress.
-- [FuzzyMatch](https://github.com/ordo-one/FuzzyMatch) by Ordo One (Apache 2.0): Library search that forgives typos.
+- [FuzzyMatch](https://github.com/ordo-one/FuzzyMatch) by Ordo One (Apache 2.0): Describe It's name mapping and, without Apple Intelligence, its search of the 12 entries, both forgiving typos.
 - Both are copied into `Packages/` so nothing needs the network, with what was trimmed and their credits in `Packages/README.md`.
 
 ## 5.5. Content you don't own
@@ -105,8 +105,8 @@ Portfolio: dev.adonis.pt
 
 ## 9. Anything else, or notes for the judge
 
-- Apple Intelligence is optional: Describe It and the written score lines only appear with it, and everything else works without.
-- A suggested order if time is short: lesson 1, then lesson 4.
+- Apple Intelligence is optional: Describe It and the written score lines only appear with it, and everything else works without. Without it the tab offers a plain search of the 12 entries instead.
+- A suggested order if time is short: lesson 4, then lesson 3.
 
 ## Last year's answers (Elements)
 

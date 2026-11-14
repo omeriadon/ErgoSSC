@@ -5,6 +5,7 @@
 //  Created by Adon Omeri on 11/11/2026.
 //
 
+import SquintCatalog
 import SwiftUI
 
 /// Describe something in your own words, and the model on the device names it
@@ -18,11 +19,12 @@ struct LibraryFinderView: View {
 
 	/// Situations, not definitions, since that's how people notice these
 	private static let examples = [
-		"My brother says I can't tell him to exercise because I don't either",
+		"I said I'd like to eat less meat and my friend said \"so you want everyone to be vegan?\"",
+		"I pointed out a problem with the plan, and they said I'm too young to understand",
+		"My mum said either I quit my game or I'll fail all my exams",
+		"The ad only showed the five-star reviews and hid all the one-star ones",
 		"I only seem to notice the news that agrees with what I already think",
-		"Someone turned what I said into something way more extreme, then argued against that",
 		"The first price I saw was so high that the sale price felt like a bargain",
-		"I'm still watching a bad film because I paid for the ticket",
 	]
 
 	private var canFind: Bool {
@@ -46,7 +48,7 @@ struct LibraryFinderView: View {
 			if LibraryFinder.isModelAvailable {
 				finderPage
 			} else {
-				unavailable
+				LibraryFinderSearchPage()
 			}
 		}
 		.navigationBarTitleDisplayMode(.inline)
@@ -82,19 +84,6 @@ struct LibraryFinderView: View {
 		}
 		.onDisappear {
 			search?.cancel()
-		}
-	}
-
-	private var unavailable: some View {
-		VStack {
-			ContentUnavailableView(
-				"Apple Intelligence Needed",
-				systemImage: "sparkle.magnifyingglass",
-				description: Text("Describe It runs on your device with Apple Intelligence. Turn it on in Settings, or try on a device that supports it.")
-			)
-
-			LibraryFinderCredit()
-				.padding([.horizontal, .bottom], 16)
 		}
 	}
 
@@ -219,6 +208,73 @@ private struct LibraryFinderResults: View {
 	}
 }
 
+/// Without the model: a note, and a search over the whole catalog
+private struct LibraryFinderSearchPage: View {
+	@State private var query = ""
+
+	private var entries: [LibraryEntryText] {
+		LibraryEntryMatcher.search(query, in: LibraryCatalog.shared?.entries ?? [])
+	}
+
+	var body: some View {
+		ScrollView {
+			VStack(alignment: .leading, spacing: 14) {
+				Text("Describe It needs Apple Intelligence. Turn it on in Settings, or try on a device that supports it. You can still search what Squint knows about.")
+					.font(.subheadline)
+					.foregroundStyle(.secondary)
+					.padding(.horizontal, 4)
+
+				TextField("Search by name or keyword", text: $query)
+					.autocorrectionDisabled()
+					.padding(14)
+					.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 28))
+					.accessibilityIdentifier("library.finder.search")
+
+				ForEach(entries) { entry in
+					LibraryFinderEntryCard(entry: entry)
+				}
+
+				LibraryFinderCredit()
+					.padding(.top, 8)
+			}
+			.padding(.horizontal, 12)
+			.padding(.vertical, 12)
+		}
+		.scrollDismissesKeyboard(.interactively)
+		.scrollEdgeEffectStyle(.soft, for: .all)
+	}
+}
+
+/// One catalog entry: its name, kind and plain description
+private struct LibraryFinderEntryCard: View {
+	let entry: LibraryEntryText
+
+	private var isBias: Bool {
+		entry.category == "biases"
+	}
+
+	var body: some View {
+		VStack(alignment: .leading, spacing: 6) {
+			Text(entry.name)
+				.font(.title3)
+
+			Text(isBias ? "Bias" : "Fallacy")
+				.textCase(.uppercase)
+				.font(.caption2)
+				.foregroundStyle(.secondary)
+
+			Text(entry.plain)
+				.font(.subheadline)
+		}
+		.multilineTextAlignment(.leading)
+		.frame(maxWidth: .infinity, alignment: .leading)
+		.accessibilityElement(children: .combine)
+		.padding(.horizontal, 14)
+		.padding(.vertical, 13)
+		.background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 18))
+	}
+}
+
 /// One entry the finder chose, with what the model says about it
 private struct LibraryFinderRow: View {
 	let match: LibraryFinder.Match
@@ -243,7 +299,7 @@ private struct LibraryFinderRow: View {
 					Text(reason)
 				}
 
-				Text(match.summary)
+				Text(match.plain)
 					.font(.subheadline)
 					.foregroundStyle(.secondary)
 			}

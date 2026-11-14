@@ -20,8 +20,8 @@ Being succinct matters far more than having lots of features.
 
 ## Layout
 - `Squint/` is the iOS app. `Squint.xcodeproj` links `SquintKit` as a local package. `Squint/Lessons/` is the Learn tab.
-- `SquintKit/` is `SquintCatalog`: the small catalog's JSON files (12 entries), and a plain-text view of them for Describe It.
-- `Packages/` is the open source the app uses (Defaults, FuzzyMatch; FuzzyMatch is no longer imported by the app), copied in and linked as local packages so nothing is fetched. What was trimmed from each, and their credits, are in its `README.md`. Never add a remote package.
+- `SquintKit/` is `SquintCatalog`: the small catalog's JSON files (12 entries), and a plain-text view of them (names, other names, `plain`) for Describe It.
+- `Packages/` is the open source the app uses (Defaults, FuzzyMatch; FuzzyMatch maps Describe It's names to entries and searches them when there's no model), copied in and linked as local packages so nothing is fetched. What was trimmed from each, and their credits, are in its `README.md`. Never add a remote package.
 - `Design/` has the app icon's layers, made into `Squint/Special/Squint.icon` in Icon Composer. `SquintIcon` draws the same three lines in the app.
 - `Credits.md` credits the Wikipedia lists the catalog's entries came from (also footnoted on the Describe It tab), and points to `Packages/README.md` for the code.
 - `Submission/Questions.md` is practice for the written answers: Adon's own drafts, the facts to draw on, and feedback. Never write the answers for him.

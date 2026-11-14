@@ -5,7 +5,7 @@ What the lesson teaches: when something seems to happen "every time", it's usual
 - **Confirmation bias:** noticing and remembering what fits what you already believe, and missing what doesn't.
 - **Count the misses:** to check whether two things really go together, count all four boxes (both, either one alone, neither), not just the times they both happened.
 
-It's the first lesson about a bias rather than a fallacy, so it uses the Library's other half. It's personal and kind: everyone does this, and nobody in it is lying. It always shows a claim that holds up too. It's kept short (about a minute), so it can be shown or skipped in the three-minute demo.
+It's the first lesson about a bias rather than a fallacy, so it uses the catalog's other half. It's personal and kind: everyone does this, and nobody in it is lying. It always shows a claim that holds up too. It's kept short (about a minute), so it can be shown or skipped in the three-minute demo.
 
 The design was settled in conversation, and this doc is the reference.
 

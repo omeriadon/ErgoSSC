@@ -3,7 +3,7 @@
 What the lesson teaches: a number can be true and still give the wrong picture, depending on where the counting starts. Two ideas:
 
 - **Cherry-picking:** choosing where to start counting so the numbers tell your story.
-- **Back to normal:** after an unusually bad (or good) stretch, things usually drift back to normal on their own, even if nothing changes. Its proper name is regression to the mean, and the Library entry is Regression fallacy.
+- **Back to normal:** after an unusually bad (or good) stretch, things usually drift back to normal on their own, even if nothing changes. Its proper name is regression to the mean, and Squint's name for the mistake is Regression fallacy.
 
 The tone is curious, not cynical: the lesson always shows what a fair comparison looks like, and the cameras might still help. Lessons 1 and 2 are about writing and people. This one is about numbers, and isn't personal.
 

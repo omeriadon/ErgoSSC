@@ -123,7 +123,7 @@ Then a Continue button to the summary.
 
 - Heading: "That's lesson 1 done!"
 - Takeaway: "Find what it wants you to believe, then look for what holds it up."
-- Related: Proof surrogate (`fallacies` / `proof-surrogate`), already set in `Lesson.related`.
+- Related: Proof surrogate, shown as plain text and already set in `Lesson.related`.
 
 The summary finishes the lesson. The toolbar's close button (from `LessonView`) is the way out, and there's no back button on any page.
 

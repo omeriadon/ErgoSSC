@@ -11,8 +11,9 @@ import SquintCatalog
 
 /// Names what someone describes, with the model on the device.
 ///
-/// The catalog is small, so one call is given every entry, numbered, and picks from them. The model never names an
-/// entry itself, so every result is a real one, and it may pick none.
+/// It's three steps. The model names what it sees freely, since it knows the usual names far better than it picks from
+/// a list. Then each name is mapped to a catalog entry without the model, and a name that isn't one is dropped, so
+/// every result is a real one. Then the model explains only those entries.
 @Observable
 final class LibraryFinder {
 	enum State: Equatable {
@@ -21,7 +22,7 @@ final class LibraryFinder {
 		case found(Answer)
 		/// Nothing in the catalog fits, which is a normal answer
 		case nothing
-		/// The model failed or declined
+		/// The model failed or declined to name anything
 		case failed
 	}
 
@@ -35,7 +36,7 @@ final class LibraryFinder {
 		let id: String
 		let name: String
 		let isBias: Bool
-		let summary: String
+		let plain: String
 		/// How the model says it shows up in what was described
 		let reason: String?
 
@@ -61,7 +62,6 @@ final class LibraryFinder {
 
 	/// The most of a description that's read
 	static let descriptionLimit = 600
-	private static let summaryLimit = 200
 	/// Left free in the context for the reply
 	private static let replyReserve = 500
 
@@ -75,30 +75,54 @@ final class LibraryFinder {
 		}
 
 		let entries = LibraryCatalog.shared?.entries ?? []
-		let prompt = Self.prompt(entries, description: description)
-		guard !entries.isEmpty, await fits(Self.instructions + prompt) else {
+		let namingInstructions = Self.namingInstructions(entries)
+		guard !entries.isEmpty, await fits(namingInstructions + description) else {
 			state = .failed
 			return
 		}
 
 		state = .working
-		var answer = Answer()
+		let names: [String]
 		do {
-			let session = LanguageModelSession(instructions: Self.instructions)
+			let session = LanguageModelSession(instructions: namingInstructions)
+			names = try await session.respond(to: description, generating: LibraryFinderNames.self, options: Self.options).content.names
+			try Task.checkCancellation()
+		} catch is CancellationError {
+			state = .idle
+			return
+		} catch {
+			state = .failed
+			return
+		}
+
+		let mapped = LibraryEntryMatcher.entries(named: names, in: entries)
+		guard !mapped.isEmpty else {
+			state = .nothing
+			return
+		}
+		await explain(mapped, description: description)
+	}
+
+	/// Shows the entries, then the model's words on them as they're written. If that fails the entries stay, bare.
+	private func explain(_ mapped: [LibraryEntryText], description: String) async {
+		var answer = Answer(matches: mapped.map { Self.match($0, reason: nil) })
+		state = .found(answer)
+
+		let prompt = Self.explainingPrompt(mapped, description: description)
+		guard await fits(Self.explainingInstructions + prompt) else { return }
+
+		do {
+			let session = LanguageModelSession(instructions: Self.explainingInstructions)
 			for try await snapshot in session.streamResponse(to: prompt, generating: LibraryFinderAnswer.self, options: Self.options) {
 				answer.opening = snapshot.content.opening ?? ""
-				answer.matches = Self.matches(snapshot.content.choices ?? [], from: entries)
-				if !answer.matches.isEmpty {
-					state = .found(answer)
-				}
+				answer.matches = Self.matches(mapped, explained: snapshot.content.choices ?? [])
+				state = .found(answer)
 			}
 			try Task.checkCancellation()
-			state = answer.matches.isEmpty ? .nothing : .found(answer)
 		} catch is CancellationError {
 			state = .idle
 		} catch {
 			// What was written before it stopped is kept
-			state = answer.matches.isEmpty ? .failed : .found(answer)
 		}
 	}
 
@@ -106,21 +130,21 @@ final class LibraryFinder {
 		state = .idle
 	}
 
-	private static func matches(_ choices: [LibraryFinderChoice.PartiallyGenerated], from entries: [LibraryEntryText]) -> [Match] {
-		var matches: [Match] = []
+	private static func match(_ entry: LibraryEntryText, reason: String?) -> Match {
+		Match(id: entry.id, name: entry.name, isBias: entry.category == "biases", plain: entry.plain, reason: reason)
+	}
+
+	/// Every mapped entry, in order, with the words written for it so far
+	private static func matches(_ mapped: [LibraryEntryText], explained choices: [LibraryFinderChoice.PartiallyGenerated]) -> [Match] {
+		var reasons: [Int: String] = [:]
 		for choice in choices {
-			guard let number = choice.number, entries.indices.contains(number - 1) else { continue }
-			let entry = entries[number - 1]
-			guard !matches.contains(where: { $0.id == entry.id }) else { continue }
-			matches.append(Match(
-				id: entry.id,
-				name: entry.name,
-				isBias: entry.category == "biases",
-				summary: entry.summary,
-				reason: choice.explanation
-			))
+			if let number = choice.number, let explanation = choice.explanation {
+				reasons[number] = explanation
+			}
 		}
-		return matches
+		return mapped.enumerated().map { index, entry in
+			match(entry, reason: reasons[index + 1])
+		}
 	}
 
 	private func fits(_ text: String) async -> Bool {
@@ -136,28 +160,38 @@ final class LibraryFinder {
 
 	private static let options = GenerationOptions(samplingMode: .greedy)
 
-	private static let instructions = """
-	You help someone put a name to something they've noticed, from a short numbered list of fallacies and biases. \
-	A fallacy is a mistake in an argument, like a reply that attacks something the other person never said. A bias is \
-	a habit of thinking that quietly tilts how someone sees things, like noticing only what agrees with what they \
-	already believe.
-	People describe situations ("my brother said…", "I keep noticing…"), not definitions, so read what happened, not \
-	the words used. Pick only the entries that genuinely describe what happened. Never force a match. The list is \
-	small and most descriptions won't be on it, so picking none is normal and often right: then leave the choices \
-	empty. Pick at most three, best first.
+	/// Squint's own names go in the instructions, so the model uses them when one fits
+	private static func namingInstructions(_ entries: [LibraryEntryText]) -> String {
+		let names = entries.map { entry in
+			entry.aliases.isEmpty ? entry.name : "\(entry.name) [\(entry.aliases.joined(separator: ", "))]"
+		}
+		return """
+		Someone describes a situation they noticed, like something a friend said, an ad, or a habit of their own. Say \
+		which logical fallacy or cognitive bias it shows, by its usual name. A fallacy is a mistake in an argument. A \
+		bias is a habit of thinking that tilts how someone sees things. Read what actually happened, not the words used.
+		Squint covers these: \(names.joined(separator: "; ")). If it's one of these, use that exact name. If it's \
+		something else, give its usual name anyway. If nothing in particular is wrong, give no names. Most of the \
+		time one name is right.
+		"""
+	}
+
+	private static let explainingInstructions = """
+	Someone described something they noticed, and it's been matched to the numbered fallacies or biases below. Explain \
+	each one to them. A fallacy is a mistake in an argument. A bias is a habit of thinking that quietly tilts how \
+	someone sees things.
 	Talk to them directly, as "you", in plain, warm language, with short sentences and everyday words. No lists, \
 	headings or markdown. The opening is one or two sentences: what it most likely is and why, pointing at what they \
-	actually described, or, if nothing fits, a short, kind note saying so. For each pick, say how it shows up in what \
-	they described, in your own words, without repeating its definition.
+	actually described. For each entry, in the order given, say how it shows up in what they described, in your own \
+	words, without repeating its definition.
 	Be fair: describe what was said or done, never call anyone stupid or a liar, and say so when the point might \
 	still have something to it.
 	"""
 
-	private static func prompt(_ entries: [LibraryEntryText], description: String) -> String {
+	private static func explainingPrompt(_ entries: [LibraryEntryText], description: String) -> String {
 		var lines = ["Entries:"]
 		for (index, entry) in entries.enumerated() {
 			let kind = entry.category == "biases" ? "bias" : "fallacy"
-			lines.append("\(index + 1). \(entry.name) (\(kind)): \(entry.summary.prefix(summaryLimit))")
+			lines.append("\(index + 1). \(entry.name) (\(kind)): \(entry.plain)")
 		}
 		lines += ["", "Description:", description]
 		return lines.joined(separator: "\n")
@@ -166,12 +200,22 @@ final class LibraryFinder {
 
 // MARK: - What the model replies with
 
+/// What the model sees in the description. `situation` comes first so it reasons before it commits to a name.
+@Generable
+nonisolated struct LibraryFinderNames {
+	@Guide(description: "One plain sentence restating what happened in the description")
+	var situation: String
+
+	@Guide(description: "The usual name of the fallacy or bias this is, best first. A second only if it clearly fits too. Empty if it's just a disagreement, a fair point, or nothing specific.", .maximumCount(2))
+	var names: [String]
+}
+
 @Generable
 nonisolated struct LibraryFinderAnswer {
-	@Guide(description: "One or two sentences to the person: what they're describing most likely is, and why. If nothing on the list fits, say so kindly.")
+	@Guide(description: "One or two sentences to the person: what they're describing most likely is, and why, pointing at what they described.")
 	var opening: String
 
-	@Guide(description: "Only the entries that genuinely fit what the person describes, best first. Empty if none do.", .maximumCount(3))
+	@Guide(description: "One for each entry given, in the order given", .maximumCount(2))
 	var choices: [LibraryFinderChoice]
 }
 

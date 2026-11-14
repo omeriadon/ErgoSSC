@@ -90,7 +90,7 @@ Scrolling has to stay possible if the conversation is taller than the screen. If
 
 - Heading: "That's lesson 2 done!"
 - Takeaway: "When people get frustrated, they sometimes change what you said, make it about you, or act like there are only two choices. Usually they don't mean to, and everyone does it. Once you can spot it, it's easier to get back to what you were actually talking about."
-- Related: Straw man, Ad hominem, False dilemma, already set in `Lesson.related`.
+- Related: Straw man, Ad hominem, False dilemma, shown as plain text and already set in `Lesson.related`.
 
 The toolbar's close button (from `LessonView`) is the way out, and there's no back button on any page.
 
