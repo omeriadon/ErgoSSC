@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-/// The app icon's three lines: the middle one sharp and orange, the ones around it faint and out of focus.
+/// The app icon's three lines in Liquid Glass: the middle one tinted orange and in focus, the ones around it clear and faint.
 /// Drawn on a 1024 grid, the same as the icon's layers in `Design/Squint icon`.
 struct SquintIcon: View {
 	var size: CGFloat = 92
@@ -15,21 +15,26 @@ struct SquintIcon: View {
 	private static let focus = Color(red: 0.878, green: 0.541, blue: 0.180)
 
 	var body: some View {
-		ZStack(alignment: .topLeading) {
-			line(y: 318, width: 620, faint: true)
-			line(y: 470, width: 620, faint: false)
-			line(y: 622, width: 420, faint: true)
+		let scale = size / 1024
+
+		// No spacing, so the three pieces of glass never melt into each other
+		GlassEffectContainer(spacing: 0) {
+			VStack(alignment: .leading, spacing: 68 * scale) {
+				line(width: 620, glass: .clear.tint(.accent.opacity(0.35)))
+				line(width: 620, glass: .regular.tint(Self.focus))
+				line(width: 420, glass: .clear.tint(.accent.opacity(0.35)))
+			}
+			.padding(.leading, 202 * scale)
+			.padding(.top, 318 * scale)
+			.frame(width: size, height: size, alignment: .topLeading)
 		}
-		.frame(width: size, height: size, alignment: .topLeading)
 		.accessibilityHidden(true)
 	}
 
-	private func line(y: CGFloat, width: CGFloat, faint: Bool) -> some View {
+	private func line(width: CGFloat, glass: Glass) -> some View {
 		let scale = size / 1024
-		return RoundedRectangle(cornerRadius: 42 * scale)
-			.fill(faint ? AnyShapeStyle(.secondary) : AnyShapeStyle(Self.focus))
+		return Color.clear
 			.frame(width: width * scale, height: 84 * scale)
-			.blur(radius: faint ? 10 * scale : 0)
-			.offset(x: 202 * scale, y: y * scale)
+			.glassEffect(glass.interactive(), in: .rect(cornerRadius: 42 * scale))
 	}
 }

@@ -122,6 +122,7 @@ private struct BehindTheWordsQuizCard: View {
 		VStack(alignment: .leading, spacing: 14) {
 			Text(item.text)
 				.font(.title3)
+				.fontDesign(.serif)
 				.fixedSize(horizontal: false, vertical: true)
 				.padding(16)
 				.frame(maxWidth: .infinity, alignment: .leading)
@@ -141,6 +142,7 @@ private struct BehindTheWordsQuizCard: View {
 					.transition(.opacity)
 			}
 		}
+		.padding(.vertical, 20)
 		.animation(.smooth(duration: 0.3), value: pick)
 	}
 

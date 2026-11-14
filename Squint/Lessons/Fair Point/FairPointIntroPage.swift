@@ -57,6 +57,7 @@ struct FairPointIntroPage: View {
 		HStack(alignment: .bottom, spacing: 12) {
 			Text("Common scenario: messaging a friend. Arguments can get messy, so let's look at how this one goes")
 				.frame(maxWidth: .infinity, alignment: .leading)
+				.font(.headline)
 
 			Button {
 				state.page = .deeperLook
@@ -70,6 +71,7 @@ struct FairPointIntroPage: View {
 			.accessibilityLabel("Next")
 			.accessibilityIdentifier("learn.fairPoint.next")
 		}
+		.padding(.top)
 	}
 
 	private func open() {

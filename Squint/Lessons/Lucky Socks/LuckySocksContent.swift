@@ -139,7 +139,7 @@ nonisolated enum LuckySocks {
 			labels: FourBoxLabels(first: "Washed car", notFirst: "Didn't", second: "Rained", notSecond: "Dry"),
 			counts: FourBoxCounts(both: 3, firstOnly: 9, secondOnly: 12, neither: 36),
 			holdsUp: false,
-			explanation: "It rained after a quarter of the washes, and on a quarter of the other days too. The rainy washes are just the ones that stick."
+			explanation: "It rained after a quarter of the washes, and on a quarter of the other days too. This means it doesn't rain every time you wash your car."
 		),
 		LuckySocksQuizItem(
 			id: 1,
@@ -147,7 +147,7 @@ nonisolated enum LuckySocks {
 			labels: FourBoxLabels(first: "Flashcards", notFirst: "None", second: "Passed", notSecond: "Failed"),
 			counts: FourBoxCounts(both: 18, firstOnly: 2, secondOnly: 10, neither: 10),
 			holdsUp: true,
-			explanation: "Nine in ten flashcard users passed, against half of everyone else. That's a real difference."
+			explanation: "Nine in ten flashcard users passed, versus half of everyone else. That's a real difference."
 		),
 		LuckySocksQuizItem(
 			id: 2,
@@ -155,7 +155,7 @@ nonisolated enum LuckySocks {
 			labels: FourBoxLabels(first: "Full moon", notFirst: "Other nights", second: "Busy", notSecond: "Quiet"),
 			counts: FourBoxCounts(both: 4, firstOnly: 8, secondOnly: 40, neither: 80),
 			holdsUp: false,
-			explanation: "A third of full-moon nights were busy, and a third of other nights too. Busy full moons are just easier to remember."
+			explanation: "A third of full-moon nights were busy, and a third of other nights too. So there isn't correlation between the two events."
 		),
 	])
 

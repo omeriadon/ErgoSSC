@@ -171,12 +171,12 @@ private struct BiggerPictureTerms: View {
 				BiggerPictureTermRow(
 					name: "Cherry-picking",
 					symbol: "scissors",
-					definition: "Choosing where to start counting, so the numbers tell your story."
+					definition: "Choosing where to start counting, so the numbers tell the story you want to show, instead of the true one."
 				)
 				BiggerPictureTermRow(
 					name: "Back to normal",
 					symbol: "arrow.uturn.down",
-					definition: "After an unusually bad (or good) stretch, things usually drift back to normal on their own, even if nothing changes."
+					definition: "After an unusually bad (or good) stretch, things will usually drift back to normal on their own, even if nothing changes."
 				)
 			}
 

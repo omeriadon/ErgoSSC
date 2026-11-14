@@ -12,7 +12,7 @@
   ],
   "groups" : [
     {
-      "blur-material" : 0.25,
+      "blur-material" : 0.27,
       "layers" : [
         {
           "fill" : {
@@ -24,10 +24,32 @@
             "scale" : 1.81,
             "translation-in-points" : [
               -7,
-              116.20952380952377
+              126.78095238095233
             ]
           }
-        },
+        }
+      ],
+      "opacity" : 1,
+      "position" : {
+        "scale" : 2.1,
+        "translation-in-points" : [
+          0,
+          12
+        ]
+      },
+      "shadow" : {
+        "kind" : "none",
+        "opacity" : 0.5
+      },
+      "specular" : false,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.64
+      }
+    },
+    {
+      "blur-material" : 0.25,
+      "layers" : [
         {
           "fill" : {
             "solid" : "srgb:0.00000,0.53333,1.00000,0.00000"
@@ -38,7 +60,7 @@
             "scale" : 1.81,
             "translation-in-points" : [
               -5.684341886080802e-14,
-              -116.83904761904793
+              -107.22000000000034
             ]
           }
         }
@@ -48,7 +70,7 @@
         "scale" : 2.1,
         "translation-in-points" : [
           0,
-          0
+          12
         ]
       },
       "shadow" : {
@@ -86,7 +108,14 @@
             }
           ],
           "image-name" : "Faint lines.svg",
-          "name" : "Faint lines"
+          "name" : "Faint lines",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              12
+            ]
+          }
         }
       ],
       "opacity" : 0.68,
@@ -94,7 +123,7 @@
         "scale" : 1.16,
         "translation-in-points" : [
           0,
-          0
+          12
         ]
       },
       "shadow" : {
@@ -118,14 +147,21 @@
             }
           ],
           "image-name" : "Focus line.svg",
-          "name" : "Focus line"
+          "name" : "Focus line",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0,
+              12
+            ]
+          }
         }
       ],
       "position" : {
         "scale" : 1.16,
         "translation-in-points" : [
           0,
-          0
+          12
         ]
       },
       "shadow" : {

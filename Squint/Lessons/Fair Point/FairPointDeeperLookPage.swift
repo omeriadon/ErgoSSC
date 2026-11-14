@@ -59,8 +59,11 @@ struct FairPointDeeperLookPage: View {
 			Text("\(remaining) more to go ↑")
 				.foregroundStyle(.secondary)
 		} else {
-			Button("Continue") {
+			Button {
 				state.page = .yourTurn
+			} label: {
+				Text("Continue")
+					.padding(5)
 			}
 			.buttonStyle(.glassProminent)
 			.buttonBorderShape(.roundedRectangle(radius: 12))

@@ -47,14 +47,14 @@ nonisolated struct BehindTheWordsQuizItem: Identifiable, Hashable, Sendable {
 nonisolated enum BehindTheWords {
 	static let threadTitle = "Best coffee near the station?"
 
-	private static let reasonHint = "If that's true, is Little Bird a better pick? Then it's a reason."
+	private static let reasonHint = "If this claim is true, is Little Bird a better café?"
 
 	static let units: [BehindTheWordsUnit] = [
 		BehindTheWordsUnit(
 			number: 1,
 			text: "Honestly, life's too short for bad coffee.",
 			kind: .filler,
-			hint: "True of every café. It doesn't tell you anything about this one."
+			hint: "This is of every café. It doesn't tell you anything about this one."
 		),
 		BehindTheWordsUnit(
 			number: 2,
@@ -107,7 +107,7 @@ nonisolated enum BehindTheWords {
 			id: 1,
 			text: "Bring a jacket. It drops to four degrees after dark.",
 			givesReason: true,
-			explanation: "Short and plain, with a claim and a reason."
+			explanation: "This one is short and plain, with a claim and a reason."
 		),
 		BehindTheWordsQuizItem(
 			id: 2,

@@ -84,7 +84,7 @@ private struct WelcomeRow: View {
 	var body: some View {
 		HStack(alignment: .top, spacing: 16) {
 			Image(systemName: symbol)
-				.font(.title2)
+				.font(.title)
 				.foregroundStyle(tint)
 				.frame(width: 36)
 				.accessibilityHidden(true)

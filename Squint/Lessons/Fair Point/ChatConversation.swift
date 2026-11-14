@@ -88,7 +88,7 @@ struct ChatAvatar: View {
 			.frame(width: size, height: size)
 			.background(
 				LinearGradient(
-					colors: [Color(.systemGray3), Color(.systemGray)],
+					colors: [Color(.green), Color(.mint)],
 					startPoint: .top,
 					endPoint: .bottom
 				),

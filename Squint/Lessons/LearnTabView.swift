@@ -153,6 +153,7 @@ private struct FinishedAllNote: View {
 		.multilineTextAlignment(.center)
 		.frame(maxWidth: .infinity)
 		.padding(.top, 12)
+		.padding(.bottom, 35)
 	}
 }
 

@@ -76,13 +76,13 @@ nonisolated enum FairPoint {
 				id: "sam.either",
 				sender: .contact,
 				text: "either you come or you've just given up on having fun",
-				note: "There are more than two options, like coming for a bit. That's a **false dilemma**.",
+				note: "This message implies there's only two options, when theres more. That's a **false dilemma**.",
 				isFair: false
 			),
 			ChatMessage(
 				id: "sam.sorry",
 				sender: .contact,
-				text: "ok sorry. what if you study all weekend and just come for the first hour?",
+				text: "alright, what if you study all weekend and just come for the first hour?",
 				note: "This one's fair. Sam's answering your actual reason, and finding a way to do both."
 			),
 		]
@@ -109,14 +109,14 @@ nonisolated enum FairPoint {
 				id: "leo.either",
 				sender: .contact,
 				text: "either you walk him or he doesn't get walked",
-				note: "Someone else could, or he could go later. That's a **false dilemma**.",
+				note: "Another **false dilemma**, Leo implies here that theres only two possible options, when there's more.",
 				isFair: false
 			),
 			ChatMessage(
 				id: "leo.feed",
 				sender: .contact,
 				text: "says the person who forgot to feed him last week",
-				note: "That's about you, not about tonight. That's **ad hominem**.",
+				note: "Here Leo responds to you, instead of your argument. That's **ad hominem**.",
 				isFair: false
 			),
 		]

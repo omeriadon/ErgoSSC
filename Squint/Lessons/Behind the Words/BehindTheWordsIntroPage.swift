@@ -76,8 +76,8 @@ private struct BehindTheWordsTerms: View {
 
 			VStack(spacing: 10) {
 				BehindTheWordsTermRow(kind: .claim, definition: "What the writing wants you to believe or do.")
-				BehindTheWordsTermRow(kind: .reason, definition: "Something that, if true, makes the claim more likely.")
-				BehindTheWordsTermRow(kind: .filler, definition: "Anything you could delete without losing either.")
+				BehindTheWordsTermRow(kind: .reason, definition: "Something that, if true, makes the claim more reasonable.")
+				BehindTheWordsTermRow(kind: .filler, definition: "Anything you could delete without losing meaning.")
 			}
 
 			BehindTheWordsContinueButton(identifier: "terms", action: onContinue)

@@ -29,6 +29,8 @@ struct LibraryGridView: View {
 
 							Image(systemName: "chevron.right")
 								.padding(.trailing, 3)
+								.font(.title3)
+								.foregroundStyle(.secondary)
 						}
 						.padding(18)
 						.glassEffect(.clear.tint(.accent).interactive(), in: RoundedRectangle(cornerRadius: 30))

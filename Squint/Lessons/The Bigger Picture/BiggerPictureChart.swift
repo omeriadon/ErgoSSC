@@ -124,6 +124,7 @@ struct BiggerPictureArticle<Content: View>: View {
 				.foregroundStyle(.secondary)
 
 			Text(headline)
+				.fontDesign(.serif)
 				.font(.title2.bold())
 				.lineLimit(reservesTwoLines ? 2 : 4, reservesSpace: reservesTwoLines)
 				.fixedSize(horizontal: false, vertical: true)

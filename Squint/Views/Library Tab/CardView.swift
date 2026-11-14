@@ -41,6 +41,8 @@ struct CardView: View {
 
 			Image(systemName: "chevron.right")
 				.padding(.trailing, 3)
+				.font(.title3)
+				.foregroundStyle(.secondary)
 		}
 		.padding(22)
 		.glassEffect(.clear.tint(color).interactive(), in: RoundedRectangle(cornerRadius: 30))
