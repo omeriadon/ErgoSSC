@@ -119,7 +119,7 @@ Then a Continue button to the summary.
 
 ## Page 4: Summary
 
-`LessonSummaryPage` (shared, in `Ergo/Lessons/`). Title `Lesson 1: Behind the words…`.
+`LessonSummaryPage` (shared, in `Squint/Lessons/`). Title `Lesson 1: Behind the words…`.
 
 - Heading: "That's lesson 1 done!"
 - Takeaway: "Find what it wants you to believe, then look for what holds it up."

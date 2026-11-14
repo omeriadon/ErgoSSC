@@ -1,0 +1,147 @@
+{
+  "fill-specializations" : [
+    {
+      "value" : "automatic"
+    },
+    {
+      "appearance" : "light",
+      "value" : {
+        "automatic-gradient" : "srgb:0.47843,0.32157,0.18824,1.00000"
+      }
+    }
+  ],
+  "groups" : [
+    {
+      "blur-material" : 0.25,
+      "layers" : [
+        {
+          "fill" : {
+            "solid" : "srgb:0.00000,0.53333,1.00000,0.00000"
+          },
+          "image-name" : "Focus line.svg",
+          "name" : "Focus line",
+          "position" : {
+            "scale" : 1.81,
+            "translation-in-points" : [
+              -7,
+              116.20952380952377
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "solid" : "srgb:0.00000,0.53333,1.00000,0.00000"
+          },
+          "image-name" : "Focus line.svg",
+          "name" : "Focus line",
+          "position" : {
+            "scale" : 1.81,
+            "translation-in-points" : [
+              -5.684341886080802e-14,
+              -116.83904761904793
+            ]
+          }
+        }
+      ],
+      "opacity" : 1,
+      "position" : {
+        "scale" : 2.1,
+        "translation-in-points" : [
+          0,
+          0
+        ]
+      },
+      "shadow" : {
+        "kind" : "none",
+        "opacity" : 0.5
+      },
+      "specular" : false,
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.64
+      }
+    },
+    {
+      "blur-material" : null,
+      "layers" : [
+        {
+          "fill-specializations" : [
+            {
+              "appearance" : "light",
+              "value" : {
+                "automatic-gradient" : "extended-gray:1.00000,1.00000"
+              }
+            },
+            {
+              "appearance" : "dark",
+              "value" : {
+                "automatic-gradient" : "srgb:0.47843,0.32157,0.18824,1.00000"
+              }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "automatic-gradient" : "gray:0.52418,1.00000"
+              }
+            }
+          ],
+          "image-name" : "Faint lines.svg",
+          "name" : "Faint lines"
+        }
+      ],
+      "opacity" : 0.68,
+      "position" : {
+        "scale" : 1.16,
+        "translation-in-points" : [
+          0,
+          0
+        ]
+      },
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.48
+      }
+    },
+    {
+      "layers" : [
+        {
+          "fill-specializations" : [
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "solid" : "extended-gray:1.00000,1.00000"
+              }
+            }
+          ],
+          "image-name" : "Focus line.svg",
+          "name" : "Focus line"
+        }
+      ],
+      "position" : {
+        "scale" : 1.16,
+        "translation-in-points" : [
+          0,
+          0
+        ]
+      },
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.3
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}

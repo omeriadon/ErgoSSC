@@ -53,7 +53,7 @@ One claim at a time, each with its four boxes already counted. Before an answer,
 |---|---|---|---|
 | Every time I wash my car, it rains. | 3, 9, 12, 36 | Doesn't hold up | It rained after a quarter of the washes, and on a quarter of the other days too. The rainy washes are just the ones that stick. |
 | Students who use flashcards pass more often. | 18, 2, 10, 10 | Holds up | Nine in ten flashcard users passed, against half of everyone else. That's a real difference. |
-| The ward is always busier on a full moon. | 4, 8, 40, 80 | Doesn't hold up | A third of full-moon nights were busy, and a third of other nights too. Busy full moons are just easier to remember. |
+| The hospital is always busier on a full moon. | 4, 8, 40, 80 | Doesn't hold up | A third of full-moon nights were busy, and a third of other nights too. Busy full moons are just easier to remember. |
 
 A claim holds up when the two rates differ by at least 20 points. The answers are authored, and the check is there so the data can't disagree with them.
 

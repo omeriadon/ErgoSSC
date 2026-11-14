@@ -86,7 +86,7 @@ Scrolling has to stay possible if the conversation is taller than the screen. If
 
 ## Page 4: Summary
 
-`LessonSummaryPage` (shared, in `Ergo/Lessons/`). Title `Lesson 2: Fair point?`.
+`LessonSummaryPage` (shared, in `Squint/Lessons/`). Title `Lesson 2: Fair point?`.
 
 - Heading: "That's lesson 2 done!"
 - Takeaway: "When people get frustrated, they sometimes change what you said, make it about you, or act like there are only two choices. Usually they don't mean to, and everyone does it. Once you can spot it, it's easier to get back to what you were actually talking about."

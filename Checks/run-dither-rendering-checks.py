@@ -17,11 +17,11 @@ parser.add_argument("--swift-source", type=Path)
 parser.add_argument("--metal-source", type=Path)
 args = parser.parse_args()
 repo = Path(__file__).resolve().parent.parent
-swift = args.swift_source or repo / "Ergo/Views/Dither/DitherView.swift"
-metal = args.metal_source or repo / "Ergo/Views/Dither/OptimizedDither.metal"
+swift = args.swift_source or repo / "Squint/Views/Dither/DitherView.swift"
+metal = args.metal_source or repo / "Squint/Views/Dither/OptimizedDither.metal"
 args.output.mkdir(parents=True, exist_ok=True)
 
-with tempfile.TemporaryDirectory(prefix="ergo-dither-checks-") as temporary:
+with tempfile.TemporaryDirectory(prefix="squint-dither-checks-") as temporary:
     build = Path(temporary)
     source = swift.read_text().split("/// An interactive Metal background.")[0]
     # The standalone executable loads the same shader library from this build directory.
