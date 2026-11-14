@@ -54,7 +54,7 @@ struct BiggerPictureYourTurnPage: View {
 			}
 
 			if showsScore {
-				BiggerPictureScore(score: state.quizScore) {
+				BiggerPictureScore(score: state.quizScore, results: quizResults) {
 					state.page = .summary
 				}
 				.id("continue")
@@ -73,6 +73,17 @@ struct BiggerPictureYourTurnPage: View {
 		guard item.id == state.quizShown - 1, pick(for: item) != nil else { return nil }
 		return {
 			state.quizShown += 1
+		}
+	}
+
+	/// What the line under the score is written from
+	private var quizResults: [LessonQuizResult] {
+		zip(BiggerPicture.quiz, state.quizPicks).map { item, pick in
+			LessonQuizResult(
+				question: item.headline,
+				answer: item.isFair ? "a fair picture" : "cherry-picked",
+				gotRight: pick == item.isFair
+			)
 		}
 	}
 
@@ -361,6 +372,7 @@ private struct BiggerPictureQuizOption: View {
 /// The score once every headline is answered, and a line about it
 private struct BiggerPictureScore: View {
 	let score: Int
+	let results: [LessonQuizResult]
 	let onContinue: () -> Void
 
 	var body: some View {
@@ -368,11 +380,7 @@ private struct BiggerPictureScore: View {
 			Text("\(score) of \(BiggerPicture.quiz.count)")
 				.font(.largeTitle.bold().monospacedDigit())
 
-			Text(BiggerPicture.scoreLine(for: score))
-				.font(.body)
-				.multilineTextAlignment(.center)
-				.foregroundStyle(.secondary)
-				.fixedSize(horizontal: false, vertical: true)
+			LessonScoreLine(lesson: .biggerPicture, results: results, fallback: BiggerPicture.scoreLine(for: score))
 
 			BiggerPictureContinueButton(identifier: "quiz", action: onContinue)
 				.padding(.top, 12)

@@ -159,7 +159,7 @@ nonisolated enum LuckySocks {
 		),
 	])
 
-	/// The line under the quiz score. Hardcoded until Foundation Models writes it.
+	/// The line under the quiz score when the model on the device can't write one (`LessonScoreLine`)
 	static func scoreLine(for score: Int) -> String {
 		switch score {
 			case 3: "All three. You're already counting the misses."

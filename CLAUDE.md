@@ -21,6 +21,7 @@ Being succinct matters far more than having lots of features.
 ## Layout
 - `Ergo/` is the iOS app. `Ergo.xcodeproj` links `ErgoKit` as a local package. `Ergo/Lessons/` is the Learn tab.
 - `ErgoKit/` is `ErgoCatalog`: the library's JSON files, and a plain-text view of them to search.
+- `Packages/` is the open source the app uses (Defaults, FuzzyMatch), copied in and linked as local packages so nothing is fetched. What was trimmed from each, and their credits, are in its `README.md`. Never add a remote package.
 - `Plans/` has the design docs: plans and the reasons for them, never progress or how something was built.
 - `Notes/` says how each area works now (below).
 

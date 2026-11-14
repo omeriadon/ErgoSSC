@@ -23,7 +23,7 @@ Jess, a friend, and her football team's season. Her messages use lesson 2's chat
    3. Each box's count appears.
    4. The comparison: with socks, won 4 of 6. Without socks, won 4 of 6.
    5. "Same either way. Jess isn't lying: the wins in her socks are just the ones she remembers."
-   6. The two terms, then Continue.
+   6. A pause to read it, then the two terms and Continue come in on their own.
 
 | | Won | Lost |
 |---|---|---|
@@ -57,7 +57,7 @@ One claim at a time, each with its four boxes already counted. Before an answer,
 
 A claim holds up when the two rates differ by at least 20 points. The answers are authored, and the check is there so the data can't disagree with them.
 
-Then the score and a line under it, then Continue. The line is hardcoded until Foundation Models writes it (`LuckySocks.scoreLine(for:)`):
+Then the score and a line under it, then Continue. The model on the device writes the line from which questions were right and wrong (`LessonScoreLine`). It never decides the score. Without the model, the line for that score is shown instead (`LuckySocks.scoreLine(for:)`):
 
 | Score | Line |
 |---|---|

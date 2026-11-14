@@ -98,6 +98,7 @@ private struct LessonCard: View {
 						.fixedSize(horizontal: false, vertical: true)
 
 					LessonTopics(topics: lesson.topics, tint: lesson.tint)
+						.padding(.top, 10)
 				}
 
 				Spacer(minLength: 0)
@@ -107,7 +108,7 @@ private struct LessonCard: View {
 		.multilineTextAlignment(.leading)
 		.padding(16)
 		.frame(maxWidth: .infinity, alignment: .leading)
-		.glassEffect(.regular.interactive(), in: .rect(cornerRadius: 28))
+		.glassEffect(.regular.interactive(), in: .rect(cornerRadius: 34))
 		.opacity(isUnlocked ? 1 : 0.55)
 		.contentShape(.rect(cornerRadius: 28))
 		.accessibilityElement(children: .combine)

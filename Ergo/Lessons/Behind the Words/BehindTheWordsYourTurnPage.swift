@@ -50,7 +50,7 @@ struct BehindTheWordsYourTurnPage: View {
 			}
 
 			if state.quizFinished {
-				BehindTheWordsScore(score: state.quizScore) {
+				BehindTheWordsScore(score: state.quizScore, results: quizResults) {
 					state.page = .summary
 				}
 				.id("score")
@@ -62,6 +62,17 @@ struct BehindTheWordsYourTurnPage: View {
 				.frame(height: 250)
 		}
 		.animation(reduceMotion ? .easeInOut(duration: 0.25) : .smooth(duration: 0.6).delay(1.4), value: state.quizPicks.count)
+	}
+
+	/// What the line under the score is written from
+	private var quizResults: [LessonQuizResult] {
+		zip(BehindTheWords.quiz, state.quizPicks).map { item, pick in
+			LessonQuizResult(
+				question: item.text,
+				answer: item.givesReason ? "it gives a reason" : "no reason is given",
+				gotRight: pick == item.givesReason
+			)
+		}
 	}
 
 	private func pick(for item: BehindTheWordsQuizItem) -> Bool? {
@@ -204,6 +215,7 @@ private struct BehindTheWordsQuizOption: View {
 /// The score once every passage is answered, and a line about it
 private struct BehindTheWordsScore: View {
 	let score: Int
+	let results: [LessonQuizResult]
 	let onContinue: () -> Void
 
 	var body: some View {
@@ -211,11 +223,7 @@ private struct BehindTheWordsScore: View {
 			Text("\(score) of \(BehindTheWords.quiz.count)")
 				.font(.largeTitle.bold().monospacedDigit())
 
-			Text(BehindTheWords.scoreLine(for: score))
-				.font(.body)
-				.multilineTextAlignment(.center)
-				.foregroundStyle(.secondary)
-				.fixedSize(horizontal: false, vertical: true)
+			LessonScoreLine(lesson: .behindTheWords, results: results, fallback: BehindTheWords.scoreLine(for: score))
 
 			BehindTheWordsContinueButton(identifier: "quiz", action: onContinue)
 				.padding(.top, 12)

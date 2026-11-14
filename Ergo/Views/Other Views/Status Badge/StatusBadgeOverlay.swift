@@ -5,7 +5,6 @@
 //  Brought over from Timetable.
 //
 
-import ColorfulX
 import SwiftUI
 
 /// Draws `StatusBadgeManager`'s current badge at the top of the screen. `StatusBadgeWindow` hosts it above everything,
@@ -291,22 +290,7 @@ private struct StatusBadgeGauge: View {
 }
 
 private struct StatusBadgeCapsuleFill: View {
-	@Environment(\.accessibilityReduceMotion) private var reduceMotion
-
 	let badge: StatusBadge
-
-	private let loadingPatternScale: CGFloat = 3.4
-
-	private static let loadingColors: [Color] = [
-		Color(red: 0.05, green: 0.26, blue: 1.00),
-		Color(red: 0.10, green: 0.52, blue: 1.00),
-		Color(red: 0.00, green: 0.74, blue: 1.00),
-		Color(red: 0.88, green: 0.96, blue: 1.00),
-		Color(red: 0.13, green: 0.92, blue: 0.70),
-		Color(red: 1.00, green: 0.82, blue: 0.18),
-		Color(red: 0.04, green: 0.34, blue: 0.95),
-		Color(red: 0.18, green: 0.42, blue: 1.00),
-	]
 
 	var body: some View {
 		ZStack {
@@ -320,11 +304,8 @@ private struct StatusBadgeCapsuleFill: View {
 				case .warning:
 					terminalFill(.orange)
 
-				case .info:
+				case .info, .progressView, .progressViewAndGauge:
 					terminalFill(.blue)
-
-				case .progressView, .progressViewAndGauge:
-					loadingFill
 			}
 		}
 		.allowsHitTesting(false)
@@ -340,45 +321,6 @@ private struct StatusBadgeCapsuleFill: View {
 			startPoint: .top,
 			endPoint: .bottom
 		)
-	}
-
-	@State private var colourfulColors = Self.loadingColors
-	@State private var colourfulSpeed: Double = 2.5
-	@State private var colourfulBias: Double = 0.0012
-	@State private var colourfulNoise: Double = 30
-	@State private var colourfulTransitionSpeed: Double = 2.0
-	@State private var colourfulFrameLimit: Int = 30
-	@State private var colourfulRenderScale: Double = 0.9
-
-	private var loadingFill: some View {
-		ColorfulView(
-			color: $colourfulColors,
-			speed: $colourfulSpeed,
-			bias: $colourfulBias,
-			noise: $colourfulNoise,
-			transitionSpeed: $colourfulTransitionSpeed,
-			frameLimit: $colourfulFrameLimit,
-			renderScale: $colourfulRenderScale
-		)
-		.onAppear {
-			colourfulSpeed = reduceMotion ? 0 : 2.5
-		}
-		.onChange(of: reduceMotion) {
-			colourfulSpeed = reduceMotion ? 0 : 2.5
-		}
-		.mask {
-			LinearGradient(
-				stops: [
-					.init(color: .white.opacity(0.0), location: 0.00),
-					.init(color: .white.opacity(0.15), location: 0.2),
-					.init(color: .white.opacity(0.6), location: 0.66),
-					.init(color: .white.opacity(1), location: 1.00),
-
-				],
-				startPoint: .top,
-				endPoint: .bottom
-			)
-		}
 	}
 }
 

@@ -123,7 +123,7 @@ nonisolated enum BehindTheWords {
 		),
 	]
 
-	/// The line under the quiz score. Hardcoded until Foundation Models writes it.
+	/// The line under the quiz score when the model on the device can't write one (`LessonScoreLine`)
 	static func scoreLine(for score: Int) -> String {
 		switch score {
 			case 4: "Every one. You're already looking underneath."

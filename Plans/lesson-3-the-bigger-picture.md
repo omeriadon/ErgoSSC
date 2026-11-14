@@ -51,7 +51,7 @@ The headline always keeps two lines' room, so the chart doesn't jump as it rewri
 
 One at a time. The first two charts show only the window the headline picked, so a cherry-picked one looks fair at first. The last shows every year from the start, since hiding them isn't what makes it unfair. Two options: **Fair picture** / **Cherry-picked**. After any answer, the chart zooms out to all ten years. A cherry-picked one then makes the reveal obvious: a "Zoomed out" tag ("Whole picture" on the last, which never zoomed), the usual line, a note on the year the headline started from ("A dip", "Worst season"), and only the headline's window stays lit. Then the explanation, then a **Next headline** button brings in the next one, in the person's own time. The last one's button is **See how you did**.
 
-After the last one, the score ("2 of 3") and a line under it, then Continue. The line is hardcoded per score until Foundation Models writes it (`BiggerPicture.scoreLine(for:)`):
+After the last one, the score ("2 of 3") and a line under it, then Continue. The model on the device writes the line from which questions were right and wrong (`LessonScoreLine`). It never decides the score. Without the model, the line for that score is shown instead (`BiggerPicture.scoreLine(for:)`):
 
 | Score | Line |
 |---|---|

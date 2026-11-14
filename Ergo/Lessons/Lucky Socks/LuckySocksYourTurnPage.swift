@@ -54,7 +54,7 @@ struct LuckySocksYourTurnPage: View {
 			}
 
 			if showsScore {
-				LuckySocksScore(score: state.quizScore) {
+				LuckySocksScore(score: state.quizScore, results: quizResults) {
 					state.page = .summary
 				}
 				.id("continue")
@@ -73,6 +73,17 @@ struct LuckySocksYourTurnPage: View {
 		guard item.id == state.quizShown - 1, pick(for: item) != nil else { return nil }
 		return {
 			state.quizShown += 1
+		}
+	}
+
+	/// What the line under the score is written from
+	private var quizResults: [LessonQuizResult] {
+		zip(LuckySocks.quiz, state.quizPicks).map { item, pick in
+			LessonQuizResult(
+				question: item.claim,
+				answer: item.holdsUp ? "it holds up" : "it doesn't hold up",
+				gotRight: pick == item.holdsUp
+			)
 		}
 	}
 
@@ -307,6 +318,7 @@ private struct LuckySocksQuizOption: View {
 /// The score once every claim is answered, and a line about it
 private struct LuckySocksScore: View {
 	let score: Int
+	let results: [LessonQuizResult]
 	let onContinue: () -> Void
 
 	var body: some View {
@@ -314,11 +326,7 @@ private struct LuckySocksScore: View {
 			Text("\(score) of \(LuckySocks.quiz.count)")
 				.font(.largeTitle.bold().monospacedDigit())
 
-			Text(LuckySocks.scoreLine(for: score))
-				.font(.body)
-				.multilineTextAlignment(.center)
-				.foregroundStyle(.secondary)
-				.fixedSize(horizontal: false, vertical: true)
+			LessonScoreLine(lesson: .luckySocks, results: results, fallback: LuckySocks.scoreLine(for: score))
 
 			LuckySocksContinueButton(identifier: "quiz", action: onContinue)
 				.padding(.top, 12)

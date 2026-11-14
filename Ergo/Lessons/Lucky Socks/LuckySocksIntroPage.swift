@@ -21,6 +21,7 @@ struct LuckySocksIntroPage: View {
 	@State private var isSorted: Bool
 	@State private var showsCounts: Bool
 	@State private var showsAfter: Bool
+	@State private var showsTerms: Bool
 
 	init() {
 		let revealed = Defaults[.luckySocksState].showsSeason
@@ -28,6 +29,7 @@ struct LuckySocksIntroPage: View {
 		_isSorted = State(initialValue: revealed)
 		_showsCounts = State(initialValue: revealed)
 		_showsAfter = State(initialValue: revealed)
+		_showsTerms = State(initialValue: revealed)
 	}
 
 	var body: some View {
@@ -48,6 +50,15 @@ struct LuckySocksIntroPage: View {
 					try? await Task.sleep(for: .seconds(0.8))
 					withAnimation(reduceMotion ? nil : .smooth(duration: 0.8)) {
 						proxy.scrollTo("after", anchor: .top)
+					}
+				}
+			}
+			.onChange(of: showsTerms) { _, shows in
+				guard shows else { return }
+				Task {
+					try? await Task.sleep(for: .seconds(0.6))
+					withAnimation(reduceMotion ? nil : .smooth(duration: 0.8)) {
+						proxy.scrollTo("terms", anchor: .bottom)
 					}
 				}
 			}
@@ -136,10 +147,19 @@ struct LuckySocksIntroPage: View {
 			.transition(.opacity)
 			.accessibilityIdentifier("learn.luckySocks.showSeason")
 		} else if showsAfter {
-			LuckySocksTerms {
-				state.page = .deeperLook
+			VStack(alignment: .leading, spacing: 16) {
+				LuckySocksResult()
+					.id("after")
+
+				if showsTerms {
+					LuckySocksTerms {
+						state.page = .deeperLook
+					}
+					.id("terms")
+					.padding(.top, 8)
+					.transition(.opacity.combined(with: .offset(y: 24)))
+				}
 			}
-			.id("after")
 			.transition(.opacity.combined(with: .offset(y: 24)))
 		}
 	}
@@ -168,6 +188,7 @@ struct LuckySocksIntroPage: View {
 				isSorted = true
 				showsCounts = true
 				showsAfter = true
+				showsTerms = true
 			}
 			return
 		}
@@ -198,14 +219,18 @@ struct LuckySocksIntroPage: View {
 			withAnimation(.smooth(duration: 0.6)) {
 				showsAfter = true
 			}
+
+			// Time to read what the season showed before the terms for it
+			try? await Task.sleep(for: .seconds(2.2))
+			withAnimation(.smooth(duration: 0.6)) {
+				showsTerms = true
+			}
 		}
 	}
 }
 
-/// What the season showed, the two terms, and the way on
-private struct LuckySocksTerms: View {
-	let onContinue: () -> Void
-
+/// What the season showed
+private struct LuckySocksResult: View {
 	var body: some View {
 		VStack(alignment: .leading, spacing: 16) {
 			FourBoxComparison(labels: LuckySocks.seasonLabels, counts: LuckySocks.seasonCounts)
@@ -213,10 +238,18 @@ private struct LuckySocksTerms: View {
 			Text(LuckySocks.seasonLine)
 				.font(.title3)
 				.fixedSize(horizontal: false, vertical: true)
+		}
+	}
+}
 
+/// The two terms for it, and the way on
+private struct LuckySocksTerms: View {
+	let onContinue: () -> Void
+
+	var body: some View {
+		VStack(alignment: .leading, spacing: 16) {
 			Text("Two ideas for what just happened:")
 				.font(.headline)
-				.padding(.top, 8)
 
 			VStack(spacing: 10) {
 				LuckySocksTermRow(

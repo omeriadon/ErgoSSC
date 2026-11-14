@@ -106,7 +106,7 @@ The passages appear one at a time. Each has "This passage…" and two buttons: *
 | At the end of the day, it is what it is, and what matters is that we keep moving forward together. | No reason given | There isn't even a claim to disagree with. |
 | This is the most important election of our lifetime, because the next government sets the emissions targets through 2040. | Gives a reason | It sounds like hype, but it gives a reason. Whether the reason is true is a separate question. |
 
-When the last one is answered, the score appears: "3 of 4". Under it is one line about how it went. Adon will write that line with Foundation Models later. For now, it comes from one function that returns a hardcoded line for each score, kept separate so the model can replace it:
+When the last one is answered, the score appears: "3 of 4". Under it is one line about how it went, written by the model on the device from which passages were right and wrong (`LessonScoreLine`). It never decides the score. Without the model, the line for that score is shown instead:
 
 | Score | Line |
 |---|---|
