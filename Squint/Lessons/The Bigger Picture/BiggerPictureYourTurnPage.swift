@@ -50,6 +50,7 @@ struct BiggerPictureYourTurnPage: View {
 					answer(item, isFair: isFair)
 				}
 				.id(item.id)
+				.padding(.bottom, 25)
 				.transition(.opacity.combined(with: .offset(y: 24)))
 			}
 
@@ -133,6 +134,8 @@ private struct BiggerPictureQuizCard: View {
 
 	/// Local, so the zoom can play after the pick
 	@State private var visibleFrom: Int
+	/// Behind `visibleFrom`, so each bar grows in after its year makes room for it
+	@State private var grownFrom: Int
 	/// Zoomed out, a cherry-picked chart shows the usual line and what was special about its start
 	@State private var showsReveal: Bool
 	@State private var showsExplanation: Bool
@@ -144,6 +147,7 @@ private struct BiggerPictureQuizCard: View {
 		self.onNext = onNext
 		self.onPick = onPick
 		_visibleFrom = State(initialValue: pick == nil ? item.shownFrom : BiggerPicture.firstYear)
+		_grownFrom = State(initialValue: pick == nil ? item.shownFrom : BiggerPicture.firstYear)
 		_showsReveal = State(initialValue: pick != nil && !item.isFair)
 		_showsExplanation = State(initialValue: pick != nil)
 		_showsNext = State(initialValue: pick != nil)
@@ -188,8 +192,7 @@ private struct BiggerPictureQuizCard: View {
 	private var headline: some View {
 		VStack(alignment: .leading, spacing: 10) {
 			Text(item.headline)
-				.font(.title3.bold())
-				.fontDesign(.serif)
+				.font(.system(.title3, design: .serif, weight: .bold))
 				.fixedSize(horizontal: false, vertical: true)
 
 			BiggerPictureChart(
@@ -199,24 +202,30 @@ private struct BiggerPictureQuizCard: View {
 				highlighted: highlighted,
 				usual: showsReveal ? item.usual : nil,
 				note: showsReveal ? item.pickNote.map { (year: item.pickedFrom, text: $0) } : nil,
+				marker: item.marker,
+				grownFrom: grownFrom,
 				height: 150
 			)
-			.overlay(alignment: .topTrailing) {
-				if showsReveal {
-					// A chart that showed every year all along has nothing to zoom out from
-					Label(item.shownFrom == BiggerPicture.firstYear ? "Whole picture" : "Zoomed out", systemImage: "arrow.up.left.and.arrow.down.right")
+
+			HStack {
+				Text(item.measure)
+					.font(.caption)
+					.foregroundStyle(.secondary)
+
+				Spacer(minLength: 8)
+
+				// Under the chart rather than over it, and only on a chart that zoomed out: one that showed every year all along has nothing to say here
+				if item.shownFrom != BiggerPicture.firstYear {
+					Label("Zoomed out", systemImage: "arrow.up.left.and.arrow.down.right")
 						.font(.caption.weight(.semibold))
+						.foregroundStyle(.white)
 						.padding(.horizontal, 10)
 						.padding(.vertical, 5)
-						.background(.orange.opacity(0.2), in: .rect(cornerRadius: 8))
-						.foregroundStyle(.orange)
-						.transition(.scale(0.8).combined(with: .opacity))
+						.background(.orange, in: .rect(cornerRadius: 8))
+						.opacity(showsReveal ? 1 : 0)
+						.scaleEffect(showsReveal ? 1 : 0.8)
 				}
 			}
-
-			Text(item.measure)
-				.font(.caption)
-				.foregroundStyle(.secondary)
 		}
 		.padding(16)
 		.frame(maxWidth: .infinity, alignment: .leading)
@@ -290,6 +299,7 @@ private struct BiggerPictureQuizCard: View {
 			try? await Task.sleep(for: .seconds(0.4))
 			withAnimation(.easeInOut(duration: 0.4)) {
 				visibleFrom = BiggerPicture.firstYear
+				grownFrom = BiggerPicture.firstYear
 				showsReveal = !item.isFair
 				showsExplanation = true
 			}
@@ -305,7 +315,11 @@ private struct BiggerPictureQuizCard: View {
 			withAnimation(.smooth(duration: 0.4)) {
 				visibleFrom = year
 			}
-			try? await Task.sleep(for: .seconds(0.15))
+			try? await Task.sleep(for: .seconds(0.08))
+			withAnimation(.smooth(duration: 0.4)) {
+				grownFrom = year
+			}
+			try? await Task.sleep(for: .seconds(0.1))
 		}
 
 		// What zooming out shows: the usual line, then what was special about the headline's start

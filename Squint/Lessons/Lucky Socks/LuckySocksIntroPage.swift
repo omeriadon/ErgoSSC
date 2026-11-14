@@ -35,7 +35,7 @@ struct LuckySocksIntroPage: View {
 	var body: some View {
 		ScrollViewReader { proxy in
 			ScrollView {
-				VStack(alignment: .leading, spacing: 24) {
+				VStack(alignment: .leading, spacing: 40) {
 					LuckySocksMessage(id: "jess.socks", text: LuckySocks.socksMessage)
 
 					season

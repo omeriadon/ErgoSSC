@@ -22,6 +22,12 @@ nonisolated struct ChartPoint: Identifiable, Hashable, Sendable {
 	}
 }
 
+/// A label on one year's bar
+nonisolated struct ChartMarker: Hashable, Sendable {
+	let year: Int
+	let text: String
+}
+
 /// A headline on page 3, the window its chart picked, and whether that's fair
 nonisolated struct BiggerPictureQuizItem: Identifiable, Hashable, Sendable {
 	let id: Int
@@ -36,6 +42,8 @@ nonisolated struct BiggerPictureQuizItem: Identifiable, Hashable, Sendable {
 	let isFair: Bool
 	/// On the year the headline started from, once zoomed out
 	let pickNote: String?
+	/// Something the headline mentions, marked on its year from the start, like when a new coach arrived
+	var marker: ChartMarker?
 	let explanation: String
 
 	/// What a normal year looks like, without the one the headline started from
@@ -108,7 +116,7 @@ nonisolated enum BiggerPicture {
 			shownFrom: 2020,
 			isFair: false,
 			pickNote: "A dip",
-			explanation: "2020 was a dip. Over ten years, prices have only gone up about 10%."
+			explanation: "Yes, it does look like a fair picture. But zoom out, and 2020 was a dip: over ten years, prices have only gone up about 10%."
 		),
 		BiggerPictureQuizItem(
 			id: 1,
@@ -130,6 +138,7 @@ nonisolated enum BiggerPicture {
 			shownFrom: firstYear,
 			isFair: false,
 			pickNote: "Worst season",
+			marker: ChartMarker(year: 2024, text: "New coach"),
 			explanation: "Last season was their worst in a decade. Most seasons they score about 50, so this is mostly back to normal."
 		),
 	]

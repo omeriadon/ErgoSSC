@@ -85,23 +85,18 @@ private struct SamBubble: View {
 	}
 
 	var body: some View {
-		Button(action: onTap) {
-			bubble
-		}
-		.buttonStyle(.plain)
-		.fairPointNote(message.note, isPresented: $isShowingNote)
-		.accessibilityLabel("Sam: \(message.text)")
-		.accessibilityValue(value)
-		.accessibilityHint("Shows a deeper look")
-		.accessibilityIdentifier("learn.fairPoint.\(message.id)")
-		// Beside the bubble but outside its layout, so the bubble keeps its width when it appears
-		.overlay(alignment: .trailing) {
-			if isTapped {
-				Image(systemName: "checkmark.circle.fill")
-					.foregroundStyle(.tertiary)
-					.alignmentGuide(.trailing) { $0[.leading] - 6 }
-					.accessibilityHidden(true)
+		HStack(spacing: 6) {
+			Button(action: onTap) {
+				bubble
 			}
+			.buttonStyle(.plain)
+			.fairPointNote(message.note, isPresented: $isShowingNote)
+			.accessibilityLabel("Sam: \(message.text)")
+			.accessibilityValue(value)
+			.accessibilityHint("Shows a deeper look")
+			.accessibilityIdentifier("learn.fairPoint.\(message.id)")
+
+			ChatMark(symbol: "checkmark.circle.fill", tint: .secondary, isShown: isTapped)
 		}
 	}
 }

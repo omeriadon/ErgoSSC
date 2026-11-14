@@ -39,8 +39,9 @@ struct ToolbarTitleView: View {
 }
 
 extension View {
-	func toolbarTitleVire(_ title: String, _ symbol: String) -> some View {
-		modifier(ToolbarTitleViewModifier(title: title, symbol: symbol))
+	/// `prominent` draws the title larger, for a tab's root page
+	func toolbarTitleVire(_ title: String, _ symbol: String, prominent: Bool = false) -> some View {
+		modifier(ToolbarTitleViewModifier(title: title, symbol: symbol, prominent: prominent))
 	}
 }
 
@@ -49,6 +50,7 @@ private struct ToolbarTitleViewModifier: ViewModifier {
 
 	let title: String
 	let symbol: String
+	let prominent: Bool
 
 	func body(content: Content) -> some View {
 		content
@@ -59,6 +61,7 @@ private struct ToolbarTitleViewModifier: ViewModifier {
 				ToolbarItem(placement: .title) {
 					Label {
 						Text(title)
+							.font(prominent ? .title3.bold() : .headline)
 					} icon: {
 						if symbol.isEmpty {
 							EmptyView()

@@ -19,25 +19,45 @@ struct LearnTabView: View {
 		Lesson.allCases.allSatisfy(finished.contains)
 	}
 
-	var body: some View {
-		ScrollView {
-			VStack(spacing: 16) {
-				ForEach(Lesson.allCases) { lesson in
-					card(lesson)
-				}
+	/// Set when the last lesson is finished, so coming back to the list scrolls down to the note under it
+	@State private var revealsNote = false
 
-				if finishedAll {
-					FinishedAllNote()
-						.padding(.vertical, 30)
+	var body: some View {
+		ScrollViewReader { proxy in
+			ScrollView {
+				VStack(spacing: 16) {
+					ForEach(Lesson.allCases) { lesson in
+						card(lesson)
+					}
+
+					if finishedAll {
+						FinishedAllNote()
+							.padding(.vertical, 30)
+							.id("finishedAll")
+					}
+				}
+				.padding()
+			}
+			.onChange(of: finishedAll) { _, all in
+				revealsNote = all
+			}
+			.onAppear {
+				guard revealsNote else { return }
+				revealsNote = false
+				Task {
+					// Once the lesson has gone back off the stack
+					try? await Task.sleep(for: .seconds(0.5))
+					withAnimation(.smooth(duration: 0.8)) {
+						proxy.scrollTo("finishedAll", anchor: .bottom)
+					}
 				}
 			}
-			.padding()
 		}
 		.background {
 			LearnBackground()
 				.ignoresSafeArea()
 		}
-		.toolbarTitleVire("Learn", "")
+		.toolbarTitleVire("Learn", "", prominent: true)
 		#if DEBUG
 			.toolbar {
 				ToolbarItem(placement: .topBarLeading) {

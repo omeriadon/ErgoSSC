@@ -82,6 +82,7 @@ struct LessonScoreLine: View {
 	in plain, warm and friendly language, like a kind teacher. Write one or two short sentences, under 30 words in all.
 	Don't repeat the score as a number. If they missed any, say briefly what the one they missed was about and what to \
 	look for next time, without making them feel bad. If they got every one right, say what they're already doing well.
+	Start straight away with what they did: no greeting, no "hello", and don't call them "learner".
 	No emoji, no markdown, and at most one exclamation mark.
 	"""
 

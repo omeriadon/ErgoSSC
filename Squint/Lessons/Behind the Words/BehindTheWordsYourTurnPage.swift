@@ -46,6 +46,7 @@ struct BehindTheWordsYourTurnPage: View {
 					answer(item, givesReason: givesReason)
 				}
 				.id(item.id)
+				.padding(.bottom, 25)
 				.transition(.opacity.combined(with: .offset(y: 24)))
 			}
 
@@ -121,8 +122,7 @@ private struct BehindTheWordsQuizCard: View {
 	var body: some View {
 		VStack(alignment: .leading, spacing: 14) {
 			Text(item.text)
-				.font(.title3)
-				.fontDesign(.serif)
+				.font(.system(.title3, design: .serif))
 				.fixedSize(horizontal: false, vertical: true)
 				.padding(16)
 				.frame(maxWidth: .infinity, alignment: .leading)

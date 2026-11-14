@@ -34,7 +34,7 @@ Jess, a friend, and her football team's season. Her messages use lesson 2's chat
 
 The part that holds up. Jess again: "ok fine 😅 but when I sleep badly I'm grumpy the next day. that one's real"
 
-Her last eight days, as the four boxes. Only the top left, the one she remembers, is counted: 3 grumpy days after bad sleep. "Jess remembers 3 grumpy days after bad sleep. Is that enough to know? Tap the other boxes to count them too." Each of the other three shows a question mark, and a tap counts it. (An earlier version had each day tapped into its box one at a time. It was slow and didn't teach more than this.)
+Her last eight days, as the four boxes. Only the top left, the one she remembers, is counted: 3 grumpy days after bad sleep. "Jess remembers 3 grumpy days after bad sleep. But that's only one box. Tap the other three to count them, and see if bad sleep really makes a difference." Each of the other three shows a question mark, and a tap counts it. (An earlier version had each day tapped into its box one at a time. It was slow and didn't teach more than this.)
 
 | | Grumpy | Fine |
 |---|---|---|

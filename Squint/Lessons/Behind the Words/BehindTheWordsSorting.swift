@@ -181,21 +181,21 @@ struct BehindTheWordsSkeleton: View {
 			Text("The friendly bits make it nice to read. The reasons are what make it actually worth reading.")
 				.font(.title3)
 				.fixedSize(horizontal: false, vertical: true)
-				.modifier(BehindTheWordsReveal(delay: 2.4, animated: animated))
+				.modifier(BehindTheWordsReveal(delay: 3.4, animated: animated))
 				.padding(.top, 20)
 
 			skeleton
-				.modifier(BehindTheWordsReveal(delay: 3.2, animated: animated))
+				.modifier(BehindTheWordsReveal(delay: 4.2, animated: animated))
 
 			Text(BehindTheWords.countLine)
 				.font(.footnote.weight(.medium).monospacedDigit())
 				.foregroundStyle(.secondary)
 				.frame(maxWidth: .infinity)
-				.modifier(BehindTheWordsReveal(delay: 3.9, animated: animated))
+				.modifier(BehindTheWordsReveal(delay: 4.9, animated: animated))
 				.padding(.top, 20)
 
 			BehindTheWordsContinueButton(identifier: "skeleton", action: onContinue)
-				.modifier(BehindTheWordsReveal(delay: 4.4, animated: animated))
+				.modifier(BehindTheWordsReveal(delay: 5.4, animated: animated))
 				.padding(.bottom, 20)
 				.padding(.top, 20)
 		}

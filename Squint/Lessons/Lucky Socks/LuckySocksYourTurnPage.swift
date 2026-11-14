@@ -50,6 +50,7 @@ struct LuckySocksYourTurnPage: View {
 					answer(item, holdsUp: holdsUp)
 				}
 				.id(item.id)
+				.padding(.bottom, 25)
 				.transition(.opacity.combined(with: .offset(y: 24)))
 			}
 

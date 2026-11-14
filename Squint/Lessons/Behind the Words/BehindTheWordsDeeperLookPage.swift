@@ -104,7 +104,7 @@ struct BehindTheWordsDeeperLookPage: View {
 		if reduceMotion || started {
 			isSplit = true
 		} else {
-			withAnimation(.smooth(duration: 0.8).delay(0.9)) {
+			withAnimation(.smooth(duration: 0.8).delay(1.6)) {
 				isSplit = true
 			}
 		}
@@ -161,7 +161,7 @@ private struct BehindTheWordsClaimQuestion: View {
 
 	var body: some View {
 		VStack(alignment: .leading, spacing: 10) {
-			BehindTheWordsQuestionHeading(number: 1, text: "Which part here actually says what it wants you to do?")
+			BehindTheWordsQuestionHeading(number: 1, text: "Tap the part that actually says what it wants you to do.")
 
 			if found {
 				Text("That's the claim.")
@@ -170,10 +170,6 @@ private struct BehindTheWordsClaimQuestion: View {
 			} else if missed {
 				Label(BehindTheWords.claimHint, systemImage: "questionmark.circle")
 					.foregroundStyle(.orange)
-					.transition(.opacity)
-			} else {
-				Text("Tap it in the reply.")
-					.foregroundStyle(.secondary)
 					.transition(.opacity)
 			}
 		}
@@ -195,7 +191,7 @@ struct BehindTheWordsQuestionHeading: View {
 				.accessibilityHidden(true)
 
 			Text(text)
-				.font(.headline)
+				.font(.title3.bold())
 				.fixedSize(horizontal: false, vertical: true)
 		}
 		.accessibilityElement(children: .combine)

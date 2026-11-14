@@ -103,7 +103,7 @@ private final nonisolated class TabTransitionDelegate: NSObject, UITabBarControl
 
 /// Blurs, fades and shrinks the old tab away over the new one. The tab bar isn't in the transition's container, so it stays sharp.
 private final class TabBlurAnimator: NSObject, UIViewControllerAnimatedTransitioning {
-	private static let duration: TimeInterval = 0.2
+	private static let duration: TimeInterval = 0.35
 	private static let radius: CGFloat = 16
 	private static let scale: CGFloat = 0.95
 

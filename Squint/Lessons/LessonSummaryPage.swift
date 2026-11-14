@@ -48,7 +48,7 @@ struct LessonSummaryPage<Extra: View>: View {
 			.padding(.top, 24)
 		}
 		.background {
-			LessonSummaryBackground(tint: lesson.tint)
+			TintedDitherBackground(tint: lesson.tint)
 				.ignoresSafeArea()
 		}
 		.navigationTitle(lessonTitle(lesson, lesson.title))
@@ -95,7 +95,8 @@ extension LessonSummaryPage where Extra == EmptyView {
 }
 
 /// The lesson's colour, dithered faintly behind the summary
-private struct LessonSummaryBackground: View {
+/// A faint dither in one colour, behind a lesson's summary and the welcome sheet
+struct TintedDitherBackground: View {
 	let tint: Color
 
 	@Environment(\.self) private var environment
@@ -111,7 +112,7 @@ private struct LessonSummaryBackground: View {
 		var configuration = detailViewConf
 		configuration.palette = [dot, dot]
 		configuration.transparent = true
-		configuration.opacity = colorScheme == .dark ? 0.35 : 0.2
+		configuration.opacity = colorScheme == .dark ? 0.6 : 0.4
 		return configuration
 	}
 }

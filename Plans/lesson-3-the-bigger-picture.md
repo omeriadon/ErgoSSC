@@ -43,13 +43,13 @@ The question: "Pinch the chart to zoom in, and find the start year that makes th
 
 Once they land on 2023, "That's the one…" and the part that holds up appear: a dashed line for similar roads without cameras, and "Roads without cameras dropped too, from 38 to 24. So the cameras might still help, just less than the headline says." Then Continue.
 
-The headline always keeps two lines' room, so the chart doesn't jump as it rewrites. VoiceOver can change the start year with the adjustable action.
+The headline always keeps two lines' room, so the chart doesn't jump as it rewrites. No bar is singled out while pinching, and the page can't scroll until 2023 is found, so a scroll never steals the pinch. VoiceOver can change the start year with the adjustable action.
 
 ## Page 3: Your turn!
 
 "Here are some more headlines. Is each one a fair picture, or cherry-picked? ↓"
 
-One at a time. The first two charts show only the window the headline picked, so a cherry-picked one looks fair at first. The last shows every year from the start, since hiding them isn't what makes it unfair. Two options: **Fair picture** / **Cherry-picked**. After any answer, the chart zooms out to all ten years. A cherry-picked one then makes the reveal obvious: a "Zoomed out" tag ("Whole picture" on the last, which never zoomed), the usual line, a note on the year the headline started from ("A dip", "Worst season"), and only the headline's window stays lit. Then the explanation, then a **Next headline** button brings in the next one, in the person's own time. The last one's button is **See how you did**.
+One at a time. The first two charts show only the window the headline picked, so a cherry-picked one looks fair at first. The last shows every year from the start, since hiding them isn't what makes it unfair. Two options: **Fair picture** / **Cherry-picked**. After any answer, the chart zooms out to all ten years. A cherry-picked one then makes the reveal obvious: a solid "Zoomed out" tag under the chart (none on the last, which never zoomed), the usual line, a note on the year the headline started from ("A dip", "Worst season"), and only the headline's window stays lit. Then the explanation, then a **Next headline** button brings in the next one, in the person's own time. The last one's button is **See how you did**.
 
 After the last one, the score ("2 of 3") and a line under it, then Continue. The model on the device writes the line from which questions were right and wrong (`LessonScoreLine`). It never decides the score. Without the model, the line for that score is shown instead (`BiggerPicture.scoreLine(for:)`):
 
@@ -59,11 +59,13 @@ After the last one, the score ("2 of 3") and a line under it, then Continue. The
 | 2 | Two of three. The one you missed is worth another look. |
 | 0–1 | These charts are made to look convincing. Zooming out is the habit to build. |
 
+The coach chart has a dashed line labelled "New coach" between 2023 and 2024 from the start, since the headline is about it. Every chart grows its bars in as their years arrive, rather than popping them in. Headlines are a bold serif.
+
 There's 250 points of empty room after the end, to scroll past it.
 
 | Headline | Window | Answer | Shown after |
 |---|---|---|---|
-| House prices up 30% since 2020! | 2020–2024 | Cherry-picked | 2020 was a dip. Over ten years, prices have only gone up about 10%. |
+| House prices up 30% since 2020! | 2020–2024 | Cherry-picked | Yes, it does look like a fair picture. But zoom out, and 2020 was a dip: over ten years, prices have only gone up about 10%. |
 | Library visits have grown every year since 2015. | 2015–2024 | Fair picture | This one's fair. It shows the whole picture, and the climb is steady all the way. |
 | Goals doubled after the new coach arrived! | 2023–2024 | Cherry-picked | Last season was their worst in a decade. Most seasons they score about 50, so this is mostly back to normal. |
 

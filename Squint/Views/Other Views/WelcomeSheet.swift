@@ -47,11 +47,21 @@ struct WelcomeSheet: View {
 					.frame(maxWidth: .infinity)
 			}
 			.buttonStyle(.glassProminent)
-			.buttonBorderShape(.roundedRectangle(radius: 12))
+			.buttonBorderShape(.roundedRectangle(radius: 20))
 			.controlSize(.large)
 			.accessibilityIdentifier("welcome.start")
 		}
 		.padding(24)
+		.background {
+			// Black whatever the appearance, under the accent dither
+			ZStack {
+				Color.black
+				TintedDitherBackground(tint: .accentColor)
+			}
+			.ignoresSafeArea()
+		}
+		// Dark text styles on the black, whatever the system's appearance
+		.environment(\.colorScheme, .dark)
 		.onDisappear {
 			// However it was closed, it was seen
 			Defaults[.hasSeenWelcome] = true
@@ -60,7 +70,7 @@ struct WelcomeSheet: View {
 
 	private var header: some View {
 		VStack(spacing: 16) {
-			SquintIcon(size: 300)
+			SquintIcon(size: 300, onTile: true)
 
 			Text("Welcome to \(Bundle.main.appName)")
 				.font(.largeTitle.bold())

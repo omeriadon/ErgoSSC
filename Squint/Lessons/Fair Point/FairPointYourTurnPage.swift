@@ -36,7 +36,7 @@ struct FairPointYourTurnPage: View {
 
 	private var content: some View {
 		VStack(alignment: .leading, spacing: 20) {
-			Text("Here's another convo you might have. Now scribble over any message that doesn't seem fair.")
+			Text("Here's another convo you might have. Now \(Image(systemName: "applepencil.and.scribble")) scribble over any message that doesn't seem fair.")
 
 			scribbleArea
 
@@ -120,7 +120,8 @@ struct FairPointYourTurnPage: View {
 	}
 }
 
-/// One of Leo's messages: caught when it's unfair, a gentle tick when it's fair
+/// One of Leo's messages. Once scribbled over, it's named underneath, like a read receipt: an unfair one in the ink's colour with
+/// its outline, and the fair one in grey. Never red or green, never a tick or a cross, so nothing reads as both right and wrong.
 private struct LeoBubble: View {
 	let message: ChatMessage
 	let bubble: ChatBubble
@@ -129,38 +130,37 @@ private struct LeoBubble: View {
 	let onFrame: (CGRect) -> Void
 	let onScribble: () -> Void
 
-	private var tint: Color? {
-		guard isScribbled else { return nil }
-		return message.isFair ? Color.green : Color.red
-	}
-
 	var body: some View {
-		bubble.outlined(tint)
-			.onGeometryChange(for: CGRect.self) { proxy in
-				proxy.frame(in: .named("fairPoint.scribble"))
-			} action: { frame in
-				onFrame(frame)
-			}
-			.fairPointNote(message.note, isPresented: $isShowingNote)
-			.accessibilityElement(children: .ignore)
-			.accessibilityLabel("Leo: \(message.text)")
-			.accessibilityValue(value)
-			.accessibilityAction(named: "Scribble over", onScribble)
-			.accessibilityIdentifier("learn.fairPoint.\(message.id)")
-			// Beside the bubble but outside its layout, so the bubble keeps its width when it appears
-			.overlay(alignment: .trailing) {
-				if let tint {
-					Image(systemName: message.isFair ? "checkmark.circle.fill" : "xmark.circle.fill")
-						.foregroundStyle(tint)
-						.alignmentGuide(.trailing) { $0[.leading] - 6 }
-						.accessibilityHidden(true)
+		VStack(alignment: .leading, spacing: 3) {
+			bubble.outlined(isScribbled && !message.isFair ? Color.accentColor : nil)
+				.onGeometryChange(for: CGRect.self) { proxy in
+					proxy.frame(in: .named("fairPoint.scribble"))
+				} action: { frame in
+					onFrame(frame)
 				}
-			}
+				.fairPointNote(message.note, isPresented: $isShowingNote)
+				.accessibilityElement(children: .ignore)
+				.accessibilityLabel("Leo: \(message.text)")
+				.accessibilityValue(value)
+				.accessibilityAction(named: "Scribble over", onScribble)
+				.accessibilityIdentifier("learn.fairPoint.\(message.id)")
+
+			// Its room is always kept, so naming it doesn't move the messages under it
+			Text(message.label ?? "")
+				.font(.caption2.weight(.semibold))
+				.textCase(.uppercase)
+				.foregroundStyle(message.isFair ? AnyShapeStyle(.secondary) : AnyShapeStyle(Color.accentColor))
+				.padding(.leading, BubbleShape.tailWidth + 10)
+				.opacity(isScribbled ? 1 : 0)
+				.offset(y: isScribbled ? 0 : -4)
+				.animation(.smooth(duration: 0.3), value: isScribbled)
+				.accessibilityHidden(true)
+		}
 	}
 
 	private var value: String {
 		guard isScribbled else { return "" }
-		return message.isFair ? "Fair" : "Caught"
+		return message.label ?? ""
 	}
 }
 

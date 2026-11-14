@@ -16,6 +16,8 @@ struct BiggerPictureIntroPage: View {
 
 	/// Local, so each step of the zoom animates whatever the save does
 	@State private var visibleFrom: Int
+	/// A year behind `visibleFrom`, so each bar grows in after its year makes room for it
+	@State private var grownFrom: Int
 	@State private var showsUsual: Bool
 	@State private var showsNote: Bool
 	@State private var showsAfter: Bool
@@ -23,6 +25,7 @@ struct BiggerPictureIntroPage: View {
 	init() {
 		let zoomedOut = Defaults[.biggerPictureState].zoomedOut
 		_visibleFrom = State(initialValue: zoomedOut ? BiggerPicture.firstYear : BiggerPicture.spikeYear)
+		_grownFrom = State(initialValue: zoomedOut ? BiggerPicture.firstYear : BiggerPicture.spikeYear)
 		_showsUsual = State(initialValue: zoomedOut)
 		_showsNote = State(initialValue: zoomedOut)
 		_showsAfter = State(initialValue: zoomedOut)
@@ -59,7 +62,8 @@ struct BiggerPictureIntroPage: View {
 				visibleFrom: visibleFrom,
 				highlighted: [BiggerPicture.spikeYear, BiggerPicture.lastYear],
 				usual: showsUsual ? BiggerPicture.usual : nil,
-				note: showsNote ? (year: BiggerPicture.spikeYear, text: BiggerPicture.spikeNote) : nil
+				note: showsNote ? (year: BiggerPicture.spikeYear, text: BiggerPicture.spikeNote) : nil,
+				grownFrom: grownFrom
 			)
 		}
 		.accessibilityElement(children: .ignore)
@@ -117,6 +121,7 @@ struct BiggerPictureIntroPage: View {
 		if reduceMotion {
 			withAnimation(.easeInOut(duration: 0.4)) {
 				visibleFrom = BiggerPicture.firstYear
+				grownFrom = BiggerPicture.firstYear
 				showsUsual = true
 				showsNote = true
 				showsAfter = true
@@ -128,11 +133,16 @@ struct BiggerPictureIntroPage: View {
 			// Let the button go first
 			try? await Task.sleep(for: .seconds(0.5))
 
+			// Each year makes room flat, then its bar grows up
 			for year in stride(from: BiggerPicture.spikeYear - 1, through: BiggerPicture.firstYear, by: -1) {
 				withAnimation(.smooth(duration: 0.5)) {
 					visibleFrom = year
 				}
-				try? await Task.sleep(for: .seconds(0.24))
+				try? await Task.sleep(for: .seconds(0.12))
+				withAnimation(.smooth(duration: 0.5)) {
+					grownFrom = year
+				}
+				try? await Task.sleep(for: .seconds(0.14))
 			}
 
 			try? await Task.sleep(for: .seconds(0.7))

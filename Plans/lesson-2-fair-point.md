@@ -53,7 +53,7 @@ The same conversation. Each of Sam's messages can be tapped, and a tap shows a p
 
 Title: `Lesson 2: Your turn!`
 
-"Here's another convo you might have. Now scribble over any message that doesn't seem fair."
+"Here's another convo you might have. Now ✎ scribble over any message that doesn't seem fair." (✎ is the `applepencil.and.scribble` symbol, inline in the text.)
 
 ### Leo's conversation
 
@@ -71,7 +71,7 @@ Leo is a sibling.
 
 - The person draws with a finger over the conversation. The stroke is drawn as it goes in the accent colour, like a highlighter, curved so it stays smooth. A tap on a bubble counts the same as a scribble.
 - When a stroke ends, every one of Leo's bubbles it crossed counts as scribbled. Matching is by bubble frame, not by words, so a messy scribble still works. Use a drag gesture's points hit-tested against each bubble's frame in a shared coordinate space. No PencilKit.
-- As soon as a bubble is scribbled, its popover shows (same popover style as page 2) and the bubble gets marked: caught for an unfair one, a gentle "fair" look for the fair one. The ink stroke can then fade.
+- As soon as a bubble is scribbled, its popover shows (same popover style as page 2) and the bubble gets marked: named underneath, like a read receipt: "Straw man", "False dilemma" or "Ad hominem" in the accent colour, with an outline in it too, and "Fair point" in grey for the fair one. No red, green, ticks or crosses, since those side by side read as both right and wrong. The ink stroke can then fade.
 - Scribbling the fair message isn't a failure. Its popover just explains it.
 - Once all three unfair messages are found, a Continue button appears to the summary. There's no score.
 

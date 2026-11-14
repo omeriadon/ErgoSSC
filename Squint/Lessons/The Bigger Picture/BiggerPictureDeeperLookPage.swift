@@ -41,6 +41,8 @@ struct BiggerPictureDeeperLookPage: View {
 				}
 				.padding()
 			}
+			// Nothing overflows while pinching, so a scroll can't steal the pinch until the right year is found
+			.scrollDisabled(!state.foundBest)
 			.onChange(of: showsComparison) { _, shows in
 				guard shows else { return }
 				Task {
@@ -64,7 +66,8 @@ struct BiggerPictureDeeperLookPage: View {
 				points: BiggerPicture.crashes,
 				measure: BiggerPicture.measure,
 				visibleFrom: state.countingFrom,
-				highlighted: [state.countingFrom, BiggerPicture.lastYear],
+				// Nothing is singled out while pinching, only once the two bars the headline compares are found
+				highlighted: state.foundBest ? [state.countingFrom, BiggerPicture.lastYear] : Set(BiggerPicture.crashes.map(\.year)),
 				comparison: showsComparison ? BiggerPicture.otherRoads : nil
 			)
 			.contentShape(.rect)

@@ -126,7 +126,7 @@ nonisolated enum LuckySocks {
 	/// Jess's last eight days. She remembers the top left: bad sleep, then grumpy.
 	static let weekCounts = FourBoxCounts(both: 3, firstOnly: 1, secondOnly: 1, neither: 3)
 
-	static let sleepPrompt = "Jess remembers 3 grumpy days after bad sleep. Is that enough to know? Tap the other boxes to count them too."
+	static let sleepPrompt = "Jess remembers 3 grumpy days after bad sleep. But that's only one box. Tap the other three to count them, and see if bad sleep really makes a difference."
 
 	static let sleepLine = "This one holds up. Counting all four boxes is how you can tell."
 

@@ -18,6 +18,10 @@ struct BiggerPictureChart: View {
 	var usual: Double?
 	var comparison: [ChartPoint]?
 	var note: (year: Int, text: String)?
+	/// A dashed line just before its year, shown all along, unlike the note
+	var marker: ChartMarker?
+	/// Bars from here on are grown to their value. Earlier visible ones are drawn flat, so a bar can grow in after its year arrives.
+	var grownFrom: Int?
 	var height: CGFloat = 200
 
 	private let tint = Lesson.biggerPicture.tint
@@ -39,6 +43,11 @@ struct BiggerPictureChart: View {
 			comparisonLine
 		}
 		.chartYScale(domain: 0 ... top)
+		.chartOverlay { proxy in
+			GeometryReader { geometry in
+				markerLine(proxy, in: geometry)
+			}
+		}
 		.chartXAxis {
 			AxisMarks { value in
 				AxisValueLabel {
@@ -58,7 +67,7 @@ struct BiggerPictureChart: View {
 		ForEach(visible) { point in
 			BarMark(
 				x: .value("Year", point.label),
-				y: .value(measure, point.value)
+				y: .value(measure, point.year >= (grownFrom ?? visibleFrom) ? point.value : 0)
 			)
 			.foregroundStyle(color(for: point))
 			.cornerRadius(3)
@@ -104,6 +113,31 @@ struct BiggerPictureChart: View {
 		}
 	}
 
+	/// Between the marker's year and the one before. Years are categories, which a rule mark can only sit in the middle of,
+	/// so it's drawn over the chart halfway between the two bars.
+	@ViewBuilder
+	private func markerLine(_ proxy: ChartProxy, in geometry: GeometryProxy) -> some View {
+		if let marker, let plotFrame = proxy.plotFrame,
+		   let before = proxy.position(forX: String(marker.year - 1)),
+		   let year = proxy.position(forX: String(marker.year))
+		{
+			let plot = geometry[plotFrame]
+			let x = plot.minX + (before + year) / 2
+
+			Path { path in
+				path.move(to: CGPoint(x: x, y: plot.minY + 14))
+				path.addLine(to: CGPoint(x: x, y: plot.maxY))
+			}
+			.stroke(.secondary, style: StrokeStyle(lineWidth: 1.5, dash: [4, 3]))
+
+			Text(marker.text)
+				.font(.caption2.weight(.semibold))
+				.foregroundStyle(.secondary)
+				.fixedSize()
+				.position(x: x, y: plot.minY + 5)
+		}
+	}
+
 	private func color(for point: ChartPoint) -> Color {
 		highlighted.contains(point.year) ? tint : tint.opacity(0.3)
 	}
@@ -124,8 +158,7 @@ struct BiggerPictureArticle<Content: View>: View {
 				.foregroundStyle(.secondary)
 
 			Text(headline)
-				.fontDesign(.serif)
-				.font(.title2.bold())
+				.font(.system(.title2, design: .serif, weight: .bold))
 				.lineLimit(reservesTwoLines ? 2 : 4, reservesSpace: reservesTwoLines)
 				.fixedSize(horizontal: false, vertical: true)
 				.contentTransition(.numericText())

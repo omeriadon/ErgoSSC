@@ -21,6 +21,8 @@ nonisolated struct ChatMessage: Identifiable, Hashable, Sendable {
 	/// Markdown, shown in a popover on the bubble
 	var note: String?
 	var isFair = true
+	/// What it is, named under it once it's scribbled over, like "Straw man"
+	var label: String?
 }
 
 /// A whole conversation with one person
@@ -97,27 +99,31 @@ nonisolated enum FairPoint {
 				sender: .contact,
 				text: "so I have to do everything in this house now?",
 				note: "You asked about tonight, not everything. That's a **straw man**.",
-				isFair: false
+				isFair: false,
+				label: "Straw man"
 			),
 			ChatMessage(
 				id: "leo.walked",
 				sender: .contact,
 				text: "I walked him yesterday and the day before",
-				note: "This one's fair. Leo has a point: they did walk him twice."
+				note: "This one's fair. Leo has a point: they did walk him twice.",
+				label: "Fair point"
 			),
 			ChatMessage(
 				id: "leo.either",
 				sender: .contact,
 				text: "either you walk him or he doesn't get walked",
 				note: "Another **false dilemma**, Leo implies here that theres only two possible options, when there's more.",
-				isFair: false
+				isFair: false,
+				label: "False dilemma"
 			),
 			ChatMessage(
 				id: "leo.feed",
 				sender: .contact,
 				text: "says the person who forgot to feed him last week",
 				note: "Here Leo responds to you, instead of your argument. That's **ad hominem**.",
-				isFair: false
+				isFair: false,
+				label: "Ad hominem"
 			),
 		]
 	)

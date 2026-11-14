@@ -44,6 +44,22 @@ struct ChatBubble: View {
 	}
 }
 
+/// A mark beside a bubble once it's been looked at. Its room is always kept, so the bubble never changes width when it appears.
+struct ChatMark: View {
+	let symbol: String
+	let tint: Color
+	let isShown: Bool
+
+	var body: some View {
+		Image(systemName: symbol)
+			.foregroundStyle(tint)
+			.opacity(isShown ? 1 : 0)
+			.scaleEffect(isShown ? 1 : 0.5)
+			.animation(.snappy(duration: 0.25), value: isShown)
+			.accessibilityHidden(true)
+	}
+}
+
 /// A rounded bubble with room for a tail at the bottom corner on the sender's side
 nonisolated struct BubbleShape: Shape {
 	static let tailWidth: CGFloat = 6

@@ -76,10 +76,11 @@ struct ChatHeader: View {
 	}
 }
 
-/// A grey circle with the contact's initial, like a contact with no photo
+/// A coloured circle with the contact's initial, like a contact with no photo
 struct ChatAvatar: View {
 	let name: String
 	let size: CGFloat
+	var colors: [Color] = [.green, .mint]
 
 	var body: some View {
 		Text(name.prefix(1))
@@ -88,7 +89,7 @@ struct ChatAvatar: View {
 			.frame(width: size, height: size)
 			.background(
 				LinearGradient(
-					colors: [Color(.green), Color(.mint)],
+					colors: colors,
 					startPoint: .top,
 					endPoint: .bottom
 				),

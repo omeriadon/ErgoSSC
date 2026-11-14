@@ -75,9 +75,9 @@ struct FourBoxComparison: View {
 		.accessibilityElement(children: .combine)
 	}
 
+	/// Fractions only: a percentage beside each would just be more numbers
 	private func line(_ row: String, hits: Int, out total: Int) -> some View {
-		let percent = Int((Double(hits) / Double(max(1, total)) * 100).rounded())
-		return Text("\(row): **\(labels.second.lowercased()) \(hits) of \(total)** (\(percent)%)")
+		Text("\(row): **\(labels.second.lowercased()) \(hits) of \(total)**")
 	}
 }
 
@@ -88,7 +88,7 @@ struct LuckySocksMessage: View {
 
 	var body: some View {
 		HStack(alignment: .bottom, spacing: 8) {
-			ChatAvatar(name: LuckySocks.friend, size: 32)
+			ChatAvatar(name: LuckySocks.friend, size: 32, colors: [.purple, .indigo])
 
 			ChatBubble(message: ChatMessage(id: id, sender: .contact, text: text), hasTail: true)
 

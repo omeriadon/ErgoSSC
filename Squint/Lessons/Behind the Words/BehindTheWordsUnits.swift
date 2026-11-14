@@ -134,7 +134,7 @@ private struct BehindTheWordsUnitRow: View {
 			return .easeInOut(duration: 0.3)
 		}
 		let order = Double(unit.number - 1)
-		let delay = isFiller ? 0.6 + order * 0.1 : 1.4 + order * 0.15
+		let delay = isFiller ? 1.0 + order * 0.15 : 2.2 + order * 0.2
 		return .smooth(duration: 0.8).delay(delay)
 	}
 
