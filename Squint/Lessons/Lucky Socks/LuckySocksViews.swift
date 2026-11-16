@@ -81,7 +81,7 @@ struct FourBoxComparison: View {
 	}
 }
 
-/// A message from Jess, in lesson 2's bubbles
+/// A message from Jess, in Fair point's bubbles
 struct LuckySocksMessage: View {
 	let id: String
 	let text: String

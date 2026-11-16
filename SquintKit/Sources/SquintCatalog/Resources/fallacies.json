@@ -2,29 +2,10 @@
   "fallacies": [
     {
       "id": "ad-hominem",
-      "name": "Abusive ad hominem",
+      "name": "Ad hominem",
       "aliases": [
         "Personal attack",
         "Tu quoque"
-      ],
-      "symbolName": null,
-      "summary": "Rejecting a claim by insulting or attacking its speaker instead of answering the claim or evidence.",
-      "body": "A speaker's character does not by itself determine whether a proposition is true. The inference fails when the personal attack is offered as the reason to reject the proposition, leaving its support untouched.\n\nA design reviewer points out a bridge's load-test failure; a reply says the reviewer is dishonest, therefore the bridge is safe. Evidence that the reviewer has a relevant conflict or poor record may affect how much weight to give their testimony, but it does not establish the bridge's safety; the test still needs an answer.",
-      "examples": [
-        {
-          "text": "Lena says the bridge failed its load test, but she is a liar, so the bridge is safe.",
-          "note": null
-        }
-      ],
-      "detectionCriteria": "An attack on the proponent is used in place of evaluating the stated claim or its evidence.",
-      "checkMode": "model",
-      "doesNotCountWhen": [
-        "Relevant evidence about a witness's reliability or bias can qualify testimony, provided it is not treated as proof that the contrary claim is true."
-      ],
-      "lookalikes": [],
-      "related": [],
-      "tags": [
-        "relevance-and-appeals"
       ],
       "plain": "Going after the person instead of what they said, so their point seems not to count. Like \"you can't talk about saving money, you bought a new phone last month.\""
     },
@@ -37,25 +18,6 @@
         "Bandwagon fallacy",
         "Ad populum"
       ],
-      "symbolName": null,
-      "summary": "Inferring that a claim is true or good because many people believe or choose it.",
-      "body": "Popularity measures uptake, not truth or quality. It can be relevant to preference or social convention, but not decisive evidence for a factual claim.",
-      "examples": [
-        {
-          "text": "Millions downloaded the app, so its privacy practices must be safe.",
-          "note": null
-        }
-      ],
-      "detectionCriteria": "A headcount substitutes for evidence about the proposition.",
-      "checkMode": "model",
-      "doesNotCountWhen": [
-        "Popularity is directly relevant when the question is what people prefer or commonly do."
-      ],
-      "lookalikes": [],
-      "related": [],
-      "tags": [
-        "relevance-and-appeals"
-      ],
       "plain": "Saying something must be true or good because lots of people believe it or do it. Like \"everyone's buying these shoes, so they must be the best.\""
     },
     {
@@ -64,25 +26,6 @@
       "aliases": [
         "Selective evidence",
         "Suppressed evidence"
-      ],
-      "symbolName": null,
-      "summary": "Selecting only the evidence that favors a conclusion while leaving relevant contrary evidence out of view.",
-      "body": "The selected facts may be true, yet the presentation is misleading because the omitted evidence could change the overall assessment. Selection becomes a fallacy when it distorts the evidential balance.",
-      "examples": [
-        {
-          "text": "A report lists three successful deployments but omits the seven failures from the same period.",
-          "note": null
-        }
-      ],
-      "detectionCriteria": "The evidence is selectively sampled by outcome or direction and the omitted material is relevant to the conclusion.",
-      "checkMode": "model",
-      "doesNotCountWhen": [
-        "A focused presentation is legitimate when its scope is disclosed and it does not imply that selected evidence is the whole record."
-      ],
-      "lookalikes": [],
-      "related": [],
-      "tags": [
-        "generalization-and-sampling"
       ],
       "plain": "Showing only the facts that help your side and leaving out the ones that don't. Like an ad quoting the one good review and skipping the twenty bad ones."
     },
@@ -94,25 +37,6 @@
         "Bifurcation",
         "Black-or-white fallacy"
       ],
-      "symbolName": null,
-      "summary": "Presenting two choices as the only possibilities when additional options exist.",
-      "body": "A forced either/or narrows debate and makes one option seem inevitable. The argument is defective when the alternatives are not exhaustive or mutually exclusive as claimed.",
-      "examples": [
-        {
-          "text": "Either approve this expensive contract today or accept that the service will shut down.",
-          "note": null
-        }
-      ],
-      "detectionCriteria": "The argument's choice set omits plausible alternatives relevant to the decision.",
-      "checkMode": "model",
-      "doesNotCountWhen": [
-        "A two-option framing is sound when the options really are exhaustive and the distinction is clear."
-      ],
-      "lookalikes": [],
-      "related": [],
-      "tags": [
-        "premises-and-evidence"
-      ],
       "plain": "Acting like there are only two choices when there are more. Like \"either you're with us or you're against us.\""
     },
     {
@@ -120,25 +44,6 @@
       "name": "Proof surrogate",
       "aliases": [
         "Appeal to confidence"
-      ],
-      "symbolName": null,
-      "summary": "Offering a proxy for proof, such as confidence or technical display, in place of evidence that actually bears on the claim.",
-      "body": "A surrogate resembles the outward signs of expertise or demonstration but does not establish the proposition. The audience is asked to mistake performance for a valid evidential connection.",
-      "examples": [
-        {
-          "text": "A chart with many decimals is shown as proof that a policy works, though it contains no comparison group or outcome measure.",
-          "note": null
-        }
-      ],
-      "detectionCriteria": "A display, credential, or ritual of proof is substituted for relevant evidence or valid inference.",
-      "checkMode": "model",
-      "doesNotCountWhen": [
-        "A proxy measure can support a conclusion when its relationship to the target claim is validated and explained."
-      ],
-      "lookalikes": [],
-      "related": [],
-      "tags": [
-        "premises-and-evidence"
       ],
       "plain": "Using confidence, big words or \"trust me\" in place of actual evidence. Like \"studies show it works, trust me\", with no study named."
     },
@@ -148,25 +53,6 @@
       "aliases": [
         "Regression to the mean"
       ],
-      "symbolName": null,
-      "summary": "Mistaking a return toward the average after an unusually high or low result for an effect of an intervention.",
-      "body": "Extreme outcomes are often followed by less extreme ones even without treatment. If action is taken at the peak or trough, the natural regression can be wrongly credited to it.",
-      "examples": [
-        {
-          "text": "A player has an unusually poor game, receives coaching, then performs normally; the coach is credited without considering regression to the mean.",
-          "note": null
-        }
-      ],
-      "detectionCriteria": "Improvement or decline after an extreme result is attributed to an intervention without comparison or baseline trend.",
-      "checkMode": "model",
-      "doesNotCountWhen": [
-        "An intervention's effect is supported when it exceeds the expected return to average, measured against suitable controls."
-      ],
-      "lookalikes": [],
-      "related": [],
-      "tags": [
-        "causal-reasoning"
-      ],
       "plain": "Thinking something worked when things only went back to normal after an unusually good or bad time. Like a new coach getting the credit when the team has a normal season after its worst one."
     },
     {
@@ -174,25 +60,6 @@
       "name": "Slippery-slope fallacy",
       "aliases": [
         "Slippery slope"
-      ],
-      "symbolName": null,
-      "summary": "Claiming that one step will trigger a chain of increasingly extreme outcomes without establishing the links.",
-      "body": "A chain can be real if each stage makes the next likely or unavoidable. The fallacy skips evidence for those transitions and treats a remote endpoint as inevitable.",
-      "examples": [
-        {
-          "text": "Allowing one late submission will end all deadlines and destroy the school, with no mechanism connecting the steps.",
-          "note": null
-        }
-      ],
-      "detectionCriteria": "The predicted chain lacks evidence for one or more causal or policy transitions.",
-      "checkMode": "model",
-      "doesNotCountWhen": [
-        "A slope argument is sound when each link is supported and the cumulative likelihood is responsibly assessed."
-      ],
-      "lookalikes": [],
-      "related": [],
-      "tags": [
-        "causal-reasoning"
       ],
       "plain": "Saying one small step will lead to something extreme, without showing how. Like \"if you stay up late tonight, soon you'll never sleep and you'll fail school.\""
     },
@@ -202,25 +69,6 @@
       "aliases": [
         "Strawman",
         "Straw man argument"
-      ],
-      "symbolName": null,
-      "summary": "Replacing an opponent's actual argument with a distorted, weaker version and attacking that substitute.",
-      "body": "The rebuttal may defeat the substitute but leaves the real claim unanswered. A fair criticism should preserve the opponent's central point and important qualifications.",
-      "examples": [
-        {
-          "text": "A proposal to limit one pesticide is answered as if it demanded banning all farming chemicals.",
-          "note": null
-        }
-      ],
-      "detectionCriteria": "The response attacks a materially distorted restatement rather than the position actually defended.",
-      "checkMode": "model",
-      "doesNotCountWhen": [
-        "A concise paraphrase is fair when the opponent would recognize it and it retains the relevant qualifications."
-      ],
-      "lookalikes": [],
-      "related": [],
-      "tags": [
-        "relevance-and-debate"
       ],
       "plain": "Changing what someone said into something more extreme or silly, then arguing with that instead. Like replying to \"I'd like fewer sweets in the house\" with \"so you want to ban dessert forever?\""
     }

@@ -1,4 +1,4 @@
-# Lesson 3: The bigger picture
+# Lesson 2: The bigger picture
 
 What the lesson teaches: a number can be true and still give the wrong picture, depending on where the counting starts. Two ideas:
 
@@ -71,7 +71,7 @@ There's 250 points of empty room after the end, to scroll past it.
 
 ## Page 4: Summary
 
-`LessonSummaryPage`. Title `Lesson 3: The bigger picture`.
+`LessonSummaryPage`. Title `Lesson 2: The bigger picture`.
 
 - Takeaway: "Before trusting a number, ask where the counting started, and what it's being compared to."
 - Related: Cherry-picking, Regression fallacy.

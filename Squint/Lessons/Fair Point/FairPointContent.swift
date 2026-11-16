@@ -47,7 +47,7 @@ nonisolated struct InboxRow: Identifiable, Hashable, Sendable {
 	}
 }
 
-/// Everything lesson 2 says. Every answer is authored here.
+/// Everything Fair point says. Every answer is authored here.
 nonisolated enum FairPoint {
 	static let sam = ChatThread(
 		name: "Sam",

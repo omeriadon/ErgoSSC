@@ -1,17 +1,17 @@
-# Lesson 4: Lucky socks
+# Lesson 1: Lucky socks
 
 What the lesson teaches: when something seems to happen "every time", it's usually because the times it happened are the ones we notice and remember. Two ideas:
 
 - **Confirmation bias:** noticing and remembering what fits what you already believe, and missing what doesn't.
 - **Count the misses:** to check whether two things really go together, count all four boxes (both, either one alone, neither), not just the times they both happened.
 
-It's the first lesson about a bias rather than a fallacy, so it uses the catalog's other half. It's personal and kind: everyone does this, and nobody in it is lying. It always shows a claim that holds up too. It's kept short (about a minute), so it can be shown or skipped in the three-minute demo.
+It's the only lesson about biases rather than fallacies, so it uses the catalog's other half. It's personal and kind: everyone does this, and nobody in it is lying. It always shows a claim that holds up too. It's kept short (about a minute), so it can be shown or skipped in the three-minute demo.
 
 The design was settled in conversation, and this doc is the reference.
 
 ## The theme
 
-Jess, a friend, and her football team's season. Her messages use lesson 2's chat bubbles. The four boxes are a 2×2 grid: a row for each side of the condition (socks, no socks) and a column for each outcome (won, lost). The lesson's colour is green, and its card art is a 2×2 grid.
+Jess, a friend, and her football team's season. Her messages use Fair point's chat bubbles. The four boxes are a 2×2 grid: a row for each side of the condition (socks, no socks) and a column for each outcome (won, lost). The lesson's colour is green, and its card art is a 2×2 grid.
 
 ## Page 1: Lucky socks
 
@@ -69,7 +69,7 @@ There's 250 points of empty room after the end, to scroll past it.
 
 ## Page 4: Summary
 
-`LessonSummaryPage`. Title `Lesson 4: Lucky socks`.
+`LessonSummaryPage`. Title `Lesson 1: Lucky socks`.
 
 - Takeaway: "When something seems to happen every time, count the times it didn't, too."
 - Related: Confirmation bias, Illusory correlation (both biases).

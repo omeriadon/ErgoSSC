@@ -41,17 +41,15 @@ public struct LibraryEntryText: Sendable, Hashable, Identifiable {
 	public let category: String
 	public let id: String
 	public let name: String
-	public let summary: String
 	/// Other names it goes by
 	public let aliases: [String]
 	/// What it is in everyday words, with a small example. It's what Describe It shows.
 	public let plain: String
 
-	public init(category: String, id: String, name: String, summary: String, aliases: [String] = [], plain: String = "") {
+	public init(category: String, id: String, name: String, aliases: [String] = [], plain: String = "") {
 		self.category = category
 		self.id = id
 		self.name = name
-		self.summary = summary
 		self.aliases = aliases
 		self.plain = plain
 	}
@@ -70,7 +68,6 @@ public struct LibraryEntryText: Sendable, Hashable, Identifiable {
 				category: category,
 				id: id,
 				name: name,
-				summary: item["summary"] as? String ?? "",
 				aliases: item["aliases"] as? [String] ?? [],
 				plain: item["plain"] as? String ?? ""
 			)

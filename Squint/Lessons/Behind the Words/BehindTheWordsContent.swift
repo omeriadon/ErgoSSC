@@ -43,7 +43,7 @@ nonisolated struct BehindTheWordsQuizItem: Identifiable, Hashable, Sendable {
 	let explanation: String
 }
 
-/// Everything lesson 1 says. Every answer is authored here.
+/// Everything Behind the words says. Every answer is authored here.
 nonisolated enum BehindTheWords {
 	static let threadTitle = "Best coffee near the station?"
 

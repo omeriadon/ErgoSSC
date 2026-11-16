@@ -35,7 +35,7 @@ Last year: "Problems it solves".
 
 **Feedback**
 
-- Works: one specific person at a real moment. Politics and statistics line up with lesson 3.
+- Works: one specific person at a real moment. Politics and statistics line up with The bigger picture.
 - Say what they'd do differently: ask what a post claims, whether anything holds it up, and where its numbers start counting.
 - Why 13: reading habits form then, and a good habit is easier to build than a bad one is to fix.
 - Widen it in one sentence: a parent, a teacher using it in class, an adult who shares too quickly.
@@ -57,15 +57,15 @@ Last year: "Other tech".
 **Feedback**
 
 - Works: the Describe It story is personal, and the fallback lines show thought for every judge's device. Being plain about reusing your own dither file is fine.
-- Give SwiftUI a reason a judge can see: the games sorting themselves into the grid in lesson 4, the page transitions, Liquid Glass. "Easier to tweak padding" is small, and it was last year's reason too.
+- Give SwiftUI a reason a judge can see: the games sorting themselves into the grid in Lucky socks, the page transitions, Liquid Glass. "Easier to tweak padding" is small, and it was last year's reason too.
 - Say why Metal: the dither is worked out for every pixel many times a second, so it runs on the GPU to stay smooth.
 - Foundation Models: it runs on the device, so what's written in Describe It never leaves the phone and works offline. And the model only writes the line under the score, never decides it.
-- One line on Swift Charts: lesson 3 is built on it, with pinch to zoom and bars growing in.
+- One line on Swift Charts: The bigger picture is built on it, with pinch to zoom and bars growing in.
 
 **Facts**
 
-- SwiftUI: every screen, `matchedGeometryEffect` for lesson 4's sort, Liquid Glass, the page transitions.
-- Swift Charts: lesson 3's charts, `MagnifyGesture` to pinch, bars that grow in.
+- SwiftUI: every screen, `matchedGeometryEffect` for Lucky socks' sort, Liquid Glass, the page transitions.
+- Swift Charts: The bigger picture's charts, `MagnifyGesture` to pinch, bars that grow in.
 - Foundation Models: Describe It (`LibraryFinder`) names what's described freely, then the name is mapped to one of the 12 entries, so only real entries show. Also the line under each quiz score (`LessonScoreLine`, greedy, so the same results always get the same line), with a fixed line when there's no model.
 - Metal: the dither behind the pages and summaries.
 - UIKit: the tab transition's blur, and the status badges drawn over sheets.
@@ -75,9 +75,9 @@ Last year: "Other tech".
 **Facts, from the code**
 
 - Reduce Motion is read in about 20 files. Long animations become short fades.
-- VoiceOver gets real descriptions: lesson 4's season is read as counts, lesson 3's charts read every year's value, and on lesson 3's pinch page VoiceOver users swipe up and down to change the start year.
+- VoiceOver gets real descriptions: Lucky socks' season is read as counts, The bigger picture's charts read every year's value, and on its pinch page VoiceOver users swipe up and down to change the start year.
 - Haptics confirm right and wrong answers.
-- Nothing relies on colour alone: the four boxes are labelled, and lesson 2 names each fallacy under the message.
+- Nothing relies on colour alone: the four boxes are labelled, and Fair point names each fallacy under the message.
 
 **Not done yet:** the largest Dynamic Type sizes, and a full VoiceOver run through a lesson. Only write what's been checked.
 

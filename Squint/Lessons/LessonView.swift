@@ -68,7 +68,7 @@ struct LessonView: View {
 	}
 }
 
-/// "Lesson 1: Deeper look"
+/// "Lesson 2: Deeper look"
 func lessonTitle(_ lesson: Lesson, _ page: String) -> String {
 	"Lesson \(lesson.number): \(page)"
 }

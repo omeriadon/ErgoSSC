@@ -59,7 +59,7 @@ struct LessonArt: View {
 	}
 }
 
-/// Lesson 1: reading closely
+/// Behind the words: reading closely
 private struct ForumArt: View {
 	let tint: Color
 
@@ -68,7 +68,7 @@ private struct ForumArt: View {
 	}
 }
 
-/// Lesson 2: a conversation
+/// Fair point: a conversation
 private struct ChatArt: View {
 	let tint: Color
 
@@ -77,7 +77,7 @@ private struct ChatArt: View {
 	}
 }
 
-/// Lesson 3: a chart
+/// The bigger picture: a chart
 private struct ChartArt: View {
 	let tint: Color
 

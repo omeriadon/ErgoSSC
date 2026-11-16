@@ -1,4 +1,4 @@
-# Lesson 2: Fair point?
+# Lesson 4: Fair point?
 
 What the lesson teaches: three ways an everyday argument goes wrong. A reply can twist what you said (**straw man**), make it about you instead of the point (**ad hominem**), or act like there are only two choices (**false dilemma**). Some replies are fair, and the lesson always shows one.
 
@@ -12,7 +12,7 @@ A messaging app, like Messages: grey bubbles on the left for the other person, b
 
 ## Page 1: Fair point?
 
-Title: `Lesson 2: Fair point?`
+Title: `Lesson 4: Fair point?`
 
 1. An inbox: a list of conversations that scrolls by on its own, slows and lands on **Sam**, and opens that conversation. Slow enough to read the names as they pass, about four seconds in all: a pause, the scroll, then Sam highlighted before it opens. Other rows in the inbox, as filler: Mum ("dinner's at 7, don't be late"), Jess ("lol did you see that"), Football group ("training moved to thursday"), Leo ("where's the charger"), Dentist ("Reminder: your appointment is on…").
 2. Sam's conversation (below), shown in full.
@@ -32,7 +32,7 @@ Title: `Lesson 2: Fair point?`
 
 ## Page 2: Deeper look
 
-Title: `Lesson 2: Deeper look`
+Title: `Lesson 4: Deeper look`
 
 "Tap each of Sam's messages to take a deeper look ↓"
 
@@ -51,7 +51,7 @@ The same conversation. Each of Sam's messages can be tapped, and a tap shows a p
 
 ## Page 3: Your turn!
 
-Title: `Lesson 2: Your turn!`
+Title: `Lesson 4: Your turn!`
 
 "Here's another convo you might have. Now ✎ scribble over any message that doesn't seem fair." (✎ is the `applepencil.and.scribble` symbol, inline in the text.)
 
@@ -86,9 +86,9 @@ Scrolling has to stay possible if the conversation is taller than the screen. If
 
 ## Page 4: Summary
 
-`LessonSummaryPage` (shared, in `Squint/Lessons/`). Title `Lesson 2: Fair point?`.
+`LessonSummaryPage` (shared, in `Squint/Lessons/`). Title `Lesson 4: Fair point?`.
 
-- Heading: "That's lesson 2 done!"
+- Heading: "That's lesson 4 done!"
 - Takeaway: "When people get frustrated, they sometimes change what you said, make it about you, or act like there are only two choices. Usually they don't mean to, and everyone does it. Once you can spot it, it's easier to get back to what you were actually talking about."
 - Related: Straw man, Ad hominem, False dilemma, shown as plain text and already set in `Lesson.related`.
 

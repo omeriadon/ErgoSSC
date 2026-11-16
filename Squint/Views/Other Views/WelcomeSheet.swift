@@ -26,7 +26,7 @@ struct WelcomeSheet: View {
 					symbol: "text.magnifyingglass",
 					tint: .orange,
 					title: "Start with a lesson",
-					detail: "Each takes a few minutes. Try it on posts, chats and charts, and see what holds up."
+					detail: "Each takes a minute or two. Try it on posts, chats and charts, and see what holds up."
 				)
 				WelcomeRow(
 					symbol: "sparkle.magnifyingglass",

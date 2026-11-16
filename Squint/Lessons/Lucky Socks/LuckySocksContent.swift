@@ -93,7 +93,7 @@ nonisolated struct LuckySocksQuizItem: Identifiable, Hashable, Sendable {
 	let explanation: String
 }
 
-/// Everything lesson 4 says. Every answer is authored here, and every number is counted from the data.
+/// Everything Lucky socks says. Every answer is authored here, and every number is counted from the data.
 nonisolated enum LuckySocks {
 	static let friend = "Jess"
 

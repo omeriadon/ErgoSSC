@@ -1,4 +1,4 @@
-# Lesson 1: Behind the words
+# Lesson 3: Behind the words
 
 What the lesson teaches: any piece of writing has a **claim** (what it wants you to believe or do), and it may have **reasons** (what holds it up), with **filler** around them. The person sorts one real passage into those three, then sees it collapse to its skeleton.
 
@@ -29,7 +29,7 @@ The word count is computed from the passage text, never typed in (it's 45).
 
 ## Page 1: Behind the words…
 
-Title: `Lesson 1: Behind the words…`
+Title: `Lesson 3: Behind the words…`
 
 1. The forum thread and the reply, as it would really look.
 2. Under it: "Looks like a normal reply, right?"
@@ -48,7 +48,7 @@ No sentence is labelled on this page. The person finds them on page 2.
 
 ## Page 2: Deeper look
 
-Title: `Lesson 1: Deeper look`
+Title: `Lesson 3: Deeper look`
 
 The reply again, split into its six numbered units as soon as the page opens (the mockup's top-right annotation).
 
@@ -90,7 +90,7 @@ Once all five rows are answered, both question sets fade out and, on the same pa
 
 ## Page 3: Your turn!
 
-Title: `Lesson 1: Your turn!`
+Title: `Lesson 3: Your turn!`
 
 "For each of these, look behind the words. Is there a reason holding it up? ↓"
 
@@ -119,9 +119,9 @@ Then a Continue button to the summary.
 
 ## Page 4: Summary
 
-`LessonSummaryPage` (shared, in `Squint/Lessons/`). Title `Lesson 1: Behind the words…`.
+`LessonSummaryPage` (shared, in `Squint/Lessons/`). Title `Lesson 3: Behind the words…`.
 
-- Heading: "That's lesson 1 done!"
+- Heading: "That's lesson 3 done!"
 - Takeaway: "Find what it wants you to believe, then look for what holds it up."
 - Related: Proof surrogate, shown as plain text and already set in `Lesson.related`.
 

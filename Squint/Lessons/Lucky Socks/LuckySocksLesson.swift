@@ -39,7 +39,7 @@ nonisolated struct LuckySocksState: Codable, Hashable, Sendable, Defaults.Serial
 	}
 }
 
-/// Lesson 4: a friend's lucky socks, and the four boxes that check them
+/// Lucky socks: a friend's lucky socks, and the four boxes that check them
 struct LuckySocksLesson: View {
 	@Default(.luckySocksState) private var state
 

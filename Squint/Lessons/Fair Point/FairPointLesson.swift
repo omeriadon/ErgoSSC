@@ -8,7 +8,7 @@
 import Defaults
 import SwiftUI
 
-/// The pages of lesson 2, in order
+/// The pages of Fair point, in order
 nonisolated enum FairPointPage: Int, Codable, Hashable, Sendable {
 	case intro
 	case deeperLook
@@ -27,7 +27,7 @@ nonisolated struct FairPointState: Codable, Hashable, Sendable, Defaults.Seriali
 	var scribbledLeo: Set<String> = []
 }
 
-/// Lesson 2: three ways an everyday argument goes wrong, in a messaging app
+/// Fair point: three ways an everyday argument goes wrong, in a messaging app
 struct FairPointLesson: View {
 	@Default(.fairPointState) private var state
 

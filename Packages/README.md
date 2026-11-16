@@ -10,4 +10,4 @@ Copied into the project so the app builds with no network, as the challenge is j
 ## Changes from the originals
 
 - **Defaults:** the macros (`DefaultsMacros`, `DefaultsMacrosDeclarations`) and their tests are removed, along with the swift-syntax dependency they needed. The app doesn't use them.
-- **FuzzyMatch:** the benchmark data, benchmarks, comparisons, examples and documentation are removed. The library's sources are unchanged.
+- **FuzzyMatch:** the benchmark data, benchmarks, comparisons, examples, documentation, and its contributor and agent docs are removed. The library's sources are unchanged.

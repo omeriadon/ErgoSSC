@@ -48,7 +48,7 @@ nonisolated struct BehindTheWordsState: Codable, Hashable, Sendable, Defaults.Se
 	}
 }
 
-/// Lesson 1: a forum reply sorted into its claim, reasons and filler
+/// Behind the words: a forum reply sorted into its claim, reasons and filler
 struct BehindTheWordsLesson: View {
 	@Default(.behindTheWordsState) private var state
 

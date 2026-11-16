@@ -10,10 +10,10 @@ import Foundation
 
 /// The lessons on the Learn tab, in order. Each one's pages are in its own folder.
 nonisolated enum Lesson: String, Hashable, CaseIterable, Identifiable, Codable, Sendable, Defaults.Serializable {
+	case luckySocks
+	case biggerPicture
 	case behindTheWords
 	case fairPoint
-	case biggerPicture
-	case luckySocks
 
 	var id: Self {
 		self

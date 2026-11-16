@@ -53,7 +53,7 @@ nonisolated struct BiggerPictureQuizItem: Identifiable, Hashable, Sendable {
 	}
 }
 
-/// Everything lesson 3 says. Every answer is authored here, and every number is computed from the data.
+/// Everything The bigger picture says. Every answer is authored here, and every number is computed from the data.
 nonisolated enum BiggerPicture {
 	static let paper = "The Northside Herald"
 

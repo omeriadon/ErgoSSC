@@ -1,7 +1,7 @@
 # Describe It and the catalog
 
-- There is no browsable Library. The second tab is Describe It (`LibraryFinderView`, `AppTab.library`), and the only thing it uses is a small catalog: 12 entries in the JSON files in `SquintKit/Sources/SquintCatalog/Resources`. The lessons' entries (proof surrogate, straw man, ad hominem, false dilemma, cherry-picking, regression fallacy, confirmation bias, illusory correlation) plus appeal to popularity, slippery slope, anchoring and availability. An entry's `related` and `lookalikes` may only name ids still in the files (they're empty now), and every key stays.
-- `LibraryCatalog` reads those files as plain text (id, name, kind, summary, aliases, `plain`). Nothing else reads them.
+- There is no browsable Library. The second tab is Describe It (`LibraryFinderView`, `AppTab.library`), and the only thing it uses is a small catalog: 12 entries in the JSON files in `SquintKit/Sources/SquintCatalog/Resources`. The lessons' entries (proof surrogate, straw man, ad hominem, false dilemma, cherry-picking, regression fallacy, confirmation bias, illusory correlation) plus appeal to popularity, slippery slope, anchoring and availability. Each entry has only `id`, `name`, `aliases` and `plain`: nothing else is read.
+- `LibraryCatalog` reads those files as plain text (id, name, kind, aliases, `plain`). Nothing else reads them.
 - `plain` is the everyday-words description with a small example. It's what Describe It shows on a match and what it gives the model, so changing it changes both. Adon may rewrite it in his own words.
 - `aliases` are the other names people use ("Bandwagon", "Strawman"). They matter: the model's names are mapped through them, so add one when a usual name keeps failing to map.
 - `LibraryFinder` finds entries from a description, with the model on the device (Foundation Models). Its one other use in the app is the line under a lesson's quiz score (`LessonScoreLine`, see `Notes/Lessons.md`).

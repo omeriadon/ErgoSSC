@@ -37,7 +37,7 @@ nonisolated struct BiggerPictureState: Codable, Hashable, Sendable, Defaults.Ser
 	}
 }
 
-/// Lesson 3: a headline's number, and what it looks like zoomed out
+/// The bigger picture: a headline's number, and what it looks like zoomed out
 struct BiggerPictureLesson: View {
 	@Default(.biggerPictureState) private var state
 
