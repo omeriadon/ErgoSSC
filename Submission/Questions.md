@@ -106,7 +106,7 @@ Portfolio: dev.adonis.pt
 ## 9. Anything else, or notes for the judge
 
 - Apple Intelligence is optional: Describe It and the written score lines only appear with it, and everything else works without. Without it the tab offers a plain search of the 12 entries instead.
-- A suggested order if time is short: lesson 4, then lesson 3.
+- To decide: what to ask the judge to do in three minutes. The lessons are already listed strongest first, so this is about getting them to Describe It (one lesson, then Describe It?), and asking them to run it on an iPhone, since the app is iPhone-only.
 
 ## Last year's answers (Elements)
 

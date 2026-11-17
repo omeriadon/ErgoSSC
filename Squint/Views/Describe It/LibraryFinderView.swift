@@ -109,8 +109,6 @@ private struct LibraryFinderField: View {
 			// No upper line limit: a field that scrolls inside itself cuts its text off at the padding, so it grows and
 			// the page scrolls instead. `descriptionLimit` is what stops it.
 
-			Text("Found something")
-
 			TextField("Describe something someone said, or a way of thinking you've noticed…", text: $description, axis: .vertical)
 				.lineLimit(3...)
 				.focused(isWriting)
