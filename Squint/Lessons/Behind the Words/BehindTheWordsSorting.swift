@@ -170,7 +170,7 @@ private struct BehindTheWordsSortOption: View {
 
 // MARK: - The skeleton
 
-/// What's left of the reply once the filler is gone
+/// What's left of the post once the filler is gone
 struct BehindTheWordsSkeleton: View {
 	/// Steps in one by one, rather than already being there when the page reopens
 	let animated: Bool
@@ -178,7 +178,7 @@ struct BehindTheWordsSkeleton: View {
 
 	var body: some View {
 		VStack(alignment: .leading, spacing: 22) {
-			Text("The friendly bits make it nice to read. The reasons are what make it actually worth reading.")
+			Text("The loud bits get your attention. The reasons are what make it worth believing.")
 				.font(.title3)
 				.fixedSize(horizontal: false, vertical: true)
 				.modifier(BehindTheWordsReveal(delay: 3.4, animated: animated))
@@ -187,15 +187,19 @@ struct BehindTheWordsSkeleton: View {
 			skeleton
 				.modifier(BehindTheWordsReveal(delay: 4.2, animated: animated))
 
+			BehindTheWordsSkeletonCard(text: BehindTheWords.surrogateNote, tint: .orange)
+				.fixedSize(horizontal: false, vertical: true)
+				.modifier(BehindTheWordsReveal(delay: 5.2, animated: animated))
+
 			Text(BehindTheWords.countLine)
 				.font(.footnote.weight(.medium).monospacedDigit())
 				.foregroundStyle(.secondary)
 				.frame(maxWidth: .infinity)
-				.modifier(BehindTheWordsReveal(delay: 4.9, animated: animated))
+				.modifier(BehindTheWordsReveal(delay: 6.0, animated: animated))
 				.padding(.top, 20)
 
 			BehindTheWordsContinueButton(identifier: "skeleton", action: onContinue)
-				.modifier(BehindTheWordsReveal(delay: 5.4, animated: animated))
+				.modifier(BehindTheWordsReveal(delay: 6.5, animated: animated))
 				.padding(.bottom, 20)
 				.padding(.top, 20)
 		}
@@ -203,17 +207,23 @@ struct BehindTheWordsSkeleton: View {
 
 	private var skeleton: some View {
 		VStack(alignment: .leading, spacing: 12) {
-			Text("**What it wants:** go to Little Bird.")
-				.padding(12)
-				.frame(maxWidth: .infinity, alignment: .leading)
-				.background(BehindTheWordsKind.claim.color.opacity(0.15), in: .rect(cornerRadius: 14))
-
-			Text("**Why:** $4.50 flat whites · beans roasted every morning · open before 7.")
-				.padding(12)
-				.frame(maxWidth: .infinity, alignment: .leading)
-				.background(BehindTheWordsKind.reason.color.opacity(0.15), in: .rect(cornerRadius: 14))
+			BehindTheWordsSkeletonCard(text: BehindTheWords.skeletonClaim, tint: BehindTheWordsKind.claim.color)
+			BehindTheWordsSkeletonCard(text: BehindTheWords.skeletonReasons, tint: BehindTheWordsKind.reason.color)
 		}
 		.fixedSize(horizontal: false, vertical: true)
+	}
+}
+
+/// One line of the skeleton, in markdown, on a tint of its colour
+private struct BehindTheWordsSkeletonCard: View {
+	let text: String
+	let tint: Color
+
+	var body: some View {
+		Text(LocalizedStringKey(text))
+			.padding(12)
+			.frame(maxWidth: .infinity, alignment: .leading)
+			.background(tint.opacity(0.15), in: .rect(cornerRadius: 14))
 	}
 }
 

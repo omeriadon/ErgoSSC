@@ -39,7 +39,7 @@ struct LessonArt: View {
 	@ViewBuilder
 	private var picture: some View {
 		switch lesson {
-			case .behindTheWords: ForumArt(tint: lesson.tint)
+			case .behindTheWords: PostArt(tint: lesson.tint)
 			case .fairPoint: ChatArt(tint: lesson.tint)
 			case .biggerPicture: ChartArt(tint: lesson.tint)
 			case .luckySocks: LessonSymbol(name: "square.grid.2x2", tint: lesson.tint)
@@ -60,7 +60,7 @@ struct LessonArt: View {
 }
 
 /// Behind the words: reading closely
-private struct ForumArt: View {
+private struct PostArt: View {
 	let tint: Color
 
 	var body: some View {

@@ -139,7 +139,7 @@ nonisolated enum LuckySocks {
 			labels: FourBoxLabels(first: "Washed car", notFirst: "Didn't", second: "Rained", notSecond: "Dry"),
 			counts: FourBoxCounts(both: 3, firstOnly: 9, secondOnly: 12, neither: 36),
 			holdsUp: false,
-			explanation: "It rained after a quarter of the washes, and on a quarter of the other days too. The rainy washes are just the ones that stick."
+			explanation: "It rained after a quarter of the washes, and on a quarter of the other days too. The rainy washes are just the ones you remember."
 		),
 		LuckySocksQuizItem(
 			id: 1,

@@ -22,7 +22,7 @@ nonisolated enum BehindTheWordsKind: String, Codable, Hashable, Sendable {
 	}
 }
 
-/// One numbered part of the forum reply
+/// One numbered part of the post
 nonisolated struct BehindTheWordsUnit: Identifiable, Hashable, Sendable {
 	let number: Int
 	let text: String
@@ -45,31 +45,44 @@ nonisolated struct BehindTheWordsQuizItem: Identifiable, Hashable, Sendable {
 
 /// Everything Behind the words says. Every answer is authored here.
 nonisolated enum BehindTheWords {
-	static let threadTitle = "Best coffee near the station?"
-
-	private static let reasonHint = "If this claim is true, is Little Bird a better café?"
+	private static let reasonHint = "If this is true, does starting at 9 make more sense? Then it's a reason."
 
 	static let units: [BehindTheWordsUnit] = [
 		BehindTheWordsUnit(
 			number: 1,
-			text: "Honestly, life's too short for bad coffee.",
+			text: "Nobody is talking about this.",
 			kind: .filler,
-			hint: "This is true of every café. It doesn't tell you anything about this one."
+			hint: "You could put this on any post. It doesn't tell you anything about school."
 		),
 		BehindTheWordsUnit(
 			number: 2,
-			text: "If you're anywhere near the station, go to Little Bird.",
+			text: "School should start at 9, not 8.",
 			kind: .claim,
 			hint: ""
 		),
-		BehindTheWordsUnit(number: 3, text: "A flat white is $4.50,", kind: .reason, hint: reasonHint),
-		BehindTheWordsUnit(number: 4, text: "they roast their own beans every morning,", kind: .reason, hint: reasonHint),
-		BehindTheWordsUnit(number: 5, text: "and it's the only place round here open before 7.", kind: .reason, hint: reasonHint),
+		BehindTheWordsUnit(
+			number: 3,
+			text: "Teenagers' body clocks run later, so most aren't properly awake at 8,",
+			kind: .reason,
+			hint: reasonHint
+		),
+		BehindTheWordsUnit(
+			number: 4,
+			text: "and one school that moved to 9 had far fewer late arrivals.",
+			kind: .reason,
+			hint: reasonHint
+		),
+		BehindTheWordsUnit(
+			number: 5,
+			text: "Experts agree.",
+			kind: .filler,
+			hint: "It sounds like a reason, but which experts, and where did they say it? Nobody's named, so there's nothing to check."
+		),
 		BehindTheWordsUnit(
 			number: 6,
-			text: "Trust me, you'll thank me later.",
+			text: "Wake up, people. 😴",
 			kind: .filler,
-			hint: "It asks you to trust it instead of giving you a reason to."
+			hint: "It tells you how to feel, not why to agree."
 		),
 	]
 
@@ -78,7 +91,7 @@ nonisolated enum BehindTheWords {
 		units.filter { $0.kind != .claim }
 	}
 
-	/// The reply as it's posted
+	/// The post as it's written
 	static var passage: String {
 		units.map(\.text).joined(separator: " ")
 	}
@@ -87,14 +100,19 @@ nonisolated enum BehindTheWords {
 		passage.split(whereSeparator: \.isWhitespace).count
 	}
 
-	/// "45 words · 1 claim · 3 reasons"
+	/// "42 words · 1 claim · 2 reasons"
 	static var countLine: String {
 		let claims = units.filter { $0.kind == .claim }.count
 		let reasons = units.filter { $0.kind == .reason }.count
 		return "\(wordCount) words · \(claims) \(claims == 1 ? "claim" : "claims") · \(reasons) \(reasons == 1 ? "reason" : "reasons")"
 	}
 
-	static let claimHint = "Does this actually tell you to do something?"
+	static let claimHint = "Is this the thing the post wants you to agree with?"
+
+	/// The skeleton's cards, in markdown: the claim, the reasons, and the filler that passes for a reason
+	static let skeletonClaim = "**What it wants you to believe:** school should start at 9."
+	static let skeletonReasons = "**Why:** teenagers' body clocks run later · one school had fewer late arrivals."
+	static let surrogateNote = "**Looks like a reason, but isn't:** \"Experts agree.\" No expert is named, so there's nothing you can check. It's easy to miss, because it sounds just like proof. That's called a **proof surrogate**."
 
 	static let quiz: [BehindTheWordsQuizItem] = [
 		BehindTheWordsQuizItem(

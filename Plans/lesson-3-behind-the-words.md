@@ -1,38 +1,42 @@
 # Lesson 3: Behind the words
 
-What the lesson teaches: any piece of writing has a **claim** (what it wants you to believe or do), and it may have **reasons** (what holds it up), with **filler** around them. The person sorts one real passage into those three, then sees it collapse to its skeleton.
+What the lesson teaches: any piece of writing has a **claim** (what it wants you to believe or do), and it may have **reasons** (what holds it up), with **filler** around them. The person sorts one passage into those three, then sees it collapse to its skeleton.
 
-The tone is curious, never mocking. The passage is a friendly recommendation that genuinely holds up: the point is seeing what does the work, not tearing it down.
+The tone is curious, never mocking. The passage is a post that partly holds up: it has two real reasons, and one line that only sounds like a reason. The point is seeing what does the work, not tearing it down.
 
-The Freeform mockup is the layout reference (`/Users/omeriadon/.t3/userdata/attachments/4d056eea-7079-4472-8229-fb7ae0847eeb-22f5ddc4-1845-4279-9a4f-12559d8be438-pdf.pdf`). **Its passage is out of date**: wherever it shows the "In today's fast-paced world" post, use the coffee reply below. Where this doc and the mockup disagree, this doc wins.
+The Freeform mockup is the layout reference for the pages. **Its passage and its forum frame are out of date**: use the post below. Where this doc and the mockup disagree, this doc wins.
 
 Arrows in the mockup: one going down is a change within the same page, one going sideways is a new page.
 
 ## The passage
 
-A reply in a local forum thread. The theme for this lesson is that forum: a thread titled **"Best coffee near the station?"**, and this reply under it from a username with an avatar, a timestamp and a like count. It should look like a real post, not a blue box.
+A post in a social feed, from an account with an avatar, a handle, a timestamp, and like, reply and repost counts. It looks like a generic feed, not any real app.
 
-> Honestly, life's too short for bad coffee. If you're anywhere near the station, go to Little Bird. A flat white is $4.50, they roast their own beans every morning, and it's the only place round here open before 7. Trust me, you'll thank me later.
+It's a post because Squint started with one: a post that didn't seem right. An earlier version used a friendly coffee recommendation in a forum thread, which held up completely but didn't look like what the app is for.
 
-It splits into **six units**. The third sentence splits at its commas and "and" into three reasons.
+> Nobody is talking about this. School should start at 9, not 8. Teenagers' body clocks run later, so most aren't properly awake at 8, and one school that moved to 9 had far fewer late arrivals. Experts agree. Wake up, people. 😴
+
+It splits into **six units**. The third sentence splits at its "and" into two reasons.
 
 | # | Unit | Is |
 |---|---|---|
-| 1 | Honestly, life's too short for bad coffee. | Filler |
-| 2 | If you're anywhere near the station, go to Little Bird. | **Claim** |
-| 3 | A flat white is $4.50, | Reason |
-| 4 | they roast their own beans every morning, | Reason |
-| 5 | and it's the only place round here open before 7. | Reason |
-| 6 | Trust me, you'll thank me later. | Filler |
+| 1 | Nobody is talking about this. | Filler |
+| 2 | School should start at 9, not 8. | **Claim** |
+| 3 | Teenagers' body clocks run later, so most aren't properly awake at 8, | Reason |
+| 4 | and one school that moved to 9 had far fewer late arrivals. | Reason |
+| 5 | Experts agree. | Filler (a proof surrogate) |
+| 6 | Wake up, people. 😴 | Filler |
 
-The word count is computed from the passage text, never typed in (it's 45).
+Unit 5 is there on purpose. It sounds like a reason, so many people will sort it as one, and that's how the lesson shows a **proof surrogate**: words that sound like proof, standing in for it. No expert is named, so there's nothing to check.
+
+The word count is computed from the passage text, never typed in (it's 42, counting the emoji).
 
 ## Page 1: Behind the words…
 
 Title: `Lesson 3: Behind the words…`
 
-1. The forum thread and the reply, as it would really look.
-2. Under it: "Looks like a normal reply, right?"
+1. The post, as it would really look.
+2. Under it: "Looks like a normal post, right?"
 3. A button: "Look closer…"
 
 Tapping it changes the same page (no navigation) to:
@@ -40,8 +44,8 @@ Tapping it changes the same page (no navigation) to:
 - "Some terms we're going to learn:"
 - The three terms, each with its definition:
   - **Claim:** What the writing wants you to believe or do.
-  - **Reason:** Something that, if true, makes the claim more likely.
-  - **Filler:** Anything you could delete without losing either.
+  - **Reason:** Something that, if true, makes the claim more reasonable.
+  - **Filler:** Anything you could delete without losing meaning.
 - A Continue button to page 2.
 
 No sentence is labelled on this page. The person finds them on page 2.
@@ -50,16 +54,16 @@ No sentence is labelled on this page. The person finds them on page 2.
 
 Title: `Lesson 3: Deeper look`
 
-The reply again, split into its six numbered units as soon as the page opens (the mockup's top-right annotation).
+The post again, split into its six numbered units as soon as the page opens (the mockup's top-right annotation).
 
 ### Question 1
 
-"Which part here actually says what it wants you to do?"
+"Tap the part that says what it wants you to believe."
 
 The person taps a unit in the passage itself (no row of number buttons).
 
 - **Right (unit 2):** it turns green, the others dim slightly, and question 2 appears.
-- **Wrong:** that unit flashes red, with a small line under the passage: "Does this actually tell you to do something?" They try again. Question 2 only appears once the claim is found.
+- **Wrong:** that unit flashes red, with a small line under the passage: "Is this the thing the post wants you to agree with?" They try again. Question 2 only appears once the claim is found.
 
 ### Question 2
 
@@ -69,24 +73,26 @@ One row per remaining unit (1, 3, 4, 5, 6), each with a **Reason / Filler** choi
 
 | Unit | If they pick wrong |
 |---|---|
-| 1 Honestly, life's too short… (Filler) | True of every café. It doesn't tell you anything about this one. |
-| 3 A flat white is $4.50 (Reason) | If that's true, is Little Bird a better pick? Then it's a reason. |
-| 4 they roast their own beans… (Reason) | If that's true, is Little Bird a better pick? Then it's a reason. |
-| 5 the only place… open before 7 (Reason) | If that's true, is Little Bird a better pick? Then it's a reason. |
-| 6 Trust me, you'll thank me later. (Filler) | It asks you to trust it instead of giving you a reason to. |
+| 1 Nobody is talking about this. (Filler) | You could put this on any post. It doesn't tell you anything about school. |
+| 3 Teenagers' body clocks run later… (Reason) | If this is true, does starting at 9 make more sense? Then it's a reason. |
+| 4 one school that moved to 9… (Reason) | If this is true, does starting at 9 make more sense? Then it's a reason. |
+| 5 Experts agree. (Filler) | It sounds like a reason, but which experts, and where did they say it? Nobody's named, so there's nothing to check. |
+| 6 Wake up, people. 😴 (Filler) | It tells you how to feel, not why to agree. |
 
 ### The skeleton
 
 Once all five rows are answered, both question sets fade out and, on the same page:
 
-1. The filler units (1 and 6) dim right down in the passage. The claim and the three reasons stay bright. This is the moment the lesson is built around, so it's worth animating well.
+1. The filler units (1, 5 and 6) dim right down in the passage. The claim and the two reasons stay bright. This is the moment the lesson is built around, so it's worth animating well.
 2. Under the passage:
-   > The friendly bits make it nice to read. The reasons are what make it worth listening to.
+   > The loud bits get your attention. The reasons are what make it worth believing.
 3. The skeleton:
-   > **What it wants:** go to Little Bird.
-   > **Why:** $4.50 flat whites · beans roasted every morning · open before 7.
-4. The count: `45 words · 1 claim · 3 reasons`
-5. A Continue button to page 3.
+   > **What it wants you to believe:** school should start at 9.
+   > **Why:** teenagers' body clocks run later · one school had fewer late arrivals.
+4. The proof surrogate, named, in its own card after the skeleton. It's shown whether or not unit 5 was sorted rightly:
+   > **Looks like a reason, but isn't:** "Experts agree." No expert is named, so there's nothing you can check. It's easy to miss, because it sounds just like proof. That's called a **proof surrogate**.
+5. The count: `42 words · 1 claim · 2 reasons`
+6. A Continue button to page 3.
 
 ## Page 3: Your turn!
 

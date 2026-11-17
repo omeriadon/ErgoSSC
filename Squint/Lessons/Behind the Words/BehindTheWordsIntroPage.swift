@@ -8,7 +8,7 @@
 import Defaults
 import SwiftUI
 
-/// Page 1: the reply as it looks, then the three terms
+/// Page 1: the post as it looks, then the three terms
 struct BehindTheWordsIntroPage: View {
 	@Default(.behindTheWordsState) private var state
 
@@ -17,7 +17,7 @@ struct BehindTheWordsIntroPage: View {
 	var body: some View {
 		ScrollView {
 			VStack(alignment: .leading, spacing: 28) {
-				BehindTheWordsForumReply {
+				BehindTheWordsPost {
 					Text(BehindTheWords.passage)
 						.font(.body)
 						.fixedSize(horizontal: false, vertical: true)
@@ -46,7 +46,7 @@ struct BehindTheWordsIntroPage: View {
 
 	private var lookCloser: some View {
 		VStack(spacing: 20) {
-			Text("Looks like a normal reply, right?")
+			Text("Looks like a normal post, right?")
 				.font(.title3)
 				.multilineTextAlignment(.center)
 

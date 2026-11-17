@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-/// How far page 2 has got, which decides how each part of the reply looks
+/// How far page 2 has got, which decides how each part of the post looks
 nonisolated enum BehindTheWordsPhase: Hashable, Sendable {
 	/// Looking for the claim
 	case finding
@@ -17,7 +17,7 @@ nonisolated enum BehindTheWordsPhase: Hashable, Sendable {
 	case skeleton
 }
 
-/// The reply split into its numbered parts. Tapping one answers question 1.
+/// The post split into its numbered parts. Tapping one answers question 1.
 struct BehindTheWordsUnitList: View {
 	let phase: BehindTheWordsPhase
 	/// False draws it as one paragraph, before it breaks apart

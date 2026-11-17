@@ -8,13 +8,13 @@
 import Defaults
 import SwiftUI
 
-/// Page 2: find the claim, sort the rest, then see the reply collapse to its skeleton
+/// Page 2: find the claim, sort the rest, then see the post collapse to its skeleton
 struct BehindTheWordsDeeperLookPage: View {
 	@Default(.behindTheWordsState) private var state
 
 	@Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-	/// The reply breaks into its parts just after the page opens
+	/// The post breaks into its parts just after the page opens
 	@State private var isSplit = false
 	/// The part just tapped wrongly, flashing red
 	@State private var flashing: Int?
@@ -59,7 +59,7 @@ struct BehindTheWordsDeeperLookPage: View {
 
 	private var content: some View {
 		VStack(alignment: .leading, spacing: 28) {
-			BehindTheWordsForumReply {
+			BehindTheWordsPost {
 				BehindTheWordsUnitList(phase: phase, isSplit: isSplit, flashing: flashing, onTap: tap)
 			}
 			.id("passage")
@@ -161,7 +161,7 @@ private struct BehindTheWordsClaimQuestion: View {
 
 	var body: some View {
 		VStack(alignment: .leading, spacing: 10) {
-			BehindTheWordsQuestionHeading(number: 1, text: "Tap the part that actually says what it wants you to do.")
+			BehindTheWordsQuestionHeading(number: 1, text: "Tap the part that says what it wants you to believe.")
 
 			if found {
 				Text("That's the claim.")
